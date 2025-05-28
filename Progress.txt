@@ -1,16 +1,16 @@
-Catatan progress selesai per tanggal 19 May 2025:
+Catatan progress selesai/berjalan per tanggal 19 May 2025:
 1. Bintang Al Fizar (ketua) -> Diskusi Konsep
 2. Rizky Maulana -> Diskusi Konsep
 3. Muhammad Haryanda Prataman -> Diskusi Konsep
 4. Muhammad Rayyan Ghifari -> Diskusi Konsep
 5. Fikri Naufal Maulana -> Diskusi Konsep
 
-Catatan progress selesai per tanggal 26 May 2025:
+Catatan progress selesai/berjalan per tanggal 26 May 2025:
 1. Bintang Al Fizar (ketua) -> Backend
 2. Rizky Maulana -> UI/UX
 3. Muhammad Haryanda Prataman -> UI/UX
 4. Muhammad Rayyan Ghifari -> UI/UX
 5. Fikri Naufal Maulana -> null
 
-Catatan progress selesai per tanggal 2 Juni 2025:
+Catatan progress selesai/berjalan per tanggal 2 Juni 2025:
 (coming soon)
