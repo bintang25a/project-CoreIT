@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Gallery;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+class GalleryController extends Controller
+{
+    public function index()
+    {
+        $galleries = Gallery::with('staff', 'informationMainImage', 'informationBodyImage')->get();
+
+        return response()->json([
+            "succes" => true,
+            "message" => "Get all Images",
+            "data" => $galleries
+        ], 200);
+    }
+
+    public function show(string $id)
+    {
+        $gallery = Gallery::with('staff', 'informationMainImage', 'informationBodyImage')->find($id);
+
+        if($gallery) {
+            return response()->json([
+                'succes' => true,
+                'message' => 'Show gallery by id:',
+                'data' => $gallery
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'succes' => false,
+                'message' => 'Data not found'
+            ], 404);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'category' => 'required|in:photo,news,showcase',
+            'image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'succes' => false,
+                'message' => $validator->errors()
+            ], 422);
+        }
+
+        $image = $request->file('image');
+        $path = $image->store('galleries', 'public');
+
+        $gallery = Gallery::create([
+            'name' => $request->name,
+            'category' => $request->category,
+            'slug' => Str::slug($request->name . '-' . uniqid()),
+            'image_path' => $path
+        ]);
+
+        return response()->json([
+            'succes' => true,
+            'message' => 'Image added to Database',
+            'data' => $gallery
+        ], 201);
+    }
+
+    public function destroy($id)
+    {
+        $gallery = Gallery::find($id);
+
+        if($gallery) {
+            Storage::disk('public')->delete('galleries/' . $gallery->image_path);
+            
+            $gallery->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Delete image success'
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found, Delete image failed'
+            ], 404);
+        }
+    }
+}
