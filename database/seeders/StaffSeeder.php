@@ -14,10 +14,10 @@ class StaffSeeder extends Seeder
     public function run(): void
     {
         Staff::create([
-            'position' => 'Ketua Product Publishing',
-            'nim' => '22040700020',
+            'position' => 'Admin',
+            'nim' => '01062025',
             'photo_id' => 1,
-            'password' => bcrypt('admin123')
+            'password' => bcrypt('01062025')
         ]);
     }
 }

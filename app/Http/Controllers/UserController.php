@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Division;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -27,14 +28,14 @@ class UserController extends Controller
         if($user) {
             return response()->json([
                 'success' => true,
-                'message' => 'Show member by id',
+                'message' => 'Show member id ' . $id,
                 'data' => $user
             ], 200);
         }
         else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data not found'
+                'message' => 'Member not found'
             ], 404);
         }
     }
@@ -52,6 +53,8 @@ class UserController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'phone_number' => 'required|numeric',
             'division' => ['required', Rule::in($divisions)],
+            'role' => 'required|string',
+            'link_project' => 'string'
         ]);
 
         if($validator->fails()) {
@@ -67,20 +70,21 @@ class UserController extends Controller
             'email' => $request->email,
             'phone_number' => $request->phone_number,
             'division_id' => $division_id,
-            'role' => 'registrant',
+            'role' => $request->role,
+            'link_project' => $request->link_project
         ]);
 
         if($user) {
             return response()->json([
                 'success' => true,
-                'message' => 'Registration success',
+                'message' => 'Member added successfully',
                 'data' => $user
             ], 201);
         }
 
         return response()->json([
             'success' => false,
-            'message' => 'Registration failed'
+            'message' => 'Member added failed'
         ], 409);
     }
 
@@ -111,6 +115,13 @@ class UserController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $staff = Staff::where('nim', $member->nim)->first();
+        if($staff) {
+            if(($request->nim != $member->nim)) {
+                $staff->delete();
+            }
+        }
+
         $division_id = array_search(strtolower($request->division), $divisions) + 1;
         
         $data = [
@@ -122,10 +133,18 @@ class UserController extends Controller
             'division_id' => $division_id,
         ];
 
+        if($request->has('role')) {
+            $data['role'] = $request->role;
+        }
+
+        if($request->has('link_project')) {
+            $data['link_project'] = $request->link_project;
+        }
+
         $member->update($data);
 
         return response()->json([
-            'succes' => true,
+            'success' => true,
             'message' => 'Member update successfully',
             'data' => $data
         ], 201);
@@ -135,12 +154,19 @@ class UserController extends Controller
     {
         $member = User::find($id);
 
+        if($id == 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Member delete failed, admin'
+            ], 403);
+        }
+
         if($member) {
             $member->delete();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Delete member success'
+                'message' => 'Member delete successfully'
             ], 200);
         }
         else {

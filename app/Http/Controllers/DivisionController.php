@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Division;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +14,7 @@ class DivisionController extends Controller
         $divisions = Division::with('user')->get();
 
         return response()->json([
-            "succes" => true,
+            "success" => true,
             "message" => "Get all Divisions",
             "data" => $divisions
         ], 200);
@@ -25,15 +26,15 @@ class DivisionController extends Controller
 
         if($division) {
             return response()->json([
-                'succes' => true,
-                'message' => 'Show division by id:',
+                'success' => true,
+                'message' => 'Show division id ' . $id,
                 'data' => $division
             ], 200);
         }
         else {
             return response()->json([
-                'succes' => false,
-                'message' => 'Data not found'
+                'success' => false,
+                'message' => 'Division not found'
             ], 404);
         }
     }
@@ -47,7 +48,7 @@ class DivisionController extends Controller
 
         if($validator->fails()) {
             return response()->json([
-                'succes' => false,
+                'success' => false,
                 'message' => $validator->errors()
             ], 422);
         }
@@ -57,11 +58,18 @@ class DivisionController extends Controller
             'description' => $request->description
         ]);
 
+        if($division) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Division added successfully',
+                'data' => $division
+            ], 201);
+        }
+
         return response()->json([
-            'succes' => true,
-            'message' => 'Division added to Database',
-            'data' => $division
-        ], 201);
+            'success' => false,
+            'message' => 'Division added failed',
+        ], 409);
     }
 
     public function update(string $id, Request $request)
@@ -70,14 +78,14 @@ class DivisionController extends Controller
 
         if(!$division) {
             return response()->json([
-                'succes' => false,
-                'message' => 'Data not found, Update failed'
+                'success' => false,
+                'message' => 'Division not found, Update failed'
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'string',
-            'description' => 'string'
+            'name' => 'required|string',
+            'description' => 'required|string'
         ]);
 
         if($validator->fails()) {
@@ -106,18 +114,26 @@ class DivisionController extends Controller
         $division = Division::find($id);
 
         if($division) {
+            $user = User::where('division_id', $division->id)->exists();
+
+            if($user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Division delete failed, Divison has member'
+                ], 403);
+            }
+
             $division->delete();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Division deleted',
-                'data' => $division
+                'message' => 'Division delete successfully'
             ], 200);
         }
         else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data not found, Delete failed'
+                'message' => 'Division not found, Delete failed'
             ], 404);
         }
     }

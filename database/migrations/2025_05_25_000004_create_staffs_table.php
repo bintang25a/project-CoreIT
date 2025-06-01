@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('nim');
             $table->foreign('nim')->references('nim')->on('users')->onDelete('cascade');
             $table->foreignId('photo_id')->constrained('galleries')->onDelete('cascade');
+            $table->string('instagram')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('github')->nullable();
             $table->string('password');
             $table->timestamps();
         });

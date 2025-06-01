@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gallery;
+use App\Models\Information;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -28,14 +30,14 @@ class GalleryController extends Controller
         if($gallery) {
             return response()->json([
                 'succes' => true,
-                'message' => 'Show gallery by id:',
+                'message' => 'Show image id ' . $id,
                 'data' => $gallery
             ], 200);
         }
         else {
             return response()->json([
                 'succes' => false,
-                'message' => 'Data not found'
+                'message' => 'Image not found'
             ], 404);
         }
     }
@@ -44,7 +46,7 @@ class GalleryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'category' => 'required|in:photo,news,showcase',
+            'category' => 'required|in:photo,news,meeting,program,project',
             'image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
         ]);
 
@@ -65,11 +67,18 @@ class GalleryController extends Controller
             'image_path' => $path
         ]);
 
+        if($gallery) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Image added successfully',
+                'data' => $gallery
+            ], 201);
+        }
+
         return response()->json([
-            'succes' => true,
-            'message' => 'Image added to Database',
-            'data' => $gallery
-        ], 201);
+            'success' => false,
+            'message' => 'Image added failed',
+        ], 409);
     }
 
     public function destroy($id)
@@ -77,19 +86,32 @@ class GalleryController extends Controller
         $gallery = Gallery::find($id);
 
         if($gallery) {
-            Storage::disk('public')->delete('galleries/' . $gallery->image_path);
+            $useStaff = Staff::where('photo_id', $gallery->id)->exists();
+            $useNews = Information::where('main_image_id', $gallery->id)
+                ->orWhere('body_image_id', $gallery->id)
+                ->exists();
+
+            if($useStaff || $useNews) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Image delete failed, Image has owned'
+                ], 403);
+            }
+
+            Storage::disk('public')->delete($gallery->image_path);
+            
             
             $gallery->delete();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Delete image success'
+                'message' => 'Image delete successfully'
             ], 200);
         }
         else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data not found, Delete image failed'
+                'message' => 'Image not found, Delete failed'
             ], 404);
         }
     }

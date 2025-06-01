@@ -17,7 +17,9 @@ return new class extends Migration
             $table->enum('category', [
                 'news',
                 'photo',
-                'showcase'
+                'meeting',
+                'project',
+                'program'
             ]);
             $table->string('slug')->unique();
             $table->string('image_path');

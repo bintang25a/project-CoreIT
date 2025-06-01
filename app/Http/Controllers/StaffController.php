@@ -17,7 +17,7 @@ class StaffController extends Controller
         $staff = Staff::with('user', 'gallery')->get();
 
         return response()->json([
-            "succes" => true,
+            "success" => true,
             "message" => "Get all Staffs",
             "data" => $staff
         ], 200);
@@ -29,15 +29,15 @@ class StaffController extends Controller
 
         if($staff) {
             return response()->json([
-                'succes' => true,
-                'message' => 'Show Staff by id',
+                'success' => true,
+                'message' => 'Show Staff id ' . $id,
                 'data' => $staff
             ], 200);
         }
         else {
             return response()->json([
-                'succes' => false,
-                'message' => 'Data not found'
+                'success' => false,
+                'message' => 'Staff not found'
             ], 404);
         }
     }
@@ -49,7 +49,7 @@ class StaffController extends Controller
             'nim' => 'required|numeric|exists:users,nim|unique:staffs,nim',
             'password' => 'required|string|min:8',
             'image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'image_name' => 'required|string|max:100'
+            // 'image_name' => 'required|string|max:100'
         ]);
 
         if ($validator->fails()) {
@@ -63,9 +63,9 @@ class StaffController extends Controller
         $path = $image->store('galleries', 'public');
 
         $gallery = Gallery::create([
-            'name' => $request->image_name,
+            'name' => $request->image->hashName(),
             'category' => 'photo',
-            'slug' => Str::slug($request->image_name . '-' . uniqid()),
+            'slug' => Str::slug($request->image->hashName() . '-' . uniqid()),
             'image_path' => $path
         ]);
 
@@ -83,14 +83,14 @@ class StaffController extends Controller
         if($staff) {
             return response()->json([
                 'success' => true,
-                'message' => 'Staff created Successfully',
+                'message' => 'Staff added successfully',
                 'data' => $staff
             ], 201);
         }
 
         return response()->json([
             'success' => false,
-            'message' => 'Staff failed to create'
+            'message' => 'Staff added failed'
         ], 409);
     }
 
@@ -101,7 +101,7 @@ class StaffController extends Controller
         if(!$staff) {
             return response()->json([
                 'success' => false,
-                'message' => 'Data not found'
+                'message' => 'Staff not found'
             ], 404);
         }
 
@@ -110,7 +110,6 @@ class StaffController extends Controller
             'nim' => 'required|numeric|exists:users,nim',
             'password' => 'required|string|min:8',
             'image' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
-            'image_name' => 'required|string|max:100'
         ]);
 
         if ($validator->fails()) {
@@ -120,9 +119,11 @@ class StaffController extends Controller
             ], 422);
         }
 
-        $gallery = Gallery::find($staff->photo_id);
+        
 
         if($request->hasFile('image')) {
+            $gallery = Gallery::find($staff->photo_id);
+            $user = User::where('nim', $request->nim)->first();
 
             Storage::disk('public')->delete($gallery->image_path);
 
@@ -130,40 +131,39 @@ class StaffController extends Controller
             $path = $image->store('galleries', 'public');
 
             $dataImage = [
+                'name' => $user->name,
                 'slug' => $image->hashName(),
                 'image_path' => $path
             ];
-        }
 
-        $dataImage['name'] = $request->image_name;
-        $gallery->update($dataImage);
+            $gallery->update($dataImage);
+        }
 
         $dataStaff = [
             'position' => $request->position,
             'nim' => $request->nim,
-            'photo_id' => $gallery->id,
             'password' => bcrypt($request->password),
         ];
 
         $staff->update($dataStaff);
 
-        if($dataStaff) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Staff created Successfully',
-                'data' => $staff
-            ], 201);
-        }
-
         return response()->json([
-            'success' => false,
-            'message' => 'Staff failed to create'
-        ], 409);
+            'success' => true,
+            'message' => 'Staff update successfully',
+            'data' => $staff
+        ], 200);
     }
 
     public function destroy(string $id)
     {
         $staff = Staff::find($id);
+
+        if($id == 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Staff delete failed, admin',
+            ], 403);
+        }
 
         if($staff) {
             $user = User::where('nim', $staff->nim)->first();
@@ -174,13 +174,13 @@ class StaffController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Delete staff success'
+                'message' => 'Staff delete successfully'
             ], 200);
         }
         else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data not found, Delete staff failed'
+                'message' => 'Staff not found, Delete failed'
             ], 404);
         }
     }

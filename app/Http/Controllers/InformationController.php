@@ -15,8 +15,8 @@ class InformationController extends Controller
         $informations = Information::with('mainImage', 'bodyImage')->get();
 
         return response()->json([
-            "succes" => true,
-            "message" => "Get All Resource",
+            "success" => true,
+            "message" => "Get all News",
             "data" => $informations
         ], 200);
     }
@@ -27,15 +27,15 @@ class InformationController extends Controller
 
         if($information) {
             return response()->json([
-                'succes' => true,
-                'message' => 'Show information by id:',
+                'success' => true,
+                'message' => 'Show news id ' . $id,
                 'data' => $information
             ], 200);
         }
         else {
             return response()->json([
-                'succes' => false,
-                'message' => 'Data not found'
+                'success' => false,
+                'message' => 'News not found'
             ], 404);
         }
     }
@@ -53,7 +53,7 @@ class InformationController extends Controller
 
         if($validator->fails()) {
             return response()->json([
-                'succes' => false,
+                'success' => false,
                 'message' => $validator->errors()
             ], 422);
         }
@@ -86,11 +86,18 @@ class InformationController extends Controller
             'paragraph_3' => $request->paragraph_3,
         ]);
 
+        if($information) {
+            return response()->json([
+                'success' => true,
+                'message' => 'News added successfully',
+                'data' => $information
+            ], 201);
+        }
+
         return response()->json([
-            'succes' => true,
-            'message' => 'News added successfully',
-            'data' => $information
-        ], 201);
+            'success' => false,
+            'message' => 'News added failed'
+        ], 409);
     }
 
     public function update(string $id, Request $request)
@@ -99,8 +106,8 @@ class InformationController extends Controller
 
         if(!$information) {
             return response()->json([
-            'succes' => false,
-            'message' => 'Data not found'
+            'success' => false,
+            'message' => 'News not found'
             ], 404);
         }
 
@@ -115,7 +122,7 @@ class InformationController extends Controller
 
         if($validator->fails()) {
             return response()->json([
-                'succes' => false,
+                'success' => false,
                 'message' => $validator->errors()
             ], 422);
         }
@@ -168,7 +175,7 @@ class InformationController extends Controller
         $information->update($data);
 
         return response()->json([
-            'succes' => true,
+            'success' => true,
             'message' => 'News update successfully',
             'data' => $information
         ], 200);
@@ -183,13 +190,13 @@ class InformationController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Delete news success'
+                'message' => 'News delete successfully'
             ], 200);
         }
         else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data not found, Delete failed'
+                'message' => 'News not found, Delete failed'
             ], 404);
         }
     }

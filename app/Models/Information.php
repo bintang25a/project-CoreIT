@@ -18,6 +18,7 @@ class Information extends Model
         'paragraph_1',
         'paragraph_2',
         'paragraph_3',
+        'views'
     ];
 
     public function mainImage() {

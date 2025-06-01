@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('paragraph_1');
             $table->text('paragraph_2');
             $table->text('paragraph_3');
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
     }

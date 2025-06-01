@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('prodi');
             $table->string('email');
             $table->string('phone_number');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->enum('role', ['registrant', 'member', 'bph']);
+            $table->enum('role', ['registrant', 'member', 'bph', 'admin']);
             $table->foreignId('division_id')->constrained('divisions')->onDelete('cascade');
+            $table->string('link_project')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
