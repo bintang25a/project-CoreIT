@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('instagram')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('github')->nullable();
+            $table->boolean('isLogin')->default(false);
             $table->string('password');
             $table->timestamps();
         });

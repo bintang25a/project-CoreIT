@@ -16,15 +16,13 @@ class GallerySeeder extends Seeder
         Gallery::create([
             'name' => 'Roblox',
             'category' => 'program',
-            'image_path' => 'galleries/jsadlfjajdjklf.png',
-            'slug' => 'jsadlfjajdjklf'
+            'path' => 'galleries/jsadlfjajdjklf.png',
         ]);
 
         Gallery::create([
             'name' => 'Minecraft',
             'category' => 'program',
-            'image_path' => 'galleries/jsadlfjsdfhgfds.png',
-            'slug' => 'jsadlfjsdfhgfds'
+            'path' => 'galleries/jsadlfjsdfhgfds.png',
         ]);
     }
 }

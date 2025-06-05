@@ -22,7 +22,7 @@ class AuthController extends Controller
             'password' => 'required|min:8'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()
@@ -50,24 +50,28 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'nim' => 'required|numeric',
             'password' => 'required'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
         $credentials = $request->only('nim', 'password');
 
-        if(!$token = auth()->guard('api_staff')->attempt($credentials)) {
+        if (!$token = auth()->guard('api_staff')->attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Akun bph salah atau tidak terdaftar'
             ], 401);
         }
+
+        $staff = Staff::where('nim', $request->nim)->first();
+        $staff->update(['isLogin' => true,]);
 
         return response()->json([
             'success' => true,
@@ -77,16 +81,24 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         try {
+            $user = auth()->guard('api_staff')->user();
+
+            if ($user) {
+                $user->update([
+                    'isLogin' => false
+                ]);
+            }
+
             JWTAuth::invalidate(JWTAuth::getToken());
 
             return response()->json([
                 'success' => true,
                 'message' => 'Logout success'
             ], 200);
-        }
-        catch(JWTException $e) {
+        } catch (JWTException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Logout failed'

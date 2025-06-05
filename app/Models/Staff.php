@@ -21,24 +21,29 @@ class Staff extends Authenticatable implements JWTSubject
         'password',
         'instagram',
         'linkedin',
-        'github'
+        'github',
+        'isLogin',
     ];
 
     protected $hidden = ['password'];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'nim', 'nim');
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         return $this->belongsTo(Gallery::class, 'photo_id');
     }
- 
-    public function getJWTIdentifier() {
+
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 }

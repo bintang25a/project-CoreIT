@@ -12,9 +12,9 @@ use App\Models\User;
 class UserController extends Controller
 {
     public function index()
-    {     
+    {
         $users = User::with('division')->get();
-         
+
         return response()->json([
             "success" => true,
             "message" => "Get all Members",
@@ -22,17 +22,17 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function show(string $id) {
+    public function show(string $id)
+    {
         $user = User::with('division')->find($id);
 
-        if($user) {
+        if ($user) {
             return response()->json([
                 'success' => true,
                 'message' => 'Show member id ' . $id,
                 'data' => $user
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Member not found'
@@ -42,7 +42,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $divisions = Division::pluck('name')->map(function($name) {
+        $divisions = Division::pluck('name')->map(function ($name) {
             return strtolower($name);
         })->toArray();
 
@@ -54,10 +54,10 @@ class UserController extends Controller
             'phone_number' => 'required|numeric',
             'division' => ['required', Rule::in($divisions)],
             'role' => 'required|string',
-            'link_project' => 'string'
+            'link_project' => 'nullable|string'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
@@ -74,7 +74,7 @@ class UserController extends Controller
             'link_project' => $request->link_project
         ]);
 
-        if($user) {
+        if ($user) {
             return response()->json([
                 'success' => true,
                 'message' => 'Member added successfully',
@@ -88,17 +88,18 @@ class UserController extends Controller
         ], 409);
     }
 
-    public function update(string $id, Request $request) {
+    public function update(string $id, Request $request)
+    {
         $member = User::find($id);
 
-        if(!$member) {
+        if (!$member) {
             return response()->json([
                 'success' => false,
                 'message' => 'Member not found, Update failed'
             ], 404);
         }
 
-        $divisions = Division::pluck('name')->map(function($name) {
+        $divisions = Division::pluck('name')->map(function ($name) {
             return strtolower($name);
         })->toArray();
 
@@ -111,19 +112,19 @@ class UserController extends Controller
             'division' => ['required', Rule::in($divisions)],
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
         $staff = Staff::where('nim', $member->nim)->first();
-        if($staff) {
-            if(($request->nim != $member->nim)) {
+        if ($staff) {
+            if (($request->nim != $member->nim)) {
                 $staff->delete();
             }
         }
 
         $division_id = array_search(strtolower($request->division), $divisions) + 1;
-        
+
         $data = [
             'name' => $request->name,
             'nim' => $request->nim,
@@ -133,11 +134,11 @@ class UserController extends Controller
             'division_id' => $division_id,
         ];
 
-        if($request->has('role')) {
+        if ($request->has('role')) {
             $data['role'] = $request->role;
         }
 
-        if($request->has('link_project')) {
+        if ($request->has('link_project')) {
             $data['link_project'] = $request->link_project;
         }
 
@@ -154,22 +155,21 @@ class UserController extends Controller
     {
         $member = User::find($id);
 
-        if($id == 1) {
+        if ($id == 1) {
             return response()->json([
                 'success' => false,
                 'message' => 'Member delete failed, admin'
             ], 403);
         }
 
-        if($member) {
+        if ($member) {
             $member->delete();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Member delete successfully'
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'succes' => false,
                 'message' => 'Data not found, Delete failed'

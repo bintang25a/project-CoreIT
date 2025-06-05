@@ -17,7 +17,7 @@ class GalleryController extends Controller
         $galleries = Gallery::with('staff', 'informationMainImage', 'informationBodyImage')->get();
 
         return response()->json([
-            "succes" => true,
+            "success" => true,
             "message" => "Get all Images",
             "data" => $galleries
         ], 200);
@@ -27,19 +27,42 @@ class GalleryController extends Controller
     {
         $gallery = Gallery::with('staff', 'informationMainImage', 'informationBodyImage')->find($id);
 
-        if($gallery) {
+        if ($gallery) {
             return response()->json([
-                'succes' => true,
+                'success' => true,
                 'message' => 'Show image id ' . $id,
                 'data' => $gallery
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
-                'succes' => false,
+                'success' => false,
                 'message' => 'Image not found'
             ], 404);
         }
+    }
+
+    public function showImage(string $path)
+    {
+        $gallery = Gallery::where('path', 'like', $path)->with('staff')->first();
+
+        if ($gallery) {
+            $path = storage_path('app/public/galleries/' . $gallery->path);
+
+            if (!$path) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Image not found'
+                ], 404);
+            }
+
+            return response()->file($path);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Image not found',
+            'data' => $gallery
+        ], 404);
     }
 
     public function store(Request $request)
@@ -50,9 +73,9 @@ class GalleryController extends Controller
             'image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
-                'succes' => false,
+                'success' => false,
                 'message' => $validator->errors()
             ], 422);
         }
@@ -64,10 +87,10 @@ class GalleryController extends Controller
             'name' => $request->name,
             'category' => $request->category,
             'slug' => Str::slug($request->name . '-' . uniqid()),
-            'image_path' => $path
+            'path' => $path
         ]);
 
-        if($gallery) {
+        if ($gallery) {
             return response()->json([
                 'success' => true,
                 'message' => 'Image added successfully',
@@ -85,13 +108,13 @@ class GalleryController extends Controller
     {
         $gallery = Gallery::find($id);
 
-        if($gallery) {
+        if ($gallery) {
             $useStaff = Staff::where('photo_id', $gallery->id)->exists();
             $useNews = Information::where('main_image_id', $gallery->id)
                 ->orWhere('body_image_id', $gallery->id)
                 ->exists();
 
-            if($useStaff || $useNews) {
+            if ($useStaff || $useNews) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Image delete failed, Image has owned'
@@ -99,16 +122,15 @@ class GalleryController extends Controller
             }
 
             Storage::disk('public')->delete($gallery->image_path);
-            
-            
+
+
             $gallery->delete();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Image delete successfully'
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Image not found, Delete failed'

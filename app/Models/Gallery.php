@@ -9,19 +9,21 @@ class Gallery extends Model
     protected $fillable = [
         'name',
         'category',
-        'slug',
-        'image_path'
+        'path'
     ];
 
-    public function staff() {
+    public function staff()
+    {
         return $this->hasMany(Staff::class, 'photo_id');
     }
 
-    public function informationMainImage() {
+    public function informationMainImage()
+    {
         return $this->hasMany(Information::class, 'main_image_id');
     }
 
-    public function informationBodyImage() {
+    public function informationBodyImage()
+    {
         return $this->hasMany(Information::class, 'body_image_id');
     }
 }

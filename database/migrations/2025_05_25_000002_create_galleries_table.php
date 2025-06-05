@@ -21,8 +21,7 @@ return new class extends Migration
                 'project',
                 'program'
             ]);
-            $table->string('slug')->unique();
-            $table->string('image_path');
+            $table->string('path');
             $table->timestamps();
         });
     }

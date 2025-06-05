@@ -9,9 +9,10 @@ class Division extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'logo_path'];
 
-    public function user() {
+    public function user()
+    {
         return $this->hasMany(User::class);
     }
 }

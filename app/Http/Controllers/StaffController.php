@@ -27,14 +27,13 @@ class StaffController extends Controller
     {
         $staff = Staff::with('user', 'gallery')->find($id);
 
-        if($staff) {
+        if ($staff) {
             return response()->json([
                 'success' => true,
                 'message' => 'Show Staff id ' . $id,
                 'data' => $staff
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Staff not found'
@@ -47,9 +46,8 @@ class StaffController extends Controller
         $validator = Validator::make($request->all(), [
             'position' => 'required|string',
             'nim' => 'required|numeric|exists:users,nim|unique:staffs,nim',
-            'password' => 'required|string|min:8',
-            'image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            // 'image_name' => 'required|string|max:100'
+            'password' => 'nullable|string|min:8',
+            'photo' => 'required|image|mimes:jpeg,jpg,png|max:4096',
         ]);
 
         if ($validator->fails()) {
@@ -59,19 +57,20 @@ class StaffController extends Controller
             ], 422);
         }
 
-        $image = $request->file('image');
-        $path = $image->store('galleries', 'public');
-
-        $gallery = Gallery::create([
-            'name' => $request->image->hashName(),
-            'category' => 'photo',
-            'slug' => Str::slug($request->image->hashName() . '-' . uniqid()),
-            'image_path' => $path
-        ]);
+        $photo = $request->file('photo');
+        $filename = $photo->hashName();
+        $photo->storeAs('galleries', $filename, 'public');
 
         $user = User::where('nim', $request->nim)->first();
         $user->role = 'bph';
         $user->save();
+
+        $gallery = Gallery::create([
+            'name' => $user->name,
+            'category' => 'photo',
+            'path' => $filename
+        ]);
+
 
         $staff = Staff::create([
             'position' => $request->position,
@@ -80,7 +79,7 @@ class StaffController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        if($staff) {
+        if ($staff) {
             return response()->json([
                 'success' => true,
                 'message' => 'Staff added successfully',
@@ -98,7 +97,7 @@ class StaffController extends Controller
     {
         $staff = Staff::find($id);
 
-        if(!$staff) {
+        if (!$staff) {
             return response()->json([
                 'success' => false,
                 'message' => 'Staff not found'
@@ -108,8 +107,8 @@ class StaffController extends Controller
         $validator = Validator::make($request->all(), [
             'position' => 'required|string',
             'nim' => 'required|numeric|exists:users,nim',
-            'password' => 'required|string|min:8',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
+            'password' => 'string',
+            'photo' => 'image|mimes:jpeg,jpg,png|max:4096',
         ]);
 
         if ($validator->fails()) {
@@ -119,21 +118,23 @@ class StaffController extends Controller
             ], 422);
         }
 
-        
+        $user = User::where('nim', $request->nim)->first();
+        $user->role = 'bph';
+        $user->save();
 
-        if($request->hasFile('image')) {
+        if ($request->hasFile('photo')) {
             $gallery = Gallery::find($staff->photo_id);
-            $user = User::where('nim', $request->nim)->first();
 
-            Storage::disk('public')->delete($gallery->image_path);
+            $photo = $request->file('photo');
+            $photo->store('galleries', 'public');
 
-            $image = $request->file('image');
-            $path = $image->store('galleries', 'public');
+            if ($gallery->path) {
+                Storage::disk('public')->delete('galleries/' . $gallery->path);
+            }
 
             $dataImage = [
                 'name' => $user->name,
-                'slug' => $image->hashName(),
-                'image_path' => $path
+                'path' => $request->photo->hashName()
             ];
 
             $gallery->update($dataImage);
@@ -158,14 +159,14 @@ class StaffController extends Controller
     {
         $staff = Staff::find($id);
 
-        if($id == 1) {
+        if ($id == 1) {
             return response()->json([
                 'success' => false,
                 'message' => 'Staff delete failed, admin',
             ], 403);
         }
 
-        if($staff) {
+        if ($staff) {
             $user = User::where('nim', $staff->nim)->first();
             $user->role = 'member';
             $user->save();
@@ -176,8 +177,7 @@ class StaffController extends Controller
                 'success' => true,
                 'message' => 'Staff delete successfully'
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Staff not found, Delete failed'

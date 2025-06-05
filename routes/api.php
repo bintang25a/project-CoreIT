@@ -14,25 +14,29 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('/divisions', DivisionController::class)->only(['index', 'show']);
-Route::apiResource('/galleries', GalleryController::class)->only(['index', 'show']);
-Route::apiResource('/members', UserController::class)->only(['index', 'show', 'store']);
-Route::apiResource('/staffs', StaffController::class)->only(['index', 'show']);
+Route::get('/divisions/image/{name}', [DivisionController::class, 'showLogo']);
+Route::apiResource('/galleries', GalleryController::class)->only(['index', 'show', 'store']);
+Route::get('/galleries/image/{name}', [GalleryController::class, 'showImage']);
+Route::apiResource('/members', UserController::class)->only(['index', 'show', 'store', 'destroy']);
+Route::post('/members/{id}', [UserController::class, 'update']);
+Route::apiResource('/staffs', StaffController::class)->only(['index', 'show', 'store', 'destroy']);
+Route::post('/staffs/{id}', [StaffController::class, 'update']);
 Route::apiResource('/news', InformationController::class)->only(['index', 'show']);
 
 Route::post('/staffreg', [AuthController::class, 'staffreg']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api_staff')->group(function() {
+Route::middleware('auth:api_staff')->group(function () {
     Route::apiResource('/divisions', DivisionController::class)->only(['store', 'destroy']);
     Route::post('/divisions/{id}', [DivisionController::class, 'update']);
 
     Route::apiResource('/galleries', GalleryController::class)->only(['store', 'destroy']);
 
-    Route::apiResource('/members', UserController::class)->only('destroy');
-    Route::post('/members/{id}', [UserController::class, 'update']);
+    // Route::apiResource('/members', UserController::class)->only('destroy');
+    // Route::post('/members/{id}', [UserController::class, 'update']);
 
-    Route::apiResource('/staffs', StaffController::class)->only(['store', 'destroy']);
-    Route::post('/staffs/{id}', [StaffController::class, 'update']);
+    // Route::apiResource('/staffs', StaffController::class)->only(['destroy']);
+    // Route::post('/staffs/{id}', [StaffController::class, 'update']);
 
     Route::apiResource('/news', InformationController::class)->only(['store', 'destroy']);
     Route::post('/news/{id}', [InformationController::class, 'update']);
