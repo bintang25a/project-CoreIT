@@ -1,60 +1,65 @@
 import { useEffect, useState, useRef } from "react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { getMembers } from "../../../_services/members.js";
+import { useNavigate, Link } from "react-router-dom";
 import {
-   getStaffs,
-   createStaffs,
-   deleteStaff,
-   updateStaff,
-} from "../../../_services/staffs.js";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+   getDivisionLogo,
+   getDivisions,
+   createDivision,
+   updateDivision,
+   deleteDivision,
+} from "../../../_services/divisions.js";
+import { FaCheckCircle } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "./divisions.css";
 
-function NormalRow({ staff, isSelected, handleCheckboxChange }) {
+function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
    return (
-      <tr className="tr" key={staff.id}>
+      <tr className="tr" key={division.id}>
          <td>
             <div className="kolom-1">
                <input
                   type="checkbox"
                   checked={isSelected}
-                  onChange={() => handleCheckboxChange(staff.id)}
+                  onChange={() => handleCheckboxChange(division.id)}
                />
-               <h1>{staff.position}</h1>
+               <img src={logoUrl + division.logo_path} alt={division.name} />
             </div>
          </td>
-         <td>{staff.user?.nim}</td>
-         <td>{staff.user?.name}</td>
-         <td>{staff.gallery?.path}</td>
-         <td>{staff.instagram}</td>
-         <td>{staff.linkedin}</td>
-         <td>{staff.github}</td>
+         <td>{division.name}</td>
+         <td>{division.description}</td>
+         <td>{division.user?.length}</td>
+         <td>
+            <div className="kolom-5">
+               <Link
+                  to={`/admin/divisions/${division.id}`}
+                  className="button view"
+               >
+                  view
+               </Link>
+               <Link
+                  to={`/admin/members/division/${division.name.toLowerCase()}`}
+                  className="button member"
+               >
+                  member
+               </Link>
+            </div>
+         </td>
       </tr>
    );
 }
 
-function AddRow({
-   formData,
-   setFormData,
-   members,
-   fileSelected,
-   setFileSelected,
-}) {
-   const [fileUploadName, setFileUploadName] = useState("");
+function AddRow({ formData, setFormData, fileSelected, setFileSelected }) {
    const inputRef = useRef(null);
 
    const handleChange = (e) => {
       const { name, value, files } = e.target;
 
-      if (name === "photo") {
+      if (name === "logo") {
          setFileSelected(true);
-         setFileUploadName(e.target.files[0].name);
 
          setFormData({
             ...formData,
-            photo: files[0],
+            logo: files[0],
          });
       } else {
          setFormData({
@@ -67,54 +72,17 @@ function AddRow({
    return (
       <tr className="add">
          <td>
-            <input
-               type="text"
-               name="position"
-               id="position"
-               value={formData.position}
-               onChange={handleChange}
-               placeholder="Add member to CORE IT Staff"
-               required
-            />
-         </td>
-
-         <td>
-            <input
-               type="text"
-               name="password"
-               id="password"
-               value={formData.password}
-               onChange={handleChange}
-               placeholder="password"
-               required
-            />
-         </td>
-         <td>
-            <select
-               name="nim"
-               id="nim"
-               required
-               onChange={handleChange}
-               value={formData.nim}
-            >
-               <option value="">--NIM - Nama--</option>
-               {members
-                  .filter((member) => member.role != "bph")
-                  .map((member) => (
-                     <option key={member.id} value={member.nim}>
-                        {member.nim} - {member.name}
-                     </option>
-                  ))}
-            </select>
-         </td>
-         <td>
             <label className={`file-upload ${fileSelected ? "has-file" : ""}`}>
-               {fileSelected ? fileUploadName : "Upload Photo"}
+               {fileSelected ? (
+                  <FaCheckCircle className="icon-style" />
+               ) : (
+                  "Upload Logo"
+               )}
                <input
                   type="file"
                   accept="image/*"
-                  name="photo"
-                  id="photo"
+                  name="logo"
+                  id="logo"
                   ref={inputRef}
                   onChange={handleChange}
                   required
@@ -124,88 +92,54 @@ function AddRow({
          <td>
             <input
                type="text"
-               name="instagram"
-               id="instagram"
-               value={formData.instagram}
+               name="name"
+               id="name"
+               value={formData.name}
                onChange={handleChange}
-               placeholder="Instagram link"
+               placeholder="Add new Division"
+               required
             />
          </td>
-         <td>
+         <td colSpan={3}>
             <input
                type="text"
-               name="linkedin"
-               id="linkedin"
-               value={formData.linkedin}
+               name="description"
+               id="description"
+               value={formData.description}
                onChange={handleChange}
-               placeholder="Lnkedin link"
-            />
-         </td>
-         <td>
-            <input
-               type="text"
-               name="github"
-               id="github"
-               value={formData.github}
-               onChange={handleChange}
-               placeholder="Github link"
+               placeholder="Description about this new division"
+               required
             />
          </td>
       </tr>
    );
 }
 
-function EditingRow({ members, staffs, selectedIds, formData, setFormData }) {
-   const [fileUploadName, setFileUploadName] = useState({});
+function EditingRow({ divisions, selectedIds, formData, setFormData }) {
    const [fileSelected, setFileSelected] = useState({});
    const inputRef = useRef(null);
 
-   const handleChange = (e, staffId) => {
+   const handleChange = (e, divisionId) => {
       const { name, value, files } = e.target;
 
-      if (name === "photo") {
+      if (name === "logo") {
          setFileSelected((prev) => ({
             ...prev,
-            [staffId]: true,
-         }));
-
-         setFileUploadName((prev) => ({
-            ...prev,
-            [staffId]: files[0].name,
+            [divisionId]: true,
          }));
 
          setFormData((prev) => ({
             ...prev,
-            [staffId]: {
-               ...prev[staffId],
-               photo: files[0],
-            },
-         }));
-      } else if (name === "nim") {
-         const selectedMember = members.find((m) => m.nim === value);
-         setFormData((prev) => ({
-            ...prev,
-            [staffId]: {
-               ...prev[staffId],
-               nim: value,
-               name: selectedMember?.name || "",
-            },
-         }));
-      } else if (name === "name") {
-         const selectedMember = members.find((m) => m.name === value);
-         setFormData((prev) => ({
-            ...prev,
-            [staffId]: {
-               ...prev[staffId],
-               name: value,
-               nim: selectedMember?.nim || "",
+            [divisionId]: {
+               ...prev[divisionId],
+               logo: files[0],
             },
          }));
       } else {
          setFormData((prev) => ({
             ...prev,
-            [staffId]: {
-               ...prev[staffId],
+            [divisionId]: {
+               ...prev[divisionId],
                [name]: value,
             },
          }));
@@ -214,115 +148,64 @@ function EditingRow({ members, staffs, selectedIds, formData, setFormData }) {
 
    useEffect(() => {
       const initialData = {};
-      staffs
-         .filter((staff) => selectedIds.includes(staff.id))
-         .forEach((staff) => {
-            initialData[staff.id] = {
-               position: staff.position || "",
-               nim: staff.nim || "",
-               name: staff.user?.name || "",
-               photo: null,
-               instagram: staff.instagram || "",
-               linkedin: staff.linkedin || "",
-               github: staff.github || "",
+      divisions
+         .filter((division) => selectedIds.includes(division.id))
+         .forEach((division) => {
+            initialData[division.id] = {
+               logo: null,
+               name: division.name || "",
+               description: division.description || "",
             };
          });
 
       setFormData(initialData);
-   }, [selectedIds, staffs, setFormData]);
+   }, [selectedIds, divisions, setFormData]);
 
-   return staffs
-      .filter((staff) => selectedIds.includes(staff.id))
-      .map((staff) => (
-         <tr key={staff.id}>
-            <td>
-               <input
-                  type="text"
-                  name="position"
-                  id="position"
-                  value={formData[staff.id]?.position || ""}
-                  onChange={(e) => handleChange(e, staff.id)}
-                  placeholder="add position"
-                  required
-               />
-            </td>
-            <td>
-               <select
-                  name="nim"
-                  required
-                  onChange={(e) => handleChange(e, staff.id)}
-                  value={formData[staff.id]?.nim || ""}
-               >
-                  <option value="">--NIM--</option>
-                  {members.map((member) => (
-                     <option key={member.id} value={member.nim}>
-                        {member.nim}
-                     </option>
-                  ))}
-               </select>
-            </td>
-            <td>
-               <select
-                  name="name"
-                  required
-                  onChange={(e) => handleChange(e, staff.id)}
-                  value={formData[staff.id]?.name || ""}
-               >
-                  <option value="">--MEMBER NAME--</option>
-                  {members.map((member) => (
-                     <option key={member.id} value={member.name}>
-                        {member.name}
-                     </option>
-                  ))}
-               </select>
-            </td>
+   return divisions
+      .filter((division) => selectedIds.includes(division.id))
+      .map((division) => (
+         <tr key={division.id}>
             <td>
                <label
                   className={`file-upload ${
-                     fileSelected[staff.id] ? "has-file" : ""
+                     fileSelected[division.id] ? "has-file" : ""
                   }`}
                >
-                  {fileSelected[staff.id]
-                     ? fileUploadName[staff.id]
-                     : "Upload Photo"}
+                  {fileSelected[division.id] ? (
+                     <FaCheckCircle className="icon-style" />
+                  ) : (
+                     "Upload Logo"
+                  )}
                   <input
                      type="file"
                      accept="image/*"
-                     name="photo"
-                     id="photo"
+                     name="logo"
+                     id="logo"
                      ref={inputRef}
-                     onChange={(e) => handleChange(e, staff.id)}
+                     onChange={(e) => handleChange(e, division.id)}
                   />
                </label>
             </td>
             <td>
                <input
                   type="text"
-                  name="instagram"
-                  id="instagram"
-                  value={formData[staff.id]?.instagram || ""}
-                  onChange={(e) => handleChange(e, staff.id)}
-                  placeholder="Instagram link"
+                  name="name"
+                  id="name"
+                  value={formData[division.id]?.name || ""}
+                  onChange={(e) => handleChange(e, division.id)}
+                  placeholder="edit name"
+                  required
                />
             </td>
-            <td>
+            <td colSpan={3}>
                <input
                   type="text"
-                  name="linkedin"
-                  id="linkedin"
-                  value={formData[staff.id]?.linkedin || ""}
-                  onChange={(e) => handleChange(e, staff.id)}
-                  placeholder="Lnkedin link"
-               />
-            </td>
-            <td>
-               <input
-                  type="text"
-                  name="github"
-                  id="github"
-                  value={formData[staff.id]?.github || ""}
-                  onChange={(e) => handleChange(e, staff.id)}
-                  placeholder="Github link"
+                  name="description"
+                  id="description"
+                  value={formData[division.id]?.description || ""}
+                  onChange={(e) => handleChange(e, division.id)}
+                  placeholder="edit description"
+                  required
                />
             </td>
          </tr>
@@ -330,11 +213,11 @@ function EditingRow({ members, staffs, selectedIds, formData, setFormData }) {
 }
 
 function LoadingRow() {
-   return Array(12)
+   return Array(11)
       .fill(0)
       .map((_, i) => (
          <tr key={i}>
-            <td colSpan={7}>
+            <td colSpan={5}>
                <Skeleton />
             </td>
          </tr>
@@ -343,56 +226,26 @@ function LoadingRow() {
 
 export default function Divisions() {
    //Kode data disimpan dari database
-   const [members, setMembers] = useState([]);
-   const [staffs, setStaffs] = useState([]);
+   const [divisions, setDivisions] = useState([]);
+   const [logoUrl, setLogoUrl] = useState("");
    const [isLoading, setIsLoading] = useState(true);
 
    //Kode search
    const [searchTerm, setSearchTerm] = useState("");
-   const filteredStaffs = staffs.filter(
-      (staff) =>
-         staff.user?.role !== "admin" &&
-         (staff.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            staff.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            staff.user?.nim.toLowerCase().includes(searchTerm.toLowerCase()))
+   const filteredDivisions = divisions.filter(
+      (division) =>
+         division.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         division.description.toLowerCase().includes(searchTerm.toLowerCase())
    );
    const handleSearchTerm = (search) => {
       setSearchTerm(search);
-      setCurrentPage(1);
-   };
-
-   //Kode pagination
-   const itemsPerPage = 10;
-   const [currentPage, setCurrentPage] = useState(1);
-   const scrollRef = useRef(null);
-   const totalPages = Math.ceil(filteredStaffs.length / itemsPerPage);
-   const paginatedStaffs = filteredStaffs.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-   );
-   const handlePageClick = (pageNumber) => {
-      setCurrentPage(pageNumber);
-   };
-   const handlePrevious = () => {
-      setCurrentPage((prev) => Math.max(prev - 1, 1));
-   };
-   const handleNext = () => {
-      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-   };
-   const scroll = (direction) => {
-      const offset = direction === "left" ? -2000 : 2000;
-      scrollRef.current?.scrollBy({ left: offset, behavior: "smooth" });
    };
 
    //Kode add staff
    const initialFormData = {
-      position: "",
-      nim: "",
-      password: "",
-      photo: null,
-      instagram: "",
-      linkedin: "",
-      github: "",
+      name: "",
+      description: "",
+      logo: "",
    };
    const [formData, setFormData] = useState(initialFormData);
    const [fileSelected, setFileSelected] = useState(false);
@@ -408,34 +261,41 @@ export default function Divisions() {
                payload.append(key, formData[key]);
             }
 
-            await createStaffs(payload);
+            await createDivision(payload);
 
-            alert("Data berhasil ditambahkan");
+            alert("Add division successfully");
             setFileSelected(false);
             setFormData(initialFormData);
-            navigate("/admin/staffs");
+            navigate("/admin/divisions");
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
                   const payload = new FormData();
                   const data = formData[id];
+
                   for (const key in data) {
-                     payload.append(key, data[key]);
+                     if (key === "logo") {
+                        if (data.logo instanceof File) {
+                           payload.append("logo", data.logo);
+                        }
+                     } else {
+                        payload.append(key, data[key]);
+                     }
                   }
 
-                  await updateStaff(id, payload);
+                  await updateDivision(id, payload);
                })
             );
 
-            alert("Data berhasil diedit");
+            alert("Edit divisions successfully");
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
-            navigate("/admin/staffs");
+            navigate("/admin/divisions");
          }
       } catch (error) {
          console.log(error);
-         alert(error.message);
+         alert("Add or Edit divisions failed\n" + error);
       }
    };
    const triggerSubmit = () => {
@@ -463,14 +323,14 @@ export default function Divisions() {
 
       if (confirmDelete) {
          try {
-            await Promise.all(idData.map((id) => deleteStaff(id)));
+            await Promise.all(idData.map((id) => deleteDivision(id)));
 
             setSelectedIds([]);
-            alert("Data berhasil dihapus!");
-            navigate("/admin/staffs");
+            alert("Deleting divisions successfully");
+            navigate("/admin/divisions");
          } catch (error) {
-            console.error("Gagal menghapus data:", error);
-            alert("Terjadi kesalahan saat menghapus data.");
+            console.error(error);
+            alert("Deleting divisions failed\n" + error);
          }
       }
    };
@@ -478,13 +338,13 @@ export default function Divisions() {
    //Kode mengambil semua data saat halaman dimuat
    useEffect(() => {
       const fetchData = async () => {
-         const [membersData, staffsData] = await Promise.all([
-            getMembers(),
-            getStaffs(),
+         const [divisionsData, logoUrlData] = await Promise.all([
+            getDivisions(),
+            getDivisionLogo(),
          ]);
 
-         setStaffs(staffsData);
-         setMembers(membersData);
+         setDivisions(divisionsData);
+         setLogoUrl(logoUrlData);
          setIsLoading(false);
       };
 
@@ -502,13 +362,15 @@ export default function Divisions() {
    console.table(formData);
 
    return (
-      <main className="staffs">
+      <main className="divisions">
          <div className="header">
-            <h1>CORE IT Staffs</h1>
+            <h1>CORE IT {divisions.length} Divisions</h1>
          </div>
          <div className="navigation">
             <div className="button">
-               <button onClick={triggerSubmit}>Add</button>
+               <button onClick={triggerSubmit}>
+                  {isEditing ? "Save" : "Add"}
+               </button>
                <button
                   disabled={selectedIds.length < 1}
                   onClick={handleEdit}
@@ -530,21 +392,24 @@ export default function Divisions() {
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => handleSearchTerm(e.target.value)}
+                  disabled={isEditing}
                />
             </div>
          </div>
-         <div className="content" ref={scrollRef}>
-            <form ref={formRef} onSubmit={handleSubmit}></form>
+         <div className="content">
+            <form
+               ref={formRef}
+               onSubmit={handleSubmit}
+               enctype="multipart/form-data"
+            ></form>
             <table>
                <thead>
                   <tr>
-                     <th>Position</th>
-                     <th>NIM</th>
+                     <th>Logo</th>
                      <th>Name</th>
-                     <th>Photo path</th>
-                     <th>Instagram link</th>
-                     <th>LinkedIn link</th>
-                     <th>Github link</th>
+                     <th>Description</th>
+                     <th>Member</th>
+                     <th>Navigation</th>
                   </tr>
                </thead>
                <tbody>
@@ -552,8 +417,7 @@ export default function Divisions() {
                      <LoadingRow />
                   ) : isEditing ? (
                      <EditingRow
-                        members={members}
-                        staffs={staffs}
+                        divisions={divisions}
                         selectedIds={selectedIds}
                         formData={formData}
                         setFormData={setFormData}
@@ -565,18 +429,18 @@ export default function Divisions() {
                         <AddRow
                            formData={formData}
                            setFormData={setFormData}
-                           members={members}
                            fileSelected={fileSelected}
                            setFileSelected={setFileSelected}
                         />
 
-                        {paginatedStaffs.map((staff) => {
-                           const isSelected = selectedIds.includes(staff.id);
+                        {filteredDivisions.map((division) => {
+                           const isSelected = selectedIds.includes(division.id);
 
                            return (
                               <NormalRow
-                                 key={staff.id}
-                                 staff={staff}
+                                 key={division.id}
+                                 division={division}
+                                 logoUrl={logoUrl}
                                  isSelected={isSelected}
                                  handleCheckboxChange={handleCheckboxChange}
                               />
@@ -586,42 +450,6 @@ export default function Divisions() {
                   )}
                </tbody>
             </table>
-         </div>
-         <div className="footer">
-            <div className="left-section">
-               <button onClick={handlePrevious} disabled={currentPage === 1}>
-                  Previous
-               </button>
-               <button
-                  onClick={handleNext}
-                  disabled={currentPage === totalPages}
-               >
-                  Next
-               </button>
-            </div>
-            <div className="middle-section">
-               <FaChevronLeft
-                  onClick={() => scroll("left")}
-                  className="icon-style"
-               />
-               <h1>scroll</h1>
-               <FaChevronRight
-                  onClick={() => scroll("right")}
-                  className="icon-style"
-               />
-            </div>
-            <div className="right-section">
-               {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                     key={index + 1}
-                     onClick={() => handlePageClick(index + 1)}
-                     className={currentPage === index + 1 ? "active" : ""}
-                     disabled={currentPage === index + 1}
-                  >
-                     {index + 1}
-                  </button>
-               ))}
-            </div>
          </div>
       </main>
    );

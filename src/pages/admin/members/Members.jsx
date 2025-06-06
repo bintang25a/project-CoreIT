@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
    getMembers,
    createMember,
@@ -283,6 +283,8 @@ export default function Members() {
    const [isLoading, setIsLoading] = useState(true);
 
    // Kode search
+   const { divisionName } = useParams();
+   const navigateBack = useNavigate();
    const [searchTerm, setSearchTerm] = useState("");
    const [currentPage, setCurrentPage] = useState(1);
    const filteredMembers = members.filter(
@@ -353,7 +355,7 @@ export default function Members() {
 
             await createMember(payload);
 
-            alert("Data berhasil ditambahkan");
+            alert("Add member successfully");
             setFormData(initialFormData);
             navigate("/admin/members");
          } else {
@@ -369,7 +371,7 @@ export default function Members() {
                })
             );
 
-            alert("Data berhasil diedit");
+            alert("Edit members successfully");
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
@@ -377,7 +379,7 @@ export default function Members() {
          }
       } catch (error) {
          console.log(error);
-         alert(error.message);
+         alert("Add or Edit members failed\n" + error);
       }
    };
    const triggerSubmit = () => {
@@ -408,11 +410,11 @@ export default function Members() {
             await Promise.all(idData.map((id) => deleteMember(id)));
 
             setSelectedIds([]);
-            alert("Data berhasil dihapus!");
+            alert("Delete members successfully");
             navigate("/admin/members");
          } catch (error) {
-            console.error("Gagal menghapus data:", error);
-            alert("Terjadi kesalahan saat menghapus data.");
+            console.log(error);
+            alert("Delete members failed\n" + error);
          }
       }
    };
@@ -426,6 +428,9 @@ export default function Members() {
             getDivisionLogo(),
          ]);
 
+         if (divisionName) {
+            setSearchTerm(divisionName);
+         }
          setMembers(membersData);
          setIsLoading(false);
          setDivisions(divisionsData);
@@ -439,7 +444,7 @@ export default function Members() {
 
          return () => clearInterval(interval);
       }
-   }, [isEditing]);
+   }, [isEditing, divisionName]);
 
    return (
       <main className="members">
@@ -448,21 +453,36 @@ export default function Members() {
          </div>
          <div className="navigation">
             <div className="button">
-               <button onClick={triggerSubmit}>Add</button>
-               <button
-                  disabled={selectedIds.length < 1}
-                  onClick={handleEdit}
-                  className={selectedIds < 1 ? "disable" : ""}
-               >
-                  Edit
-               </button>
-               <button
-                  disabled={selectedIds.length < 1 || isEditing}
-                  onClick={() => handleDelete(selectedIds)}
-                  className={selectedIds < 1 || isEditing ? "disable" : ""}
-               >
-                  Delete
-               </button>
+               {divisionName ? (
+                  <button
+                     className="button-back"
+                     onClick={() => navigateBack(-1)} // kembali ke halaman sebelumnya
+                  >
+                     ← Back
+                  </button>
+               ) : (
+                  <>
+                     <button onClick={triggerSubmit}>
+                        {isEditing ? "Save" : "Add"}
+                     </button>
+                     <button
+                        disabled={selectedIds.length < 1}
+                        onClick={handleEdit}
+                        className={selectedIds < 1 ? "disable" : ""}
+                     >
+                        Edit
+                     </button>
+                     <button
+                        disabled={selectedIds.length < 1 || isEditing}
+                        onClick={() => handleDelete(selectedIds)}
+                        className={
+                           selectedIds < 1 || isEditing ? "disable" : ""
+                        }
+                     >
+                        Delete
+                     </button>
+                  </>
+               )}
             </div>
             <div className="search">
                <input
@@ -470,6 +490,7 @@ export default function Members() {
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => handleSearchTerm(e.target.value)}
+                  disabled={isEditing}
                />
             </div>
          </div>

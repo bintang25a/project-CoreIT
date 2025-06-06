@@ -39,7 +39,7 @@ function TableRow({ members, divisions, viewAll, logoUrl }) {
                <div className="kolom-4">
                   <Link
                      className="button btn-member"
-                     to={`/admin/divisions/${division.id}/members`}
+                     to={`/admin/members/division/${division.name.toLowerCase()}`}
                   >
                      Member
                   </Link>

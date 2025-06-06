@@ -240,7 +240,7 @@ main.staffs .content table tr .file-upload.has-file {
 /* ===== Content style end ===== */
 
 /* ===== Footer style start ===== */
-main.staffs .footer {
+main.staffs .pagination {
    width: 100%;
    height: var(--px-64);
    display: flex;
@@ -250,11 +250,11 @@ main.staffs .footer {
    border-bottom: 1px solid var(--gray-200);
 }
 
-main.staffs .footer .left-section {
+main.staffs .pagination .left-section {
    display: flex;
    gap: var(--px-16);
 }
-main.staffs .footer .left-section button {
+main.staffs .pagination .left-section button {
    font-size: var(--fs-2);
    padding: var(--px-8) var(--px-40);
    border-radius: 8px;
@@ -263,36 +263,36 @@ main.staffs .footer .left-section button {
    cursor: pointer;
    transition: 0.3s ease-in-out;
 }
-main.staffs .footer .left-section button:hover,
-main.staffs .footer .right-section button:hover {
+main.staffs .pagination .left-section button:hover,
+main.staffs .pagination .right-section button:hover {
    background-color: var(--gray-200);
 }
 
-main.staffs .footer .middle-section {
+main.staffs .pagination .middle-section {
    display: flex;
    gap: var(--px-8);
    align-items: center;
    color: var(--gray-500);
 }
-main.staffs .footer .middle-section h1 {
+main.staffs .pagination .middle-section h1 {
    font-size: var(--fs-3);
    font-weight: 500;
 }
-main.staffs .footer .middle-section .icon-style {
+main.staffs .pagination .middle-section .icon-style {
    width: var(--px-24);
    height: var(--px-24);
    transition: 0.3s ease-in-out;
    cursor: pointer;
 }
-main.staffs .footer .middle-section .icon-style:hover {
+main.staffs .pagination .middle-section .icon-style:hover {
    transform: scale(1.25);
 }
 
-main.staffs .footer .right-section {
+main.staffs .pagination .right-section {
    display: flex;
    gap: 0.2vw;
 }
-main.staffs .footer .right-section button {
+main.staffs .pagination .right-section button {
    aspect-ratio: 1/1;
    width: var(--px-40);
    font-size: var(--fs-2);
@@ -303,7 +303,7 @@ main.staffs .footer .right-section button {
    cursor: pointer;
    transition: 0.3s ease-in-out;
 }
-main.staffs .footer .right-section button.active {
+main.staffs .pagination .right-section button.active {
    background-color: var(--primary);
    color: var(--white);
 }

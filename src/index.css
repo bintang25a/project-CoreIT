@@ -22,6 +22,10 @@
    --px-48: 3vw;
    --px-56: 3.5vw;
    --px-64: 4vw;
+   --px-128: 8vw;
+   --px-192: 12vw;
+   --px-256: 16vw;
+   --px-320: 20vw;
 
    --fs-0: clamp(8px, 0.67vw, 1.25rem);
    --fs-1: clamp(12px, 0.88vw, 1.75rem); /* XS → max ~21px */

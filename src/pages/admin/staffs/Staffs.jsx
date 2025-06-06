@@ -330,7 +330,7 @@ function EditingRow({ members, staffs, selectedIds, formData, setFormData }) {
 }
 
 function LoadingRow() {
-   return Array(12)
+   return Array(11)
       .fill(0)
       .map((_, i) => (
          <tr key={i}>
@@ -410,7 +410,7 @@ export default function Members() {
 
             await createStaffs(payload);
 
-            alert("Data berhasil ditambahkan");
+            alert("Add staff successfully");
             setFileSelected(false);
             setFormData(initialFormData);
             navigate("/admin/staffs");
@@ -419,15 +419,22 @@ export default function Members() {
                selectedIds.map(async (id) => {
                   const payload = new FormData();
                   const data = formData[id];
+
                   for (const key in data) {
-                     payload.append(key, data[key]);
+                     if (key === "photo") {
+                        if (data.photo instanceof File) {
+                           payload.append("photo", data.photo);
+                        }
+                     } else {
+                        payload.append(key, data[key]);
+                     }
                   }
 
                   await updateStaff(id, payload);
                })
             );
 
-            alert("Data berhasil diedit");
+            alert("Edit staffs successfully");
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
@@ -435,7 +442,7 @@ export default function Members() {
          }
       } catch (error) {
          console.log(error);
-         alert(error.message);
+         alert("Add or Edit staffs failed\n" + error);
       }
    };
    const triggerSubmit = () => {
@@ -466,11 +473,11 @@ export default function Members() {
             await Promise.all(idData.map((id) => deleteStaff(id)));
 
             setSelectedIds([]);
-            alert("Data berhasil dihapus!");
+            alert("Delete staffs successfully");
             navigate("/admin/staffs");
          } catch (error) {
-            console.error("Gagal menghapus data:", error);
-            alert("Terjadi kesalahan saat menghapus data.");
+            console.error(error);
+            alert("Delete staff failed\n" + error);
          }
       }
    };
@@ -508,7 +515,9 @@ export default function Members() {
          </div>
          <div className="navigation">
             <div className="button">
-               <button onClick={triggerSubmit}>Add</button>
+               <button onClick={triggerSubmit}>
+                  {isEditing ? "Save" : "Add"}
+               </button>
                <button
                   disabled={selectedIds.length < 1}
                   onClick={handleEdit}
@@ -530,6 +539,7 @@ export default function Members() {
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => handleSearchTerm(e.target.value)}
+                  disabled={isEditing}
                />
             </div>
          </div>
@@ -587,7 +597,7 @@ export default function Members() {
                </tbody>
             </table>
          </div>
-         <div className="footer">
+         <div className="pagination">
             <div className="left-section">
                <button onClick={handlePrevious} disabled={currentPage === 1}>
                   Previous

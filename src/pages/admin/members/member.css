@@ -60,6 +60,11 @@ main.members .navigation .button button.disable {
    background-color: var(--gray-200);
 }
 
+main.members .navigation .button button.button-back {
+   white-space: nowrap;
+   background-color: var(--gray-500);
+}
+
 main.members .navigation .search {
    width: 100%;
    height: var(--px-40);
