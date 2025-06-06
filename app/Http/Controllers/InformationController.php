@@ -25,14 +25,13 @@ class InformationController extends Controller
     {
         $information = Information::with('mainImage', 'bodyImage')->find($id);
 
-        if($information) {
+        if ($information) {
             return response()->json([
                 'success' => true,
                 'message' => 'Show news id ' . $id,
                 'data' => $information
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'News not found'
@@ -44,14 +43,14 @@ class InformationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
-            'main_image' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
-            'body_image' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
+            'main_image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+            'body_image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
             'paragraph_1' => 'required|string',
             'paragraph_2' => 'required|string',
             'paragraph_3' => 'required|string'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()
@@ -59,22 +58,21 @@ class InformationController extends Controller
         }
 
         $mainImage = $request->file('main_image');
-        $mainImagePath = $mainImage->store('galleries', 'public');
-        $bodyImage = $request->file('body_image');
-        $bodyImagePath = $bodyImage->store('galleries', 'public');
-
+        $filename = $mainImage->hashName();
+        $mainImage->storeAs('galleries', $filename, 'public');
         $mainGallery = Gallery::create([
             'name' => $request->title,
             'category' => 'news',
-            'slug' => $mainImage->hashName(),
-            'image_path' => $mainImagePath
+            'path' => $filename,
         ]);
 
-        $bodyGallery= Gallery::create([
+        $bodyImage = $request->file('body_image');
+        $filename = $bodyImage->hashName();
+        $bodyImage->storeAs('galleries', $filename, 'public');
+        $bodyGallery = Gallery::create([
             'name' => $request->title,
             'category' => 'news',
-            'slug' => $bodyImage->hashName(),
-            'image_path' => $bodyImagePath
+            'path' => $filename,
         ]);
 
         $information = Information::create([
@@ -86,7 +84,7 @@ class InformationController extends Controller
             'paragraph_3' => $request->paragraph_3,
         ]);
 
-        if($information) {
+        if ($information) {
             return response()->json([
                 'success' => true,
                 'message' => 'News added successfully',
@@ -104,10 +102,10 @@ class InformationController extends Controller
     {
         $information = Information::find($id);
 
-        if(!$information) {
+        if (!$information) {
             return response()->json([
-            'success' => false,
-            'message' => 'News not found'
+                'success' => false,
+                'message' => 'News not found'
             ], 404);
         }
 
@@ -120,7 +118,7 @@ class InformationController extends Controller
             'paragraph_3' => 'required|string'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()
@@ -134,39 +132,37 @@ class InformationController extends Controller
             'paragraph_3' => $request->paragraph_3,
         ];
 
-        if($request->hasFile('main_image')) {
+        if ($request->hasFile('main_image')) {
             $mainGallery = Gallery::find($information->main_image_id);
 
             $mainImage = $request->file('main_image');
-            $path = $mainImage->store('galleries', 'public');
+            $mainImage->store('galleries', 'public');
 
-            if($mainGallery->image_path) {
-                Storage::disk('public')->delete($mainGallery->image_path);
+            if ($mainGallery->path) {
+                Storage::disk('public')->delete('galleries/' . $mainGallery->path);
             }
 
             $dataImage = [
                 'name' => $request->title,
-                'slug' => $mainImage->hashName(),
-                'image_path' => $path
+                'path' => $mainImage->hashName()
             ];
 
             $mainGallery->update($dataImage);
         }
 
-        if($request->hasFile('body_image')) {
+        if ($request->hasFile('body_image')) {
             $bodyGallery = Gallery::find($information->body_image_id);
 
             $bodyImage = $request->file('body_image');
-            $path = $bodyImage->store('galleries', 'public');
+            $bodyImage->store('galleries', 'public');
 
-            if($bodyGallery->image_path) {
-                Storage::disk('public')->delete($bodyGallery->image_path);
+            if ($bodyGallery->path) {
+                Storage::disk('public')->delete("galleries/" . $bodyGallery->path);
             }
 
             $dataImage = [
                 'name' => $request->title,
-                'slug' => $bodyImage->hashName(),
-                'image_path' => $path
+                'path' => $bodyImage->hashName(),
             ];
 
             $bodyGallery->update($dataImage);
@@ -185,15 +181,26 @@ class InformationController extends Controller
     {
         $information = Information::find($id);
 
-        if($information) {
+        if ($information) {
+            $mainImage = Gallery::find($information->main_image_id);
+            if ($mainImage) {
+                Storage::disk('public')->delete("galleries/" . $mainImage->path);
+                $mainImage->delete();
+            }
+
+            $bodyImage = Gallery::find($information->body_image_id);
+            if ($bodyImage) {
+                Storage::disk('public')->delete("galleries/" . $bodyImage->path);
+                $bodyImage->delete();
+            }
+
             $information->delete();
 
             return response()->json([
                 'success' => true,
                 'message' => 'News delete successfully'
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'News not found, Delete failed'

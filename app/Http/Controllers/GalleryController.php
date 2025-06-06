@@ -43,7 +43,7 @@ class GalleryController extends Controller
 
     public function showImage(string $path)
     {
-        $gallery = Gallery::where('path', 'like', $path)->with('staff')->first();
+        $gallery = Gallery::where('path', 'like', $path)->with('staff', 'informationMainImage', 'informationBodyImage')->first();
 
         if ($gallery) {
             $path = storage_path('app/public/galleries/' . $gallery->path);
@@ -81,13 +81,12 @@ class GalleryController extends Controller
         }
 
         $image = $request->file('image');
-        $path = $image->store('galleries', 'public');
+        $image->store('galleries', 'public');
 
         $gallery = Gallery::create([
             'name' => $request->name,
             'category' => $request->category,
-            'slug' => Str::slug($request->name . '-' . uniqid()),
-            'path' => $path
+            'path' => $request->image->hashName()
         ]);
 
         if ($gallery) {
@@ -121,7 +120,7 @@ class GalleryController extends Controller
                 ], 403);
             }
 
-            Storage::disk('public')->delete($gallery->image_path);
+            Storage::disk('public')->delete("galleries/" . $gallery->path);
 
 
             $gallery->delete();

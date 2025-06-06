@@ -113,8 +113,8 @@ class DivisionController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'nullable|string',
-            'description' => 'nullable|string',
+            'name' => 'required|string',
+            'description' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
         ]);
 
@@ -165,6 +165,10 @@ class DivisionController extends Controller
                     'success' => false,
                     'message' => 'Division delete failed, Divison has member'
                 ], 403);
+            }
+
+            if ($division->logo_path) {
+                Storage::disk('public')->delete("divisions/" . $division->logo_path);
             }
 
             $division->delete();

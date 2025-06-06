@@ -48,6 +48,9 @@ class StaffController extends Controller
             'nim' => 'required|numeric|exists:users,nim|unique:staffs,nim',
             'password' => 'nullable|string|min:8',
             'photo' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+            'instagram' => 'nullable|string',
+            'linkedin' => 'nullable|string',
+            'github' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -77,6 +80,9 @@ class StaffController extends Controller
             'nim' => $request->nim,
             'photo_id' => $gallery->id,
             'password' => bcrypt($request->password),
+            'linkedin' => $request->linkedin,
+            'instagram' => $request->instagram,
+            'github' => $request->github
         ]);
 
         if ($staff) {
@@ -107,8 +113,11 @@ class StaffController extends Controller
         $validator = Validator::make($request->all(), [
             'position' => 'required|string',
             'nim' => 'required|numeric|exists:users,nim',
-            'password' => 'string',
-            'photo' => 'image|mimes:jpeg,jpg,png|max:4096',
+            'password' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
+            'instagram' => 'nullable|string',
+            'linkedin' => 'nullable|string',
+            'github' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -144,6 +153,9 @@ class StaffController extends Controller
             'position' => $request->position,
             'nim' => $request->nim,
             'password' => bcrypt($request->password),
+            'linkedin' => $request->linkedin,
+            'instagram' => $request->instagram,
+            'github' => $request->github
         ];
 
         $staff->update($dataStaff);
