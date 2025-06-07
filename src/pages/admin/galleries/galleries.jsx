@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import "./news.css";
-import { deleteNews, getNews } from "../../../_services/news.js";
+import "./galleries.css";
+import {
+   getImages,
+   getImageUrl,
+   deleteImage,
+} from "../../../_services/galleries.js";
 
 function NormalRow({ information, isSelected, handleCheckboxChange }) {
    return (
@@ -58,26 +62,19 @@ function LoadingRow() {
       ));
 }
 
-export default function News() {
+export default function Galleries() {
    //Kode data disimpan dari database
-   const [informations, setInformations] = useState([]);
-   const [isLoading, setIsLoading] = useState(true);
+   const [images, setImages] = useState([]);
+   const [imageUrl, setImageUrl] = useState([]);
+   // const [isLoading, setIsLoading] = useState(true);
 
    //Kode search
    const [currentPage, setCurrentPage] = useState(1);
    const [searchTerm, setSearchTerm] = useState("");
-   const filteredInformations = informations.filter(
-      (information) =>
-         information.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-         information.paragraph_1
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-         information.paragraph_2
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-         information.paragraph_3
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+   const filteredImages = images.filter(
+      (image) =>
+         image.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         image.category.toLowerCase().includes(searchTerm.toLowerCase())
    );
    const handleSearchTerm = (search) => {
       setSearchTerm(search);
@@ -85,9 +82,9 @@ export default function News() {
    };
 
    //Kode pagination
-   const itemsPerPage = 10;
-   const totalPages = Math.ceil(filteredInformations.length / itemsPerPage);
-   const paginatedInformations = filteredInformations.slice(
+   const itemsPerPage = 25;
+   const totalPages = Math.ceil(filteredImages.length / itemsPerPage);
+   const paginatedImages = filteredImages.slice(
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage
    );
@@ -112,14 +109,14 @@ export default function News() {
 
       if (confirmDelete) {
          try {
-            await Promise.all(idData.map((id) => deleteNews(id)));
+            await Promise.all(idData.map((id) => deleteImage(id)));
 
             setSelectedIds([]);
-            alert("Delete news successfully");
-            navigate("/admin/news");
+            alert("Delete images successfully");
+            navigate("/admin/galleries");
          } catch (error) {
             console.log(error);
-            alert("Delete news failed\n" + error);
+            alert("Delete images failed\n" + error);
          }
       }
    };
@@ -128,14 +125,21 @@ export default function News() {
          prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
       );
    };
+   const handleClearCheckBox = () => {
+      setSelectedIds([]);
+   };
 
    //Kode mengambil semua data saat halaman dimuat
    useEffect(() => {
       const fetchData = async () => {
-         const [informationsData] = await Promise.all([getNews()]);
+         const [imagesData, imageUrlData] = await Promise.all([
+            getImages(),
+            getImageUrl(),
+         ]);
 
-         setInformations(informationsData);
-         setIsLoading(false);
+         setImages(imagesData);
+         setImageUrl(imageUrlData);
+         // setIsLoading(false);
       };
 
       const interval = setInterval(() => {
@@ -146,8 +150,8 @@ export default function News() {
    }, []);
 
    return (
-      <main className="news">
-         <div className="header">
+      <main className="galleries">
+         <div className="header" id="header">
             <h1>CORE IT News</h1>
          </div>
          <div className="navigation">
@@ -155,19 +159,13 @@ export default function News() {
                <Link to={"add"} className="btn">
                   Add
                </Link>
-               {selectedIds.length < 1 || selectedIds.length > 1 ? (
-                  <>
-                     <button disabled className="btn disable">
-                        Edit
-                     </button>
-                  </>
-               ) : (
-                  <>
-                     <Link className="btn" to={`edit/${selectedIds}`}>
-                        Edit
-                     </Link>
-                  </>
-               )}
+               <button
+                  className={selectedIds.length < 1 ? "disable btn" : "btn"}
+                  onClick={handleClearCheckBox}
+                  disabled={selectedIds.length < 1}
+               >
+                  Reset
+               </button>
                <button
                   disabled={selectedIds.length < 1}
                   onClick={() => handleDelete(selectedIds)}
@@ -185,41 +183,26 @@ export default function News() {
                />
             </div>
          </div>
+         <div className="name-space">Pages {currentPage}</div>
          <div className="content">
-            <table>
-               <thead>
-                  <tr>
-                     <th>Title</th>
-                     <th>Paragraph 1</th>
-                     <th>Paragraph 2</th>
-                     <th>Paragraph 3</th>
-                     <th>Views</th>
-                     <th>Navigation</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {isLoading ? (
-                     <LoadingRow />
-                  ) : (
-                     <>
-                        {paginatedInformations.map((information) => {
-                           const isSelected = selectedIds.includes(
-                              information.id
-                           );
-
-                           return (
-                              <NormalRow
-                                 key={information.id}
-                                 information={information}
-                                 isSelected={isSelected}
-                                 handleCheckboxChange={handleCheckboxChange}
-                              />
-                           );
-                        })}
-                     </>
-                  )}
-               </tbody>
-            </table>
+            <div className="gallery-grid">
+               {paginatedImages.map((image, index) => {
+                  const isSelected = selectedIds.includes(image.id);
+                  return (
+                     <div className="gallery-item" key={index}>
+                        <input
+                           type="checkbox"
+                           checked={isSelected}
+                           onChange={() => handleCheckboxChange(image.id)}
+                        />
+                        <img
+                           src={imageUrl + image.path}
+                           alt={`Gallery ${index}`}
+                        />
+                     </div>
+                  );
+               })}
+            </div>
          </div>
          <div className="pagination">
             <div className="left-section">

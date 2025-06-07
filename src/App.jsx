@@ -7,6 +7,8 @@ import Divisions from "./pages/admin/divisions/Divisions.jsx";
 import News from "./pages/admin/news/news.jsx";
 import NewsAdd from "./pages/admin/news/create.jsx";
 import NewsEdit from "./pages/admin/news/update.jsx";
+import Galleries from "./pages/admin/galleries/galleries.jsx";
+import GalleryAdd from "./pages/admin/galleries/create.jsx";
 
 export default function App() {
    return (
@@ -30,6 +32,10 @@ export default function App() {
                   <Route index element={<News />} />
                   <Route path="add" element={<NewsAdd />} />
                   <Route path="edit/:id" element={<NewsEdit />} />
+               </Route>
+               <Route path="galleries">
+                  <Route index element={<Galleries />} />
+                  <Route path="add" element={<GalleryAdd />} />
                </Route>
             </Route>
          </Routes>
