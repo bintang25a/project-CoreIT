@@ -104,7 +104,6 @@ export default function NewsAdd() {
             <div className="search"></div>
          </div>
          <div className="name-space">Berita ke-{informations.length + 1}</div>
-
          <div className="content-add-edit">
             <form onSubmit={handleSubmit}>
                <div className="form-container">

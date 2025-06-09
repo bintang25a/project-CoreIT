@@ -515,20 +515,22 @@ export default function Members() {
          </div>
          <div className="navigation">
             <div className="button">
-               <button onClick={triggerSubmit}>
+               <button className="btn" onClick={triggerSubmit}>
                   {isEditing ? "Save" : "Add"}
                </button>
                <button
                   disabled={selectedIds.length < 1}
                   onClick={handleEdit}
-                  className={selectedIds < 1 ? "disable" : ""}
+                  className={selectedIds < 1 ? "disable btn" : "btn"}
                >
                   Edit
                </button>
                <button
                   disabled={selectedIds.length < 1 || isEditing}
                   onClick={() => handleDelete(selectedIds)}
-                  className={selectedIds < 1 || isEditing ? "disable" : ""}
+                  className={
+                     selectedIds < 1 || isEditing ? "disable btn" : "btn"
+                  }
                >
                   Delete
                </button>

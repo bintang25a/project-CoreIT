@@ -1,3 +1,14 @@
+@import "react-loading-skeleton/dist/skeleton.css";
+
+@keyframes shimmer {
+   0% {
+      background-position: 100% 0;
+   }
+   100% {
+      background-position: -100% 0;
+   }
+}
+
 :root {
    --primary: #2d2670;
    --secondary: #624bff;

@@ -71,13 +71,15 @@ export default function Sidebar() {
             <div className="menu">
                <ul>
                   <li>
-                     <Link to={"/admin/members/registrant"}>Registrant</Link>
+                     <Link to={"/admin/members/registrants"}>Registrant</Link>
                   </li>
                   <li>
                      <Link to={`/admin/staffs/profile/id`}>Profile</Link>
                   </li>
                   <li>
-                     <Link to={"/admin/staffs/create"}>Staff update</Link>
+                     <Link to={"/admin/staffs/register account"}>
+                        Staff update
+                     </Link>
                   </li>
                </ul>
             </div>

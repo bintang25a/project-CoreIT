@@ -9,6 +9,8 @@ import NewsAdd from "./pages/admin/news/create.jsx";
 import NewsEdit from "./pages/admin/news/update.jsx";
 import Galleries from "./pages/admin/galleries/galleries.jsx";
 import GalleryAdd from "./pages/admin/galleries/create.jsx";
+import Registrants from "./pages/admin/members/Registrants.jsx";
+import Registers from "./pages/admin/staffs/Registers.jsx";
 
 export default function App() {
    return (
@@ -19,10 +21,11 @@ export default function App() {
                <Route path="members">
                   <Route index element={<Members />} />
                   <Route path="division/:divisionName" element={<Members />} />
+                  <Route path="registrants" element={<Registrants />} />
                </Route>
                <Route path="staffs">
                   <Route index element={<Staffs />} />
-                  <Route path="create" element={<Staffs />} />
+                  <Route path="register account" element={<Registers />} />
                </Route>
                <Route path="divisions">
                   <Route index element={<Divisions />} />

@@ -48,7 +48,7 @@ main.galleries .navigation .button .btn:nth-child(1) {
    background-color: var(--btn-save);
 }
 main.galleries .navigation .button .btn:nth-child(2) {
-   background-color: var(--btn-info);
+   background-color: var(--btn-neutral);
 }
 main.galleries .navigation .button .btn:nth-child(3) {
    background-color: var(--btn-danger);
@@ -105,10 +105,9 @@ main.galleries .content {
 }
 
 main.galleries .content .gallery-grid {
+   width: 100%;
    column-count: 3;
    column-gap: var(--px-24);
-   max-width: 1200px;
-   width: 100%;
 }
 
 main.galleries .content .gallery-grid .gallery-item {
@@ -127,6 +126,7 @@ main.galleries .content .gallery-grid .gallery-item input {
    top: var(--px-8);
    left: var(--px-8);
    cursor: pointer;
+   z-index: 100;
 }
 
 main.galleries .content .gallery-grid .gallery-item img {
@@ -134,6 +134,11 @@ main.galleries .content .gallery-grid .gallery-item img {
    height: fit-content;
    display: block;
    object-fit: cover;
+   cursor: pointer;
+   transition: 0.3s linear;
+}
+main.galleries .content .gallery-grid .gallery-item img:hover {
+   transform: scale(1.15);
 }
 /* ===== Content style end ===== */
 
@@ -187,15 +192,15 @@ main.galleries .pagination .right-section button.active {
 }
 /* ===== Pagination style end ===== */
 
-/* ===== Create-Update content style start ===== */
+/* ===== Create content style start ===== */
 main.galleries .name-space,
-main.galleries .content-add-edit,
-main.galleries .content-add-edit .form-container,
-main.galleries .content-add-edit .middle-section,
-main.galleries .content-add-edit .middle-section .left-section .input-image,
-main.galleries .content-add-edit .middle-section .left-section,
-main.galleries .content-add-edit .middle-section .right-section,
-main.galleries .content-add-edit .bottom-section {
+main.galleries .content-add,
+main.galleries .content-add .form-container,
+main.galleries .content-add .top-section,
+main.galleries .content-add .top-section .left-section .input-image,
+main.galleries .content-add .top-section .left-section,
+main.galleries .content-add .top-section .right-section,
+main.galleries .content-add .bottom-section {
    display: flex;
    justify-content: center;
    align-items: center;
@@ -230,10 +235,12 @@ main.galleries .kolom-6 .btn:nth-child(2) {
    background-color: var(--btn-info);
 }
 
-main.galleries .content-add-edit {
+main.galleries .content-add {
    width: 100%;
+   min-height: 36vw;
+   align-items: flex-start;
 }
-main.galleries .content-add-edit .form-container {
+main.galleries .content-add .form-container {
    width: 64vw;
    height: fit-content;
    flex-direction: column;
@@ -245,39 +252,27 @@ main.galleries .content-add-edit .form-container {
    margin: var(--px-16) 0;
 }
 
-main.galleries .content-add-edit .top-section {
-   width: 100%;
-   border: 1px solid var(--primary);
-   border-radius: 5px;
-   padding: var(--px-8) var(--px-16);
-   background-color: var(--white);
-}
-main.galleries .content-add-edit .top-section input {
-   width: 100%;
-   font-size: var(--fs-2);
-   background-color: transparent;
-}
-
-main.galleries .content-add-edit .middle-section {
+main.galleries .content-add .top-section {
    width: 100%;
    height: 100%;
-   gap: var(--px-16);
+   gap: var(--px-8);
+   align-items: start;
 }
-main.galleries .content-add-edit .middle-section .left-section {
-   width: 35.5%;
+main.galleries .content-add .top-section .left-section {
+   width: 28%;
    height: 100%;
    flex-direction: column;
    gap: var(--px-8);
    overflow: hidden;
 }
-main.galleries .content-add-edit .middle-section .left-section img {
+main.galleries .content-add .top-section .left-section img {
    width: 100%;
    height: 100%;
    max-height: var(--px-192);
    object-fit: cover;
    display: block;
 }
-main.galleries .content-add-edit .middle-section .left-section .input-image {
+main.galleries .content-add .top-section .left-section .input-image {
    aspect-ratio: 16/9;
    width: 100%;
    flex-direction: column-reverse;
@@ -291,59 +286,68 @@ main.galleries .content-add-edit .middle-section .left-section .input-image {
    cursor: pointer;
    transition: 0.3s ease;
 }
-main.galleries
-   .content-add-edit
-   .middle-section
-   .left-section
-   .input-image:hover {
+main.galleries .content-add .top-section .left-section .input-image:hover {
    opacity: 0.9;
 }
-main.galleries
-   .content-add-edit
-   .middle-section
-   .left-section
-   .input-image.has-image {
-   background-color: transparent;
+main.galleries .content-add .top-section .left-section .input-image img {
+   width: 100%;
+   max-height: 100%;
+   object-position: top;
+   object-fit: contain;
+   background-color: var(--gray-100);
 }
 main.galleries
-   .content-add-edit
-   .middle-section
+   .content-add
+   .top-section
    .left-section
    .input-image
    .icon-style {
    width: var(--px-48);
    height: var(--px-48);
 }
-main.galleries
-   .content-add-edit
-   .middle-section
-   .left-section
-   input[type="file"] {
+main.galleries .content-add .top-section .left-section input[type="file"] {
    display: none;
 }
-main.galleries .content-add-edit .middle-section .right-section {
-   width: 64.5%;
+main.galleries .content-add .top-section .right-section {
+   width: 72%;
    flex-direction: column;
    gap: var(--px-8);
 }
-main.galleries .content-add-edit .middle-section .right-section textarea {
+main.galleries .content-add .top-section .right-section input {
    width: 100%;
-   height: var(--px-128);
-   font-size: var(--fs-1);
-   background-color: var(--white);
    border: 1px solid var(--primary);
-   border-radius: 4px;
+   border-radius: 5px;
    padding: var(--px-8) var(--px-16);
-   overflow: auto;
-   resize: none;
-   line-height: 1.2;
-   text-align: justify;
+   background-color: var(--white);
+   color: var(--gray-500);
+   font-size: var(--fs-3);
+}
+main.galleries .content-add .top-section .right-section .category {
+   width: 100%;
+   flex: 1;
+   display: flex;
+   justify-content: flex-start;
+   gap: var(--px-8);
+}
+main.galleries .content-add .top-section .right-section .category button {
+   padding: var(--px-8) var(--px-16);
+   box-shadow: 1px 1px 4px var(--gray-200);
+   cursor: pointer;
+   border-radius: 4px;
+   font-size: var(--fs-3);
+   font-weight: 500;
+   color: var(--primary);
+   transition: 0.3s linear;
+}
+main.galleries .content-add .top-section .right-section .category button:hover {
+   background-color: var(--primary);
+   color: var(--white);
 }
 
-main.galleries .content-add-edit .bottom-section {
+main.galleries .content-add .bottom-section {
    width: 100%;
 }
-main.galleries .content-add-edit .bottom-section button {
+main.galleries .content-add .bottom-section button {
    width: 100%;
    padding: var(--px-8);
    border-radius: 4px;
@@ -355,8 +359,54 @@ main.galleries .content-add-edit .bottom-section button {
    font-weight: 600;
    transition: 0.3s linear;
 }
-main.galleries .content-add-edit .bottom-section button:hover {
+main.galleries .content-add .bottom-section button:hover {
    background-color: var(--primary);
    box-shadow: 1px 1px 2px var(--gray-200);
 }
 /* ===== Create-content style end ===== */
+
+/* ===== image-modal style start ===== */
+main.galleries .modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgba(0, 0, 0, 0.7);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 999;
+}
+
+main.galleries .modal-overlay .modal-content {
+   position: relative;
+   background-color: var(--gray-100);
+   padding: var(--px-8);
+   border-radius: 8px;
+   max-width: 90%;
+   max-height: 90%;
+   overflow: auto;
+   box-shadow: 0 4px 12px var(--gray-200);
+}
+
+main.galleries .modal-overlay .modal-content .modal-image {
+   max-width: 100%;
+   max-height: 80vh;
+}
+
+main.galleries .modal-overlay .modal-content .close-button {
+   position: absolute;
+   top: var(--px-8);
+   right: var(--px-16);
+   background: transparent;
+   border: none;
+   font-size: var(--fs-7);
+   cursor: pointer;
+   color: var(--gray-300);
+}
+
+main.galleries .modal-overlay .modal-content .close-button:hover {
+   color: var(--gray-700);
+}
+/* ===== image-modal style end ===== */

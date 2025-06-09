@@ -104,7 +104,7 @@ export default function MemberData({ members, staffs, isLoading }) {
       <div className="member-data" id="member">
          <div className="header">
             <h1>Member Data</h1>
-            <Link to={"/admin/members/registrant"}>Accept Registrant</Link>
+            <Link to={"/admin/members/registrants"}>Accept Registrant</Link>
          </div>
          <div className="content">
             {isLoading ? (

@@ -362,12 +362,12 @@ export default function Members() {
             await Promise.all(
                selectedIds.map(async (id) => {
                   const payload = new FormData();
-                  const data = formData[id]; // Ambil data berdasarkan ID
+                  const data = formData[id];
                   for (const key in data) {
                      payload.append(key, data[key]);
                   }
 
-                  await updateMember(id, payload); // Kirim ID dan data
+                  await updateMember(id, payload);
                })
             );
 

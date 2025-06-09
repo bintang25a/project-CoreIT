@@ -9,54 +9,13 @@ import {
    deleteImage,
 } from "../../../_services/galleries.js";
 
-function NormalRow({ information, isSelected, handleCheckboxChange }) {
-   return (
-      <tr className="tr" key={information.id}>
-         <td>
-            <div className="kolom-1">
-               <input
-                  type="checkbox"
-                  checked={isSelected}
-                  onChange={() => handleCheckboxChange(information.id)}
-               />
-               <h1>{information.title}</h1>
-            </div>
-         </td>
-         <td>{information.paragraph_1}</td>
-         <td>{information.paragraph_2}</td>
-         <td>{information.paragraph_3}</td>
-         <td>{information.views}</td>
-         <td>
-            <div className="kolom-6">
-               <Link
-                  to={`/admin/news/${information.id}`}
-                  className="btn view"
-                  target="_blank"
-                  rel="noopener noreferrer"
-               >
-                  view
-               </Link>
-               <Link
-                  to={`/admin/news/edit/${information.id}`}
-                  className="btn edit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-               >
-                  edit
-               </Link>
-            </div>
-         </td>
-      </tr>
-   );
-}
-
 function LoadingRow() {
    return Array(11)
       .fill(0)
       .map((_, i) => (
          <tr key={i}>
             <td colSpan={6}>
-               <Skeleton />
+               <Skeleton height={120} />
             </td>
          </tr>
       ));
@@ -66,7 +25,12 @@ export default function Galleries() {
    //Kode data disimpan dari database
    const [images, setImages] = useState([]);
    const [imageUrl, setImageUrl] = useState([]);
-   // const [isLoading, setIsLoading] = useState(true);
+   const [isLoading, setIsLoading] = useState(true);
+   const [selectedImage, setSelectedImage] = useState(null);
+   const [shuffledImages, setShuffledImages] = useState([]);
+
+   const openModal = (image) => setSelectedImage(image);
+   const closeModal = () => setSelectedImage(null);
 
    //Kode search
    const [currentPage, setCurrentPage] = useState(1);
@@ -139,20 +103,23 @@ export default function Galleries() {
 
          setImages(imagesData);
          setImageUrl(imageUrlData);
-         // setIsLoading(false);
+         setIsLoading(false);
       };
 
-      const interval = setInterval(() => {
-         fetchData();
-      }, 5000);
+      if (shuffledImages.length === 0 && paginatedImages.length > 0) {
+         const randomOrder = [...paginatedImages].sort(
+            () => Math.random() - 0.5
+         );
+         setShuffledImages(randomOrder);
+      }
 
-      return () => clearInterval(interval);
-   }, []);
+      fetchData();
+   }, [shuffledImages, paginatedImages]);
 
    return (
       <main className="galleries">
          <div className="header" id="header">
-            <h1>CORE IT News</h1>
+            <h1>CORE IT Gallery</h1>
          </div>
          <div className="navigation">
             <div className="button">
@@ -186,23 +153,49 @@ export default function Galleries() {
          <div className="name-space">Pages {currentPage}</div>
          <div className="content">
             <div className="gallery-grid">
-               {paginatedImages.map((image, index) => {
-                  const isSelected = selectedIds.includes(image.id);
-                  return (
-                     <div className="gallery-item" key={index}>
-                        <input
-                           type="checkbox"
-                           checked={isSelected}
-                           onChange={() => handleCheckboxChange(image.id)}
-                        />
-                        <img
-                           src={imageUrl + image.path}
-                           alt={`Gallery ${index}`}
-                        />
-                     </div>
-                  );
-               })}
+               {isLoading
+                  ? Array(6)
+                       .fill(0)
+                       .map((_, i) => (
+                          <div className="gallery-item" key={i}>
+                             <Skeleton width={"20vw"} height={"30vw"} />
+                          </div>
+                       ))
+                  : shuffledImages.map((image, index) => {
+                       const isSelected = selectedIds.includes(image.id);
+                       return (
+                          <div className="gallery-item" key={index}>
+                             <input
+                                type="checkbox"
+                                checked={isSelected}
+                                onChange={() => handleCheckboxChange(image.id)}
+                             />
+                             <img
+                                src={imageUrl + image.path}
+                                alt={`Gallery ${index}`}
+                                onClick={() => openModal(image)}
+                             />
+                          </div>
+                       );
+                    })}
             </div>
+            {selectedImage && (
+               <div className="modal-overlay" onClick={closeModal}>
+                  <div
+                     className="modal-content"
+                     onClick={(e) => e.stopPropagation()}
+                  >
+                     <button className="close-button" onClick={closeModal}>
+                        ×
+                     </button>
+                     <img
+                        src={imageUrl + selectedImage.path}
+                        alt="Preview"
+                        className="modal-image"
+                     />
+                  </div>
+               </div>
+            )}
          </div>
          <div className="pagination">
             <div className="left-section">
