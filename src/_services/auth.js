@@ -28,9 +28,32 @@ export const login = async (data) => {
    }
 };
 
-export const isAuthenticated = () => {
+export const validateToken = async () => {
    const token = localStorage.getItem("token");
-   return !!token;
+
+   if (!token) return false;
+
+   try {
+      const response = await API.get("/validate-token", {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      });
+      return response.data.success;
+   } catch (error) {
+      console.error(
+         "Token tidak valid:",
+         error.response?.data || error.message
+      );
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      return false;
+   }
+};
+
+export const isAuthenticated = async () => {
+   const valid = await validateToken();
+   return valid;
 };
 
 export const changePassword = async (id, data) => {

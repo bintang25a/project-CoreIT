@@ -1,10 +1,25 @@
 import Sidebar from "../components/admin/Sidebar";
 import Navbar from "..//components/admin/Navbar";
 import Footer from "../components/admin/Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { isAuthenticated } from "../_services/auth";
 import "./admin.css";
 
 export default function AdminLayout() {
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      const checkAuth = async () => {
+         const valid = await isAuthenticated();
+         if (!valid) {
+            navigate("/login");
+         }
+      };
+
+      checkAuth();
+   }, []);
+
    return (
       <>
          <div className="mobile">
