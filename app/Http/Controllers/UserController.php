@@ -117,10 +117,9 @@ class UserController extends Controller
         }
 
         $staff = Staff::where('nim', $member->nim)->first();
-        if ($staff) {
-            if (($request->nim != $member->nim)) {
-                $staff->delete();
-            }
+        if ($staff && $request->nim != $member->nim) {
+            $staff->nim = $request->nim;
+            $staff->save();
         }
 
         $division_id = array_search(strtolower($request->division), $divisions) + 1;
@@ -147,15 +146,14 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Member update successfully',
-            'data' => $data
-        ], 201);
+        ], 200);
     }
 
     public function destroy(string $id)
     {
         $member = User::find($id);
 
-        if ($id == 1) {
+        if ($member && $member->role === 'admin') {
             return response()->json([
                 'success' => false,
                 'message' => 'Member delete failed, admin'

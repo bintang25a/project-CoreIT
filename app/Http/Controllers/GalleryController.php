@@ -48,7 +48,7 @@ class GalleryController extends Controller
         if ($gallery) {
             $path = storage_path('app/public/galleries/' . $gallery->path);
 
-            if (!$path) {
+            if (!file_exists($path)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Image not found'

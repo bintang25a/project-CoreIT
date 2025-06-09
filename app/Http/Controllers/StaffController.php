@@ -45,7 +45,7 @@ class StaffController extends Controller
         $validator = Validator::make($request->all(), [
             'position' => 'required|string',
             'nim' => 'required|numeric|exists:users,nim|unique:staffs,nim',
-            'password' => 'nullable|string|min:8',
+            'password' => 'required|string|min:8',
             'photo' => 'required|image|mimes:jpeg,jpg,png|max:4096',
             'instagram' => 'nullable|string',
             'linkedin' => 'nullable|string',
@@ -151,7 +151,7 @@ class StaffController extends Controller
         $dataStaff = [
             'position' => $request->position,
             'nim' => $request->nim,
-            'password' => bcrypt($request->password),
+            'password' => $request->password ? bcrypt($request->password) : $staff->password,
             'linkedin' => $request->linkedin,
             'instagram' => $request->instagram,
             'github' => $request->github
@@ -170,7 +170,7 @@ class StaffController extends Controller
     {
         $staff = Staff::find($id);
 
-        if ($id == 1) {
+        if ($staff && $staff->user && $staff->user->role === 'admin') {
             return response()->json([
                 'success' => false,
                 'message' => 'Staff delete failed, admin',
