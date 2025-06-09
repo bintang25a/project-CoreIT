@@ -6,7 +6,6 @@ use App\Models\Staff;
 use App\Models\Gallery;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 

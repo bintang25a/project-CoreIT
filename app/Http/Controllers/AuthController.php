@@ -2,58 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gallery;
 use App\Models\User;
 use App\Models\Staff;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 
 class AuthController extends Controller
 {
-    public function staffreg(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'position' => 'required|string',
-            'nim' => 'required|string|unique:staffs,nim|exists:users,nim',
-            'photo' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'password' => 'required|min:8'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->errors()
-            ], 422);
-        }
-
-        $member = User::where('nim', $request->nim)->first();
-        $member->role = 'bph';
-        $member->save();
-
-        $photo = $request->file('photo');
-        $photo->store('staffs', 'public');
-
-        $information = Staff::create([
-            'position' => $request->title,
-            'nim' => $request->nim,
-            'photo' => $photo->hashName(),
-            'password' => bcrypt($request->password)
-        ]);
-
-        return response()->json([
-            'succes' => true,
-            'message' => 'Staff added success, Welcome!',
-            'data' => $information
-        ], 201);
-    }
-
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nim' => 'required|numeric',
+            'nim' => 'required',
             'password' => 'required'
         ]);
 
@@ -72,13 +37,75 @@ class AuthController extends Controller
 
         $staff = Staff::where('nim', $request->nim)->first();
         $staff->update(['isLogin' => true,]);
+        $member = User::where('nim', $staff->nim)->first();
+        $image = Gallery::find($staff->photo_id);
 
         return response()->json([
             'success' => true,
             'message' => 'Login successfully',
-            'user' => auth()->guard('api_staff')->user(),
+            'user' => [
+                'id' => $staff->id,
+                'nim' => $staff->nim,
+                'position' => $staff->position,
+                'name' => $member ? $member->name : null,
+                'image' => $image ? $image->path : null,
+            ],
+            // 'user' => auth()->guard('api_staff')->user(),
             'token' => $token
         ], 200);
+    }
+
+    public function changePassword(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'passwordNow' => 'required',
+            'passwordNew' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $staff = Staff::find($id);
+
+        if (!Hash::check($request->passwordNow, $staff->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Current password is incorrect'
+            ], 422);
+        }
+
+        $data['password'] = bcrypt($request->passwordNew);
+        $staff->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password changed successfully',
+        ]);
+    }
+
+    public function getRecruitmentStatus()
+    {
+        $status = Setting::where('key', 'isRecrut')->value('value');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get recruitment status successfully',
+            'data' => $status,
+        ]);
+    }
+
+    public function toggleRecruitmentStatus()
+    {
+        $setting = Setting::where('key', 'isRecrut')->first();
+        $setting->value = !$setting->value;
+        $setting->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Recruitment status updated successfully',
+            'data' => $setting->value,
+        ]);
     }
 
     public function logout(Request $request)

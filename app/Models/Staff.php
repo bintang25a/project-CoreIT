@@ -23,6 +23,7 @@ class Staff extends Authenticatable implements JWTSubject
         'linkedin',
         'github',
         'isLogin',
+        'isRecrut',
     ];
 
     protected $hidden = ['password'];
