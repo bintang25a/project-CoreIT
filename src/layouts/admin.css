@@ -24,144 +24,165 @@ footer {
    user-select: none;
 }
 
-@media screen and (min-width: 1366px) {
-   /* ===== Aside style start ===== */
-   aside {
-      background-color: var(--gray-600);
-      width: 18vw;
-      height: 100vh;
-      padding: var(--px-16) var(--px-32);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--px-24);
-      position: sticky;
-      top: 0;
-   }
-
-   aside .logo {
-      width: fit-content;
-   }
-   aside .logo img {
-      width: 100%;
-   }
-
-   aside .menu-container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: var(--px-16);
-   }
-   aside .menu-container .title {
-      display: flex;
-      align-items: center;
-      gap: var(--px-8);
-      color: var(--white);
-   }
-   aside .menu-container .title h1 {
-      font-weight: 400;
-      font-size: var(--fs-2);
-   }
-   aside .menu-container .title .icon-style {
-      width: var(--fs-2);
-      height: var(--fs-2);
-   }
-
-   aside .menu-container .menu {
-      width: fit-content;
-      display: flex;
-      padding-left: var(--px-48);
-      font-weight: 400;
-      font-size: var(--fs-1);
-   }
-   aside .menu-container .menu ul {
-      display: flex;
-      flex-direction: column;
-      gap: var(--px-8);
-   }
-   aside .menu-container .menu ul li {
-      cursor: pointer;
-      color: var(--gray-300);
-   }
-   aside .menu-container .menu ul li a {
-      color: var(--gray-300);
-      white-space: nowrap;
-   }
-   /* ===== Aside style end ===== */
-
-   /* ===== Navbar style start ===== */
-   nav {
-      width: 100%;
-      height: var(--px-64);
-      padding: var(--px-8) var(--px-16);
-      background-color: var(--white);
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      transition: 0.3s ease-in-out;
-   }
-   .sticky-shadow {
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-   }
-
-   nav .left-section {
-      width: fit-content;
-      height: 100%;
-      gap: var(--px-16);
-      padding: 0 var(--px-8);
-      border-radius: var(--px-8);
-      border: 2px solid var(--primary);
-   }
-   nav .left-section .icon-style {
-      width: var(--px-32);
-      height: var(--px-32);
-      color: var(--primary);
-   }
-
-   nav .right-section {
-      width: fit-content;
-      height: 100%;
-      gap: var(--px-16);
-      padding: 0 var(--px-8) 0 var(--px-8);
-   }
-   nav .right-section .profile-text {
-      color: var(--gray-500);
-      flex-direction: column;
-      align-items: flex-end;
-   }
-   nav .right-section .profile-text h1 {
-      font-size: var(--fs-3);
-      font-weight: 500;
-      line-height: 1;
-   }
-   nav .right-section .profile-text h2 {
-      font-size: var(--fs-1);
-      font-weight: 800;
-      line-height: 1;
-   }
-
-   nav .right-section .profile-image {
-      aspect-ratio: 1/1;
-      width: var(--px-48);
-      border-radius: 100px;
-      overflow: hidden;
-   }
-   /* ===== Navbar style end ===== */
-
-   /* ===== Footer style start ===== */
-   footer {
-      width: 100%;
-      padding: var(--fs-0);
-      background-color: var(--primary);
-   }
-   footer h1 {
-      color: var(--white);
-      font-size: var(--fs-1);
-      font-weight: 500;
-   }
-   /* ===== Footer style end ===== */
+/* ===== Aside style start ===== */
+aside {
+   background-color: var(--gray-600);
+   width: 18vw;
+   height: 100vh;
+   padding: var(--px-16) var(--px-32);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: var(--px-24);
+   position: sticky;
+   top: 0;
 }
+
+aside .logo {
+   width: fit-content;
+}
+aside .logo img {
+   width: 100%;
+}
+
+aside .menu-container {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: var(--px-16);
+}
+aside .menu-container .title {
+   display: flex;
+   align-items: center;
+   gap: var(--px-8);
+   color: var(--white);
+}
+aside .menu-container .title h1 {
+   font-weight: 400;
+   font-size: var(--fs-2);
+}
+aside .menu-container .title .icon-style {
+   width: var(--fs-2);
+   height: var(--fs-2);
+}
+
+aside .menu-container .menu {
+   width: fit-content;
+   display: flex;
+   padding-left: var(--px-48);
+   font-weight: 400;
+   font-size: var(--fs-1);
+}
+aside .menu-container .menu ul {
+   display: flex;
+   flex-direction: column;
+   gap: var(--px-8);
+}
+aside .menu-container .menu ul li {
+   cursor: pointer;
+   color: var(--gray-300);
+}
+aside .menu-container .menu ul li a {
+   color: var(--gray-300);
+   white-space: nowrap;
+}
+/* ===== Aside style end ===== */
+
+/* ===== Navbar style start ===== */
+nav {
+   width: 100%;
+   height: var(--px-64);
+   padding: var(--px-8) var(--px-16);
+   background-color: var(--white);
+   justify-content: space-between;
+   position: sticky;
+   top: 0;
+   z-index: 999;
+   transition: 0.3s ease-in-out;
+}
+.sticky-shadow {
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav .left-section {
+   width: fit-content;
+   height: 100%;
+   gap: var(--px-16);
+   padding: 0 var(--px-8);
+   border-radius: var(--px-8);
+   border: 2px solid var(--primary);
+}
+nav .left-section .icon-style {
+   width: var(--px-32);
+   height: var(--px-32);
+   color: var(--primary);
+}
+
+nav .right-section {
+   width: fit-content;
+   height: 100%;
+   gap: var(--px-16);
+   padding: 0 var(--px-8) 0 var(--px-8);
+   position: relative;
+   cursor: pointer;
+}
+nav .right-section .dropdown-menu {
+   position: absolute;
+   top: 100%;
+   right: var(--px-32);
+   background-color: var(--gray-600);
+   box-shadow: 0 1px 1px var(--gray-100);
+   border-radius: var(--px-8);
+   z-index: 99;
+}
+nav .right-section .dropdown-menu .dropdown-item {
+   padding: 10px;
+   display: block;
+   border: none;
+   background: none;
+   width: 100%;
+   text-align: left;
+   cursor: pointer;
+   color: var(--gray-100);
+   white-space: nowrap;
+}
+
+nav .right-section .profile-text {
+   color: var(--gray-500);
+   flex-direction: column;
+   align-items: flex-end;
+}
+nav .right-section .profile-text h1 {
+   font-size: var(--fs-3);
+   font-weight: 500;
+   line-height: 1.25;
+}
+nav .right-section .profile-text h2 {
+   font-size: var(--fs-1);
+   font-weight: 600;
+   line-height: 1.25;
+}
+
+nav .right-section .profile-image {
+   aspect-ratio: 1/1;
+   width: var(--px-48);
+   border-radius: 100px;
+   overflow: hidden;
+}
+/* ===== Navbar style end ===== */
+
+/* ===== Footer style start ===== */
+footer {
+   width: 100%;
+   padding: var(--fs-0);
+   background-color: var(--primary);
+}
+footer h1 {
+   color: var(--white);
+   font-size: var(--fs-1);
+   font-weight: 500;
+}
+/* ===== Footer style end ===== */
 
 @media screen and (max-width: 1365px) {
    /* aside,
@@ -171,6 +192,6 @@ footer {
    } */
 
    .mobile {
-      display: flex;
+      display: none;
    }
 }

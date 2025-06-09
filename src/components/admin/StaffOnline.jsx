@@ -1,4 +1,6 @@
 import Skeleton from "react-loading-skeleton";
+import { getImageUrl } from "../../_services/galleries";
+import { useEffect, useState } from "react";
 
 function LoadingLeftContent() {
    return (
@@ -104,7 +106,7 @@ function LoadingRightContent() {
    );
 }
 
-function LeftContent({ staffs }) {
+function LeftContent({ staffs, imageUrl }) {
    const staffOnline = staffs.filter(
       (staff) => staff.isLogin == true && staff.position != "Admin"
    ).length;
@@ -123,7 +125,10 @@ function LeftContent({ staffs }) {
                .map((staff) => (
                   <div className="user-online">
                      <div className="photo">
-                        <img src="/images/photo/profile.jpg" alt="" />
+                        <img
+                           src={imageUrl + staff.gallery?.path}
+                           alt={staff.user?.name}
+                        />
                      </div>
                      <div className="name">
                         <h1>{staff.user?.name}</h1>
@@ -172,7 +177,7 @@ function formatLastActive(dateStr) {
    return "More than 2 days ago";
 }
 
-function RightContent({ staffs }) {
+function RightContent({ staffs, imageUrl }) {
    return (
       <div className="right-content">
          <div className="header">
@@ -197,11 +202,14 @@ function RightContent({ staffs }) {
                   )
                   .slice(0, 5)
                   .map((staff) => (
-                     <tr className="user-online">
+                     <tr className="user-online" key={staff.id}>
                         <td>
                            <div className="kolom-1">
                               <div className="photo">
-                                 <img src="/images/photo/profile.jpg" alt="" />
+                                 <img
+                                    src={imageUrl + staff.gallery?.path}
+                                    alt={staff.user?.name}
+                                 />
                               </div>
                               <div className="name">
                                  <h1>{staff.user?.name}</h1>
@@ -226,6 +234,18 @@ function RightContent({ staffs }) {
 }
 
 export default function StaffOnline({ staffs, isLoading }) {
+   const [imageUrl, setImageUrl] = useState("");
+
+   useEffect(() => {
+      const fetchData = async () => {
+         const [imageData] = await Promise.all([getImageUrl()]);
+
+         setImageUrl(imageData);
+      };
+
+      fetchData();
+   }, []);
+
    return (
       <div className="staff-online" id="staff">
          {isLoading ? (
@@ -235,8 +255,8 @@ export default function StaffOnline({ staffs, isLoading }) {
             </>
          ) : (
             <>
-               <LeftContent staffs={staffs} />
-               <RightContent staffs={staffs} />
+               <LeftContent staffs={staffs} imageUrl={imageUrl} />
+               <RightContent staffs={staffs} imageUrl={imageUrl} />
             </>
          )}
       </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "./galleries.css";
 import {
@@ -9,25 +9,12 @@ import {
    deleteImage,
 } from "../../../_services/galleries.js";
 
-function LoadingRow() {
-   return Array(11)
-      .fill(0)
-      .map((_, i) => (
-         <tr key={i}>
-            <td colSpan={6}>
-               <Skeleton height={120} />
-            </td>
-         </tr>
-      ));
-}
-
 export default function Galleries() {
    //Kode data disimpan dari database
    const [images, setImages] = useState([]);
    const [imageUrl, setImageUrl] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
    const [selectedImage, setSelectedImage] = useState(null);
-   const [shuffledImages, setShuffledImages] = useState([]);
 
    const openModal = (image) => setSelectedImage(image);
    const closeModal = () => setSelectedImage(null);
@@ -63,7 +50,6 @@ export default function Galleries() {
    };
 
    //Kode delete staff
-   const navigate = useNavigate();
    const [selectedIds, setSelectedIds] = useState([]);
    const handleDelete = async (idData) => {
       let confirmDelete = false;
@@ -74,10 +60,10 @@ export default function Galleries() {
       if (confirmDelete) {
          try {
             await Promise.all(idData.map((id) => deleteImage(id)));
+            setImages((prev) => prev.filter((img) => !idData.includes(img.id)));
 
             setSelectedIds([]);
             alert("Delete images successfully");
-            navigate("/admin/galleries");
          } catch (error) {
             console.log(error);
             alert("Delete images failed\n" + error);
@@ -106,15 +92,8 @@ export default function Galleries() {
          setIsLoading(false);
       };
 
-      if (shuffledImages.length === 0 && paginatedImages.length > 0) {
-         const randomOrder = [...paginatedImages].sort(
-            () => Math.random() - 0.5
-         );
-         setShuffledImages(randomOrder);
-      }
-
       fetchData();
-   }, [shuffledImages, paginatedImages]);
+   }, [paginatedImages]);
 
    return (
       <main className="galleries">
@@ -161,7 +140,7 @@ export default function Galleries() {
                              <Skeleton width={"20vw"} height={"30vw"} />
                           </div>
                        ))
-                  : shuffledImages.map((image, index) => {
+                  : paginatedImages.map((image, index) => {
                        const isSelected = selectedIds.includes(image.id);
                        return (
                           <div className="gallery-item" key={index}>

@@ -95,6 +95,9 @@ main.members .content table {
    text-align: center;
    border-collapse: collapse;
 }
+main.members .content table * {
+   user-select: text;
+}
 main.members .content table tbody tr {
    height: var(--px-40);
 }

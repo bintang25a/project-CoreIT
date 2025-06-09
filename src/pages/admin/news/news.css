@@ -106,6 +106,9 @@ main.news .content table {
    text-align: center;
    border-collapse: collapse;
 }
+main.news .content table * {
+   user-select: text;
+}
 main.news .content table tbody tr {
    height: var(--px-40);
 }

@@ -5,6 +5,10 @@ import {
    updateMember,
    deleteMember,
 } from "../../../_services/members";
+import {
+   getRecruitmentStatus,
+   toggleRecruitmentStatus,
+} from "../../../_services/auth";
 import { getDivisionLogo } from "../../../_services/divisions";
 import { FaBan, FaCheck } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
@@ -250,7 +254,24 @@ export default function Registrants() {
 
       return () => clearInterval(interval);
    }, []);
-   console.log(paginatedMembers);
+
+   //Kode register page control
+   const [status, setStatus] = useState(false);
+   useEffect(() => {
+      const fetchStatus = async () => {
+         const currentStatus = await getRecruitmentStatus();
+         setStatus(currentStatus);
+      };
+
+      fetchStatus();
+   }, []);
+
+   const handleToggle = async () => {
+      await toggleRecruitmentStatus();
+      const newStatus = await getRecruitmentStatus();
+      setStatus(newStatus);
+   };
+
    return (
       <main className="registrants">
          <div className="header">
@@ -263,6 +284,9 @@ export default function Registrants() {
                   onClick={() => navigateBack(-1)} // kembali ke halaman sebelumnya
                >
                   ← Back
+               </button>
+               <button onClick={handleToggle}>
+                  {status ? "Tutup Pendaftaran" : "Buka Pendaftaran"}
                </button>
             </div>
             <div className="search">

@@ -146,6 +146,9 @@ main.staffs .content table {
    text-align: center;
    border-collapse: collapse;
 }
+main.staffs .content table * {
+   user-select: text;
+}
 main.staffs .content table tbody tr {
    height: var(--px-40);
 }
@@ -511,3 +514,115 @@ main.staffs .content-register .card .button-submit button:hover {
    color: var(--btn-save);
 }
 /* ===== Register style end ===== */
+
+/* ===== Profile user style start ===== */
+main.profile-user {
+   width: auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: var(--px-64);
+   padding: var(--px-32);
+   border-radius: var(--px-16);
+   background-color: var(--gray-100);
+   box-shadow: 1px 1px 2px var(--gray-500);
+}
+
+main.profile-user .general {
+   width: 100%;
+   display: flex;
+   align-items: center;
+   gap: var(--px-12);
+   padding-bottom: var(--px-32);
+   border-bottom: 2px solid var(--gray-500);
+}
+main.profile-user .general img {
+   width: var(--px-128);
+   border-radius: 100px;
+   border: 1px solid var(--primary);
+}
+main.profile-user .general .profile {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   gap: var(--px-8);
+}
+main.profile-user .general .profile h1 {
+   font-size: var(--fs-8);
+   color: var(--gray-600);
+   font-weight: 600;
+}
+main.profile-user .general .profile h2 {
+   font-size: var(--fs-5);
+   color: var(--gray-500);
+   font-weight: 700;
+}
+
+main.profile-user .specific {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding-bottom: var(--px-64);
+   border-bottom: 2px solid var(--gray-600);
+}
+
+main.profile-user .specific .left-section,
+main.profile-user .specific .right-section {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: flex-start;
+   gap: var(--px-32);
+}
+main.profile-user .specific .left-section .box,
+main.profile-user .specific .right-section .box {
+   width: 100%;
+   font-size: var(--fs-1);
+}
+main.profile-user .specific .left-section .box h1,
+main.profile-user .specific .right-section .box h1 {
+   font-weight: 600;
+}
+main.profile-user .specific .left-section .box h2,
+main.profile-user .specific .right-section .box h2 {
+   color: var(--gray-500);
+   font-weight: 500;
+}
+
+main.profile-user .update {
+   width: 100%;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   gap: var(--px-32);
+   padding-bottom: var(--px-64);
+   border-bottom: 2px solid var(--gray-600);
+}
+main.profile-user .update input {
+   width: 32%;
+   height: var(--px-48);
+   border-radius: var(--px-8);
+   padding: var(--px-8) var(--px-16);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   border: 1px solid var(--gray-400);
+}
+main.profile-user .update button {
+   height: var(--px-48);
+   border-radius: var(--px-8);
+   padding: var(--px-8) var(--px-16);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   background-color: var(--btn-danger);
+   color: var(--gray-100);
+   transition: 0.3s ease;
+   cursor: pointer;
+}
+main.profile-user .update button:hover {
+   background-color: var(--btn-save);
+   transform: scale(1.1);
+}
+/* ===== Profile user style end ===== */

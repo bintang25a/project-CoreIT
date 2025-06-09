@@ -32,6 +32,7 @@ main.registrants .navigation .button {
    display: flex;
    justify-content: space-between;
    gap: var(--px-8);
+   white-space: nowrap;
 }
 main.registrants .navigation .button button {
    height: fit-content;

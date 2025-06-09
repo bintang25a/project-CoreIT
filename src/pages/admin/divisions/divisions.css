@@ -90,6 +90,9 @@ main.divisions .content table {
    text-align: center;
    border-collapse: collapse;
 }
+main.divisions .content table * {
+   user-select: text;
+}
 main.divisions .content table tbody tr {
    height: var(--px-40);
 }

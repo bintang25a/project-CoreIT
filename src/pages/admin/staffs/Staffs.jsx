@@ -351,10 +351,9 @@ export default function Members() {
    const [searchTerm, setSearchTerm] = useState("");
    const filteredStaffs = staffs.filter(
       (staff) =>
-         staff.user?.role !== "admin" &&
-         (staff.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            staff.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            staff.user?.nim.toLowerCase().includes(searchTerm.toLowerCase()))
+         staff.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         staff.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         staff.user?.nim.toLowerCase().includes(searchTerm.toLowerCase())
    );
    const handleSearchTerm = (search) => {
       setSearchTerm(search);

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import AdminLayout from "./layouts/admin";
 import Dashboard from "./pages/admin";
 import Members from "./pages/admin/members/Members.jsx";
@@ -11,12 +11,26 @@ import Galleries from "./pages/admin/galleries/galleries.jsx";
 import GalleryAdd from "./pages/admin/galleries/create.jsx";
 import Registrants from "./pages/admin/members/Registrants.jsx";
 import Registers from "./pages/admin/staffs/Registers.jsx";
+import Login from "./pages/login/Login.jsx";
+import ProtectedRoute from "./components/admin/ProtectedRoute.jsx";
+import Profile from "./pages/admin/staffs/Profile.jsx";
+import Register from "./pages/login/Register.jsx";
 
 export default function App() {
    return (
       <BrowserRouter>
          <Routes>
-            <Route path="admin" element={<AdminLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+
+            <Route
+               path="admin"
+               element={
+                  <ProtectedRoute>
+                     <AdminLayout />
+                  </ProtectedRoute>
+               }
+            >
                <Route index element={<Dashboard />} />
                <Route path="members">
                   <Route index element={<Members />} />
@@ -25,7 +39,8 @@ export default function App() {
                </Route>
                <Route path="staffs">
                   <Route index element={<Staffs />} />
-                  <Route path="register account" element={<Registers />} />
+                  <Route path="register-account" element={<Registers />} />
+                  <Route path="profile/:id" element={<Profile />} />
                </Route>
                <Route path="divisions">
                   <Route index element={<Divisions />} />

@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaLayerGroup, FaLock } from "react-icons/fa";
 import coreit from "/images/logo/Logo CORE IT whitetext.png";
+import { useEffect, useState } from "react";
 
 export default function Sidebar() {
+   const [id, setId] = useState(null);
+
+   useEffect(() => {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      setId(userData.id);
+   }, []);
+
    return (
       <aside>
          <div className="logo">
@@ -74,10 +82,10 @@ export default function Sidebar() {
                      <Link to={"/admin/members/registrants"}>Registrant</Link>
                   </li>
                   <li>
-                     <Link to={`/admin/staffs/profile/id`}>Profile</Link>
+                     <Link to={`/admin/staffs/profile/${id}`}>Profile</Link>
                   </li>
                   <li>
-                     <Link to={"/admin/staffs/register account"}>
+                     <Link to={"/admin/staffs/register-account"}>
                         Staff update
                      </Link>
                   </li>

@@ -41,7 +41,7 @@ export default function Dashboard() {
 
       const interval = setInterval(() => {
          fetchData();
-      }, 2500);
+      }, 5000);
 
       const vwToPx = (vw) => (window.innerWidth * vw) / 100;
 
