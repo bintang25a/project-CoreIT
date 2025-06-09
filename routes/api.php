@@ -40,6 +40,7 @@ Route::middleware('auth:api_staff')->group(function () {
     Route::apiResource('/news', InformationController::class)->only(['store', 'destroy']);
     Route::post('/news/{id}', [InformationController::class, 'update']);
 
+    Route::get('/validate-token', [AuthController::class, 'validateToken']);
     Route::post('/toggle-recruitment', [AuthController::class, 'toggleRecruitmentStatus']);
     Route::post('/change-password/{id}', [AuthController::class, 'changePassword']);
     Route::post('/logout', [AuthController::class, 'logout']);

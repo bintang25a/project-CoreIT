@@ -55,6 +55,17 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function validateToken(Request $request)
+    {
+        $staff = Staff::with('user', 'gallery')->find($request->user()->id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Token is valid',
+            'user' => $request->user()
+        ]);
+    }
+
     public function changePassword(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
