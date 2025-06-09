@@ -22,6 +22,7 @@ Route::apiResource('/members', UserController::class)->only(['index', 'show', 's
 Route::apiResource('/staffs', StaffController::class)->only(['index', 'show']);
 Route::apiResource('/news', InformationController::class)->only(['index', 'show']);
 
+Route::get('/recruitment-status', [AuthController::class, 'getRecruitmentStatus']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api_staff')->group(function () {
@@ -39,7 +40,6 @@ Route::middleware('auth:api_staff')->group(function () {
     Route::apiResource('/news', InformationController::class)->only(['store', 'destroy']);
     Route::post('/news/{id}', [InformationController::class, 'update']);
 
-    Route::get('/recruitment-status', [AuthController::class, 'getRecruitmentStatus']);
     Route::post('/toggle-recruitment', [AuthController::class, 'toggleRecruitmentStatus']);
     Route::post('/change-password/{id}', [AuthController::class, 'changePassword']);
     Route::post('/logout', [AuthController::class, 'logout']);
