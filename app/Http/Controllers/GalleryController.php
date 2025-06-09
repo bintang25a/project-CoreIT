@@ -69,7 +69,7 @@ class GalleryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'category' => 'required|in:photo,news,meeting,program,project',
+            'category' => 'required|in:photo,news,meeting,program,project,competition,achievment',
             'image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
         ]);
 

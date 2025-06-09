@@ -19,7 +19,9 @@ return new class extends Migration
                 'photo',
                 'meeting',
                 'project',
-                'program'
+                'program',
+                'competition',
+                'achievment'
             ]);
             $table->string('path');
             $table->timestamps();
