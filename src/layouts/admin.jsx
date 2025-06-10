@@ -18,7 +18,7 @@ export default function AdminLayout() {
       };
 
       checkAuth();
-   }, []);
+   }, [navigate]);
 
    return (
       <>

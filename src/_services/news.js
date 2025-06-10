@@ -24,8 +24,9 @@ export const showNews = async (id) => {
 };
 
 export const getNewsImage = async () => {
-   return "http://127.0.0.1:8000/api/divisions/image/";
+   // return "http://127.0.0.1:8000/api/divisions/image/";
    // return "http://192.168.1.4:8000/api/galleries/image/";
+   return "https://project-coreit-production.up.railway.app/api/galleries/image/";
 };
 
 export const createNews = async (data) => {
