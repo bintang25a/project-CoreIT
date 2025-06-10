@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('github')->nullable();
             $table->boolean('isLogin')->default(false);
             $table->boolean('isRecrut')->default(false);
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }
