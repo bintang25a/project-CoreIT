@@ -2,13 +2,24 @@
 
 return [
 
-    'paths' => ['api/*', 'login', 'register', 'sanctum/csrf-cookie', 'storage/*', 'divisions/*', 'staffs/*', 'members/*', 'news/*', 'galleries/*'],
+    'paths' => [
+        'api/*',
+        'login',
+        'register',
+        'sanctum/csrf-cookie',
+        'storage/*',
+        'divisions/*',
+        'staffs/*',
+        'members/*',
+        'news/*',
+        'galleries/*'
+    ],
 
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://localhost:3000/*',
-        'https://7418fqfm-3000.asse.devtunnels.ms/*'
+        'http://localhost:3000',
+        'https://7418fqfm-3000.asse.devtunnels.ms'
     ],
 
     'allowed_origins_patterns' => [],
@@ -19,6 +30,5 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
-
+    'supports_credentials' => true,
 ];
