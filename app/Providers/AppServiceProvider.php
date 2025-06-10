@@ -21,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        ini_set('upload_max_filesize', '10M');
+        ini_set('post_max_size', '12M');
+
         DB::listen(function ($query) {
             Log::info("SQL Executed: " . $query->sql);
             Log::info("Bindings: " . json_encode($query->bindings));
