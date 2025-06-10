@@ -22,7 +22,10 @@ return [
         'https://7418fqfm-3000.asse.devtunnels.ms'
     ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '^https:\/\/.*\.asse\.devtunnels\.ms$'
+    ],
+
 
     'allowed_headers' => ['*'],
 
