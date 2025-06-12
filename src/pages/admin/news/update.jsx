@@ -1,17 +1,46 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import {
+   useNavigate,
+   Link,
+   useParams,
+   useOutletContext,
+} from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
 import "./news.css";
-import {
-   getNews,
-   showNews,
-   getNewsImage,
-   updateNews,
-} from "../../../_services/news.js";
+import { showNews, updateNews } from "../../../_services/news.js";
+import { getImageUrl } from "../../../_services/galleries.js";
 
 export default function NewsEdit() {
+   const { informations, fetchData } = useOutletContext();
+
    //Kode data disimpan dari database
-   const [informations, setInformations] = useState([]);
+   const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (informations.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [informations, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (informations.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [informations, fetchData, isLoading]);
+
    const [mainImagePreview, setMainImagePreview] = useState(null);
    const [bodyImagePreview, setBodyImagePreview] = useState(null);
    const initialFormData = {
@@ -32,8 +61,10 @@ export default function NewsEdit() {
    //Kode mengambil semua data saat halaman dimuat
    useEffect(() => {
       const fetchData = async () => {
-         const [informationsData, informationData, imageUrlData] =
-            await Promise.all([getNews(), showNews(id), getNewsImage()]);
+         const [informationData, imageUrlData] = await Promise.all([
+            showNews(id),
+            getImageUrl(),
+         ]);
 
          setFormData({
             title: informationData.title,
@@ -47,7 +78,6 @@ export default function NewsEdit() {
          setBodyImagePreview(imageUrlData + informationData.body_image?.path);
          setFileMain(true);
          setFileBody(true);
-         setInformations(informationsData);
       };
 
       fetchData();

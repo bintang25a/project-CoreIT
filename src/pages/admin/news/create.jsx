@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
 import "./news.css";
-import { getNews, createNews } from "../../../_services/news.js";
+import { createNews } from "../../../_services/news.js";
+import Skeleton from "react-loading-skeleton";
 
 export default function NewsAdd() {
+   const { informations, fetchData } = useOutletContext();
+
    //Kode data disimpan dari database
-   const [informations, setInformations] = useState([]);
    const [mainImagePreview, setMainImagePreview] = useState(null);
    const [bodyImagePreview, setBodyImagePreview] = useState(null);
    const initialFormData = {
@@ -22,6 +24,33 @@ export default function NewsAdd() {
    const [fileBody, setFileBody] = useState(false);
    const navigateBack = useNavigate();
    const navigate = useNavigate();
+
+   const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (informations.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [informations, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (informations.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [informations, fetchData, isLoading]);
 
    //Kode add data
    const handleChange = (e) => {
@@ -72,21 +101,6 @@ export default function NewsAdd() {
       }
    };
 
-   //Kode mengambil semua data saat halaman dimuat
-   useEffect(() => {
-      const fetchData = async () => {
-         const [informationsData] = await Promise.all([getNews()]);
-
-         setInformations(informationsData);
-      };
-
-      const interval = setInterval(() => {
-         fetchData();
-      }, 5000);
-
-      return () => clearInterval(interval);
-   }, []);
-
    return (
       <main className="news">
          <div className="header">
@@ -103,7 +117,11 @@ export default function NewsAdd() {
             </div>
             <div className="search"></div>
          </div>
-         <div className="name-space">Berita ke-{informations.length + 1}</div>
+         <div className="name-space">
+            {isLoading
+               ? "Loading ... "
+               : "Berita ke-" + (informations.length + 1)}
+         </div>
          <div className="content-add-edit">
             <form onSubmit={handleSubmit}>
                <div className="form-container">

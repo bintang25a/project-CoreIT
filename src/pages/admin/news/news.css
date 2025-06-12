@@ -105,6 +105,7 @@ main.news .content table {
    table-layout: fixed;
    text-align: center;
    border-collapse: collapse;
+   overflow: hidden;
 }
 main.news .content table * {
    user-select: text;
@@ -112,9 +113,12 @@ main.news .content table * {
 main.news .content table tbody tr {
    height: var(--px-40);
 }
+main.news .content table tbody tr:hover {
+   background-color: var(--gray-100);
+}
 
 main.news .content table th {
-   height: 3.25vw;
+   height: 3.35vw;
    padding: var(--px-8);
    font-size: var(--fs-2);
    font-weight: 500;

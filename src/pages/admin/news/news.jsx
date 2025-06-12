@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "./news.css";
-import { deleteNews, getNews } from "../../../_services/news.js";
+import { deleteNews } from "../../../_services/news.js";
 
 function NormalRow({ information, isSelected, handleCheckboxChange }) {
    return (
@@ -59,9 +59,35 @@ function LoadingRow() {
 }
 
 export default function News() {
+   const { informations, fetchData } = useOutletContext();
+
    //Kode data disimpan dari database
-   const [informations, setInformations] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (informations.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [informations, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (informations.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [informations, fetchData, isLoading]);
 
    //Kode search
    const [currentPage, setCurrentPage] = useState(1);
@@ -128,22 +154,6 @@ export default function News() {
          prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
       );
    };
-
-   //Kode mengambil semua data saat halaman dimuat
-   useEffect(() => {
-      const fetchData = async () => {
-         const [informationsData] = await Promise.all([getNews()]);
-
-         setInformations(informationsData);
-         setIsLoading(false);
-      };
-
-      const interval = setInterval(() => {
-         fetchData();
-      }, 5000);
-
-      return () => clearInterval(interval);
-   }, []);
 
    return (
       <main className="news">

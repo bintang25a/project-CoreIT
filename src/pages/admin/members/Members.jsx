@@ -1,12 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import {
-   getMembers,
    createMember,
    updateMember,
    deleteMember,
 } from "../../../_services/members";
-import { getDivisions, getDivisionLogo } from "../../../_services/divisions";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "./member.css";
@@ -276,13 +274,36 @@ function LoadingRow() {
 }
 
 export default function Members() {
-   //Kode data disimpan dari database
-   const [members, setMembers] = useState([]);
-   const [divisions, setDivisions] = useState([]);
-   const [logoUrl, setLogoUrl] = useState(null);
-   const [isLoading, setIsLoading] = useState(true);
+   const { members, divisions, logoUrl, fetchData } = useOutletContext();
 
-   // Kode search
+   const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (members.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [members, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (members.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [members, fetchData, isLoading]);
+
+   //Kode search
    const { divisionName } = useParams();
    const navigateBack = useNavigate();
    const [searchTerm, setSearchTerm] = useState("");
@@ -357,6 +378,7 @@ export default function Members() {
 
             alert("Add member successfully");
             setFormData(initialFormData);
+            fetchData();
             navigate("/admin/members");
          } else {
             await Promise.all(
@@ -375,6 +397,7 @@ export default function Members() {
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
+            fetchData();
             navigate("/admin/members");
          }
       } catch (error) {
@@ -411,7 +434,7 @@ export default function Members() {
 
             setSelectedIds([]);
             alert("Delete members successfully");
-            navigate("/admin/members");
+            fetchData();
          } catch (error) {
             console.log(error);
             alert("Delete members failed\n" + error);
@@ -419,32 +442,11 @@ export default function Members() {
       }
    };
 
-   //Kode mengambil semua data saat halaman dimuat
    useEffect(() => {
-      const fetchData = async () => {
-         const [membersData, divisionsData, logoUrlData] = await Promise.all([
-            getMembers(),
-            getDivisions(),
-            getDivisionLogo(),
-         ]);
-
-         if (divisionName) {
-            setSearchTerm(divisionName);
-         }
-         setMembers(membersData);
-         setIsLoading(false);
-         setDivisions(divisionsData);
-         setLogoUrl(logoUrlData);
-      };
-
-      if (!isEditing) {
-         const interval = setInterval(() => {
-            fetchData();
-         }, 5000);
-
-         return () => clearInterval(interval);
+      if (divisionName) {
+         setSearchTerm(divisionName);
       }
-   }, [isEditing, divisionName]);
+   }, [divisionName]);
 
    return (
       <main className="members">
@@ -508,7 +510,7 @@ export default function Members() {
                         <th>Phone Number</th>
                      </tr>
                   </thead>
-                  <tbody>
+                  <tbody className={isEditing ? "edit" : ""}>
                      {isLoading ? (
                         <LoadingRow />
                      ) : isEditing ? (

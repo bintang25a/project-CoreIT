@@ -1,20 +1,54 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-   getMembers,
-   updateMember,
-   deleteMember,
-} from "../../../_services/members";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { updateMember, deleteMember } from "../../../_services/members";
 import {
    getRecruitmentStatus,
    toggleRecruitmentStatus,
 } from "../../../_services/auth";
-import { getDivisionLogo } from "../../../_services/divisions";
 import { FaBan, FaCheck } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "./registrants.css";
 
-function Card({ members, logoUrl }) {
+function ClockWithDate() {
+   const [now, setNow] = useState(new Date());
+
+   useEffect(() => {
+      const interval = setInterval(() => {
+         setNow(new Date());
+      }, 1000);
+
+      return () => clearInterval(interval);
+   }, []);
+
+   const formatTimeUnit = (unit) => unit.toString().padStart(2, "0");
+
+   const hours = formatTimeUnit(now.getHours());
+   const minutes = formatTimeUnit(now.getMinutes());
+   const seconds = formatTimeUnit(now.getSeconds());
+
+   const dateOptions = { day: "numeric", month: "long", year: "numeric" };
+   const formattedDate = now.toLocaleDateString("id-ID", dateOptions);
+
+   return (
+      <div className="clock-with-date">
+         <span role="img" aria-label="calendar">
+            📅
+         </span>
+         <span>{formattedDate}</span>
+         <span className="divider">|</span>
+         <span role="img" aria-label="clock">
+            🕒
+         </span>
+         <span>{hours}</span>
+         <span> : </span>
+         <span>{minutes}</span>
+         <span> : </span>
+         <span>{seconds}</span>
+      </div>
+   );
+}
+
+function Card({ members, logoUrl, fetchData }) {
    const navigate = useNavigate();
 
    //Kode reject member
@@ -27,6 +61,7 @@ function Card({ members, logoUrl }) {
             await deleteMember(id);
 
             alert("Member rejected");
+            fetchData();
             navigate("/admin/members/registrants");
          } catch (error) {
             console.log(error);
@@ -65,7 +100,7 @@ function Card({ members, logoUrl }) {
          }
 
          await updateMember(id, payload);
-         navigate("/admin/members/registrants");
+         fetchData();
       } catch (error) {
          console.log(error);
          alert(error);
@@ -189,10 +224,34 @@ function CardNull() {
 }
 
 export default function Registrants() {
-   //Kode data disimpan dari database
-   const [members, setMembers] = useState([]);
-   const [logoUrl, setLogoUrl] = useState(null);
+   const { members, logoUrl, fetchData } = useOutletContext();
+
    const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (members.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [members, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (members.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [members, fetchData, isLoading]);
 
    // Kode search
    const navigateBack = useNavigate();
@@ -235,26 +294,6 @@ export default function Registrants() {
       setCurrentPage((prev) => Math.min(prev + 1, totalPages));
    };
 
-   //Kode mengambil semua data saat halaman dimuat
-   useEffect(() => {
-      const fetchData = async () => {
-         const [membersData, logoUrlData] = await Promise.all([
-            getMembers(),
-            getDivisionLogo(),
-         ]);
-
-         setMembers(membersData);
-         setLogoUrl(logoUrlData);
-         setIsLoading(false);
-      };
-
-      const interval = setInterval(() => {
-         fetchData();
-      }, 5000);
-
-      return () => clearInterval(interval);
-   }, []);
-
    //Kode register page control
    const [status, setStatus] = useState(false);
    useEffect(() => {
@@ -279,16 +318,17 @@ export default function Registrants() {
          </div>
          <div className="navigation">
             <div className="button">
-               <button
-                  className="button-back"
-                  onClick={() => navigateBack(-1)} // kembali ke halaman sebelumnya
-               >
+               <button className="button-back" onClick={() => navigateBack(-1)}>
                   ← Back
                </button>
-               <button onClick={handleToggle}>
+               <button
+                  onClick={handleToggle}
+                  className={status ? "btn-close" : "btn-open"}
+               >
                   {status ? "Tutup Pendaftaran" : "Buka Pendaftaran"}
                </button>
             </div>
+            {status ? <ClockWithDate /> : " "}
             <div className="search">
                <input
                   type="search"
@@ -305,7 +345,11 @@ export default function Registrants() {
             ) : (
                <>
                   {paginatedMembers.length > 0 ? (
-                     <Card members={paginatedMembers} logoUrl={logoUrl} />
+                     <Card
+                        members={paginatedMembers}
+                        logoUrl={logoUrl}
+                        fetchData={fetchData}
+                     />
                   ) : (
                      <CardNull />
                   )}

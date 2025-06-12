@@ -1,21 +1,43 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "./galleries.css";
-import {
-   getImages,
-   getImageUrl,
-   deleteImage,
-} from "../../../_services/galleries.js";
+import { deleteImage } from "../../../_services/galleries.js";
 
 export default function Galleries() {
-   //Kode data disimpan dari database
-   const [images, setImages] = useState([]);
-   const [imageUrl, setImageUrl] = useState([]);
-   const [isLoading, setIsLoading] = useState(true);
-   const [selectedImage, setSelectedImage] = useState(null);
+   const { images, imageUrl, fetchData } = useOutletContext();
 
+   //Kode data disimpan dari database
+   const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (images.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [images, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (images.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [images, fetchData, isLoading]);
+
+   //Kode modal
+   const [selectedImage, setSelectedImage] = useState(null);
    const openModal = (image) => setSelectedImage(image);
    const closeModal = () => setSelectedImage(null);
 
@@ -60,9 +82,9 @@ export default function Galleries() {
       if (confirmDelete) {
          try {
             await Promise.all(idData.map((id) => deleteImage(id)));
-            setImages((prev) => prev.filter((img) => !idData.includes(img.id)));
 
             setSelectedIds([]);
+            fetchData();
             alert("Delete images successfully");
          } catch (error) {
             console.log(error);
@@ -78,22 +100,6 @@ export default function Galleries() {
    const handleClearCheckBox = () => {
       setSelectedIds([]);
    };
-
-   //Kode mengambil semua data saat halaman dimuat
-   useEffect(() => {
-      const fetchData = async () => {
-         const [imagesData, imageUrlData] = await Promise.all([
-            getImages(),
-            getImageUrl(),
-         ]);
-
-         setImages(imagesData);
-         setImageUrl(imageUrlData);
-         setIsLoading(false);
-      };
-
-      fetchData();
-   }, [paginatedImages]);
 
    return (
       <main className="galleries">

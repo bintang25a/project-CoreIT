@@ -23,12 +23,6 @@ export const showStaff = async (id) => {
    }
 };
 
-export const getStaffPhoto = async () => {
-   // return "http://127.0.0.1:8000/api/galleries/";
-   // return "http://192.168.1.4:8000/api/galleries/";
-   return "https://project-coreit-production.up.railway.app/api/galleries/";
-};
-
 export const createStaffs = async (data) => {
    try {
       const response = await API.post("/staffs", data);

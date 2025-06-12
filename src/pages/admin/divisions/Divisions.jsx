@@ -1,9 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import {
-   getDivisionLogo,
-   getDivisions,
    createDivision,
    updateDivision,
    deleteDivision,
@@ -225,10 +223,35 @@ function LoadingRow() {
 }
 
 export default function Divisions() {
+   const { divisions, logoUrl, fetchData } = useOutletContext();
+
    //Kode data disimpan dari database
-   const [divisions, setDivisions] = useState([]);
-   const [logoUrl, setLogoUrl] = useState("");
    const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (divisions.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [divisions, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (divisions.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [divisions, fetchData, isLoading]);
 
    //Kode search
    const [searchTerm, setSearchTerm] = useState("");
@@ -266,7 +289,7 @@ export default function Divisions() {
             alert("Add division successfully");
             setFileSelected(false);
             setFormData(initialFormData);
-            navigate("/admin/divisions");
+            fetchData();
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
@@ -291,6 +314,7 @@ export default function Divisions() {
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
+            fetchData();
             navigate("/admin/divisions");
          }
       } catch (error) {
@@ -327,39 +351,13 @@ export default function Divisions() {
 
             setSelectedIds([]);
             alert("Deleting divisions successfully");
-            navigate("/admin/divisions");
+            fetchData();
          } catch (error) {
             console.error(error);
             alert("Deleting divisions failed\n" + error);
          }
       }
    };
-
-   //Kode mengambil semua data saat halaman dimuat
-   useEffect(() => {
-      const fetchData = async () => {
-         const [divisionsData, logoUrlData] = await Promise.all([
-            getDivisions(),
-            getDivisionLogo(),
-         ]);
-
-         setDivisions(divisionsData);
-         setLogoUrl(logoUrlData);
-         setIsLoading(false);
-      };
-
-      if (!isEditing) {
-         const interval = setInterval(() => {
-            fetchData();
-         }, 5000);
-
-         return () => clearInterval(interval);
-      }
-
-      setFileSelected(false);
-   }, [isEditing]);
-
-   console.table(formData);
 
    return (
       <main className="divisions">
@@ -397,11 +395,7 @@ export default function Divisions() {
             </div>
          </div>
          <div className="content">
-            <form
-               ref={formRef}
-               onSubmit={handleSubmit}
-               enctype="multipart/form-data"
-            ></form>
+            <form ref={formRef} onSubmit={handleSubmit}></form>
             <table>
                <thead>
                   <tr>
@@ -412,7 +406,7 @@ export default function Divisions() {
                      <th>Navigation</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody className={isEditing ? "edit" : ""}>
                   {isLoading ? (
                      <LoadingRow />
                   ) : isEditing ? (

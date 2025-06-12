@@ -1,15 +1,40 @@
 import { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import React from "react";
-import { getMembers } from "../../../_services/members.js";
 import { createStaffs } from "../../../_services/staffs.js";
 import { FiUpload } from "react-icons/fi";
 import "./staff.css";
 
 export default function Registers() {
+   const { members, fetchData } = useOutletContext();
+
    //Kode data disimpan dari database
-   const [members, setMembers] = useState([]);
-   const navigate = useNavigate();
+   const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (members.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [members, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (members.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [members, fetchData, isLoading]);
 
    //Kode set count
    const [countTerm, setCountTerm] = useState(1);
@@ -36,6 +61,7 @@ export default function Registers() {
    const [imagePreview, setImagePreview] = useState({});
    const [disableInput, setDisableInput] = useState(false);
    const [submitted, setSubmitted] = useState([]);
+   const navigate = useNavigate();
    const initialFormData = {
       position: "",
       nim: "",
@@ -50,6 +76,7 @@ export default function Registers() {
          .fill()
          .map(() => ({ ...initialFormData }))
    );
+
    const handleChange = (e, i) => {
       const { name, value, files } = e.target;
 
@@ -162,16 +189,7 @@ export default function Registers() {
       }
    };
 
-   //Kode mengambil semua data saat halaman dimuat
-   useEffect(() => {
-      const fetchData = async () => {
-         const [membersData] = await Promise.all([getMembers()]);
-
-         setMembers(membersData);
-      };
-
-      fetchData();
-   }, []);
+   console.table(formData);
 
    return (
       <main className="staffs">
@@ -240,7 +258,11 @@ export default function Registers() {
                                     value={formData.nim}
                                     onChange={(e) => handleChange(e, i)}
                                  >
-                                    <option value="">--NIM - NAMA--</option>
+                                    <option value="">
+                                       {isLoading
+                                          ? "Loading ..."
+                                          : "--NIM - NAMA--"}
+                                    </option>
                                     {members
                                        .filter(
                                           (member) => member.role === "member"
@@ -260,6 +282,7 @@ export default function Registers() {
                                     placeholder="position"
                                     value={formData.position}
                                     onChange={(e) => handleChange(e, i)}
+                                    autoComplete="off"
                                  />
                               </div>
                               <div className="support">
@@ -271,6 +294,7 @@ export default function Registers() {
                                        value={formData.password}
                                        onChange={(e) => handleChange(e, i)}
                                        required
+                                       autoComplete="new-password"
                                     />
                                     <input
                                        type="text"

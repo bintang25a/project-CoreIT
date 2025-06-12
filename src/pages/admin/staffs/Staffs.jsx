@@ -1,9 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { getMembers } from "../../../_services/members";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
-   getStaffs,
    createStaffs,
    deleteStaff,
    updateStaff,
@@ -342,10 +340,35 @@ function LoadingRow() {
 }
 
 export default function Members() {
-   //Kode data disimpan dari database
-   const [members, setMembers] = useState([]);
-   const [staffs, setStaffs] = useState([]);
+   const { members, staffs, fetchData } = useOutletContext();
+
+   //Kode loading
    const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+      if (isLoading) {
+         setIsLoading(true);
+      }
+
+      const loadingTimeout = setTimeout(() => {
+         if (staffs.length > 0) {
+            setIsLoading(false);
+         }
+      }, 250);
+
+      return () => clearTimeout(loadingTimeout);
+   }, [staffs, isLoading]);
+
+   useEffect(() => {
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading) {
+            fetchData();
+         }
+      }, 1500);
+
+      if (staffs.length > 0) {
+         clearTimeout(fetchTimeout);
+      }
+   }, [staffs, fetchData, isLoading]);
 
    //Kode search
    const [searchTerm, setSearchTerm] = useState("");
@@ -412,7 +435,7 @@ export default function Members() {
             alert("Add staff successfully");
             setFileSelected(false);
             setFormData(initialFormData);
-            navigate("/admin/staffs");
+            fetchData();
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
@@ -437,6 +460,7 @@ export default function Members() {
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
+            fetchData();
             navigate("/admin/staffs");
          }
       } catch (error) {
@@ -473,39 +497,13 @@ export default function Members() {
 
             setSelectedIds([]);
             alert("Delete staffs successfully");
-            navigate("/admin/staffs");
+            fetchData();
          } catch (error) {
             console.error(error);
             alert("Delete staff failed\n" + error);
          }
       }
    };
-
-   //Kode mengambil semua data saat halaman dimuat
-   useEffect(() => {
-      const fetchData = async () => {
-         const [membersData, staffsData] = await Promise.all([
-            getMembers(),
-            getStaffs(),
-         ]);
-
-         setStaffs(staffsData);
-         setMembers(membersData);
-         setIsLoading(false);
-      };
-
-      if (!isEditing) {
-         const interval = setInterval(() => {
-            fetchData();
-         }, 5000);
-
-         return () => clearInterval(interval);
-      }
-
-      setFileSelected(false);
-   }, [isEditing]);
-
-   console.table(formData);
 
    return (
       <main className="staffs">
@@ -558,7 +556,7 @@ export default function Members() {
                      <th>Github link</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody className={isEditing ? "edit" : ""}>
                   {isLoading ? (
                      <LoadingRow />
                   ) : isEditing ? (

@@ -11,10 +11,10 @@ import Galleries from "./pages/admin/galleries/galleries.jsx";
 import GalleryAdd from "./pages/admin/galleries/create.jsx";
 import Registrants from "./pages/admin/members/Registrants.jsx";
 import Registers from "./pages/admin/staffs/Registers.jsx";
-import Login from "./pages/login/Login.jsx";
 import ProtectedRoute from "./components/admin/ProtectedRoute.jsx";
 import Profile from "./pages/admin/staffs/Profile.jsx";
-import Register from "./pages/login/Register.jsx";
+import Register from "./pages/auth/Register.jsx";
+import Login from "./pages/auth/Login.jsx";
 
 export default function App() {
    return (

@@ -152,6 +152,9 @@ main.staffs .content table * {
 main.staffs .content table tbody tr {
    height: var(--px-40);
 }
+main.staffs .content table tbody:not(.edit) tr:not(:first-child):hover {
+   background-color: var(--gray-100);
+}
 
 main.staffs .content table th {
    height: 3.25vw;

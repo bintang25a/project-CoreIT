@@ -1,24 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaUser } from "react-icons/fa";
-import { getImageUrl } from "../../_services/galleries";
 import { logout } from "../../_services/auth";
 
-export default function Navbar() {
+export default function Navbar({ imageUrl }) {
    const [isSticky, setIsSticky] = useState(false);
    const [user, setUser] = useState({});
-   const [image, setImage] = useState("");
    const [isOpen, setIsOpen] = useState(false);
    const navigate = useNavigate();
    const dropdownRef = useRef(null);
 
    useEffect(() => {
-      const fetchData = async () => {
-         const [imageData] = await Promise.all([getImageUrl()]);
-
-         setImage(imageData);
-      };
-
       const handleClickOutside = (event) => {
          if (
             dropdownRef.current &&
@@ -41,8 +33,6 @@ export default function Navbar() {
          setIsSticky(window.scrollY > 0);
       };
       window.addEventListener("scroll", onScroll);
-
-      fetchData();
 
       return () => {
          window.removeEventListener("scroll", onScroll);
@@ -77,7 +67,7 @@ export default function Navbar() {
                </div>
             )}
             <div className="profile-image">
-               <img src={image + user.image} alt="Foto Profil" />
+               <img src={imageUrl + user.image} alt="Foto Profil" />
             </div>
             {isOpen && (
                <div className="dropdown-menu">
