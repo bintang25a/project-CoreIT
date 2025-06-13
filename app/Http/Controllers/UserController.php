@@ -105,9 +105,9 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'nim' => 'required|string|max:20',
+            'nim' => 'required|string|max:20|unique:users,nim,' . $member->id,
             'prodi' => 'required|string',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255' . $member->id,
             'phone_number' => 'required|numeric',
             'division' => ['required', Rule::in($divisions)],
         ]);
