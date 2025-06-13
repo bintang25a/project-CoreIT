@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { useNavigate, Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "./news.css";
 import { deleteNews } from "../../../_services/news.js";
+import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
 
 function NormalRow({ information, isSelected, handleCheckboxChange }) {
    return (
@@ -60,6 +61,25 @@ function LoadingRow() {
 
 export default function News() {
    const { informations, fetchData } = useOutletContext();
+
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
+
+   //Kode confirm modal
+   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
@@ -128,24 +148,31 @@ export default function News() {
    };
 
    //Kode delete staff
-   const navigate = useNavigate();
    const [selectedIds, setSelectedIds] = useState([]);
    const handleDelete = async (idData) => {
-      let confirmDelete = false;
+      let result = false;
       if (idData.length > 0) {
-         confirmDelete = window.confirm("Apus ga nih?");
+         result = await confirm("Are you sure you want to delete this?");
       }
 
-      if (confirmDelete) {
+      if (result) {
          try {
             await Promise.all(idData.map((id) => deleteNews(id)));
 
             setSelectedIds([]);
-            alert("Delete news successfully");
-            navigate("/admin/news");
+            setAlert({
+               isOpen: true,
+               successMessage: "Delete news successfully",
+            });
+            alertReset();
+            fetchData();
          } catch (error) {
             console.log(error);
-            alert("Delete news failed\n" + error);
+            setAlert({
+               isOpen: true,
+               errorMessage: "Delete news failed\n" + error,
+            });
+            alertReset();
          }
       }
    };
@@ -186,6 +213,19 @@ export default function News() {
                   Delete
                </button>
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="search">
                <input
                   type="search"
@@ -256,6 +296,7 @@ export default function News() {
                ))}
             </div>
          </div>
+         <ConfirmDialog />
       </main>
    );
 }

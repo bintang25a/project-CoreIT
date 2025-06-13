@@ -22,14 +22,18 @@ export default function AdminLayout() {
    const [members, setMembers] = useState([]);
    const [staffs, setStaffs] = useState([]);
    const [news, setNews] = useState([]);
+   const [isLoading, setIsLoading] = useState(true);
 
    const fetchData = async () => {
       if (currentPath.startsWith("/admin/members")) {
-         const [membersData, divisionsLogoData] = await Promise.all([
-            getMembers(),
-            getDivisionLogo(),
-         ]);
+         const [membersData, divisionsData, divisionsLogoData] =
+            await Promise.all([
+               getMembers(),
+               getDivisions(),
+               getDivisionLogo(),
+            ]);
          setMembers(membersData);
+         setDivisions(divisionsData);
          setDivisionsLogo(divisionsLogoData);
       }
 
@@ -37,7 +41,10 @@ export default function AdminLayout() {
          const [staffsData] = await Promise.all([getStaffs()]);
          setStaffs(staffsData);
 
-         if (currentPath === "/admin/staffs/register-account") {
+         if (
+            currentPath === "/admin/staffs/register-account" ||
+            currentPath === "/admin/staffs"
+         ) {
             const [membersData] = await Promise.all([getMembers()]);
             setMembers(membersData);
          }
@@ -91,12 +98,9 @@ export default function AdminLayout() {
          const [imageUrlData] = await Promise.all([getImageUrl()]);
 
          setImageUrl(imageUrlData);
+         setIsLoading(false);
       }
    };
-
-   useEffect(() => {
-      fetchData();
-   }, []);
 
    useEffect(() => {
       const checkAuth = async () => {
@@ -109,6 +113,10 @@ export default function AdminLayout() {
       checkAuth();
    }, [navigate]);
 
+   useEffect(() => {
+      fetchData();
+   }, []);
+
    return (
       <>
          <div className="mobile">
@@ -116,7 +124,7 @@ export default function AdminLayout() {
          </div>
          <Sidebar />
          <div className="right-content" id="top">
-            <Navbar imageUrl={imageUrl} />
+            <Navbar imageUrl={imageUrl} isLoading={isLoading} />
             <Outlet
                context={{
                   members,

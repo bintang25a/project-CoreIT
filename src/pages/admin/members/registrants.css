@@ -31,7 +31,7 @@ main.registrants .navigation {
 main.registrants .navigation .button {
    width: 25%;
    display: flex;
-   justify-content: space-between;
+   justify-content: flex-start;
    gap: var(--px-8);
    white-space: nowrap;
 }

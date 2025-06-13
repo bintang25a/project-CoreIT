@@ -7,6 +7,7 @@ import {
 } from "../../../_services/members";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
+import useConfirmDialog from "../../../components/admin/ConfirmModal";
 import "./member.css";
 
 function NormalRow({ member, isSelected, handleCheckboxChange, logoUrl }) {
@@ -276,6 +277,25 @@ function LoadingRow() {
 export default function Members() {
    const { members, divisions, logoUrl, fetchData } = useOutletContext();
 
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
+
+   //Kode confirm modal
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
       if (isLoading) {
@@ -283,13 +303,13 @@ export default function Members() {
       }
 
       const loadingTimeout = setTimeout(() => {
-         if (members.length > 0) {
+         if ((members.length > 0) & (divisions.length > 0)) {
             setIsLoading(false);
          }
       }, 250);
 
       return () => clearTimeout(loadingTimeout);
-   }, [members, isLoading]);
+   }, [members, divisions, isLoading]);
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
@@ -298,10 +318,10 @@ export default function Members() {
          }
       }, 1500);
 
-      if (members.length > 0) {
+      if (members.length > 0 && divisions.length > 0) {
          clearTimeout(fetchTimeout);
       }
-   }, [members, fetchData, isLoading]);
+   }, [members, divisions, fetchData, isLoading]);
 
    //Kode search
    const { divisionName } = useParams();
@@ -376,7 +396,11 @@ export default function Members() {
 
             await createMember(payload);
 
-            alert("Add member successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Add member successfully",
+            });
+
             setFormData(initialFormData);
             fetchData();
             navigate("/admin/members");
@@ -393,16 +417,26 @@ export default function Members() {
                })
             );
 
-            alert("Edit members successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Edit members successfully",
+            });
+
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
             navigate("/admin/members");
          }
+
+         alertReset();
       } catch (error) {
          console.log(error);
-         alert("Add or Edit members failed\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: "Failed: " + error,
+         });
+         alertReset();
       }
    };
    const triggerSubmit = () => {
@@ -423,21 +457,29 @@ export default function Members() {
 
    //Kode delete member
    const handleDelete = async (idData) => {
-      let confirmDelete = false;
+      let result = false;
       if (!isEditing && idData.length > 0) {
-         confirmDelete = window.confirm("Apus ga nih?");
+         result = await confirm("Are you sure you want to delete this?");
       }
 
-      if (confirmDelete) {
+      if (result) {
          try {
             await Promise.all(idData.map((id) => deleteMember(id)));
 
             setSelectedIds([]);
-            alert("Delete members successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Delete members successfully",
+            });
+            alertReset();
             fetchData();
          } catch (error) {
             console.log(error);
-            alert("Delete members failed\n" + error);
+            setAlert({
+               isOpen: true,
+               errorMessage: "Delete members failed\n" + error,
+            });
+            alertReset();
          }
       }
    };
@@ -486,6 +528,19 @@ export default function Members() {
                   </>
                )}
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="search">
                <input
                   type="search"
@@ -586,6 +641,7 @@ export default function Members() {
                ))}
             </div>
          </div>
+         <ConfirmDialog />
       </main>
    );
 }

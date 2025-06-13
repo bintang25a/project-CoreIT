@@ -8,6 +8,7 @@ import {
 } from "../../../_services/staffs.js";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
+import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
 import "./staff.css";
 
 function NormalRow({ staff, isSelected, handleCheckboxChange }) {
@@ -341,6 +342,23 @@ function LoadingRow() {
 
 export default function Members() {
    const { members, staffs, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
 
    //Kode loading
    const [isLoading, setIsLoading] = useState(true);
@@ -350,13 +368,13 @@ export default function Members() {
       }
 
       const loadingTimeout = setTimeout(() => {
-         if (staffs.length > 0) {
+         if ((members.length > 0) & (staffs.length > 0)) {
             setIsLoading(false);
          }
       }, 250);
 
       return () => clearTimeout(loadingTimeout);
-   }, [staffs, isLoading]);
+   }, [members, staffs, isLoading]);
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
@@ -365,10 +383,10 @@ export default function Members() {
          }
       }, 1500);
 
-      if (staffs.length > 0) {
+      if (members.length > 0 && staffs.length > 0) {
          clearTimeout(fetchTimeout);
       }
-   }, [staffs, fetchData, isLoading]);
+   }, [members, staffs, fetchData, isLoading]);
 
    //Kode search
    const [searchTerm, setSearchTerm] = useState("");
@@ -432,7 +450,11 @@ export default function Members() {
 
             await createStaffs(payload);
 
-            alert("Add staff successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Add staffs successfully",
+            });
+
             setFileSelected(false);
             setFormData(initialFormData);
             fetchData();
@@ -456,16 +478,26 @@ export default function Members() {
                })
             );
 
-            alert("Edit staffs successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Edit staffs successfully",
+            });
+
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
             navigate("/admin/staffs");
          }
+
+         alertReset();
       } catch (error) {
          console.log(error);
-         alert("Add or Edit staffs failed\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: "Failed: " + error,
+         });
+         alertReset();
       }
    };
    const triggerSubmit = () => {
@@ -486,21 +518,28 @@ export default function Members() {
 
    //Kode delete staff
    const handleDelete = async (idData) => {
-      let confirmDelete = false;
+      let result = false;
       if (!isEditing && idData.length > 0) {
-         confirmDelete = window.confirm("Apus ga nih?");
+         result = await confirm("Are you sure you want to delete this?");
       }
 
-      if (confirmDelete) {
+      if (result) {
          try {
             await Promise.all(idData.map((id) => deleteStaff(id)));
 
             setSelectedIds([]);
-            alert("Delete staffs successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Delete staffs successfully",
+            });
+            alertReset();
             fetchData();
          } catch (error) {
-            console.error(error);
-            alert("Delete staff failed\n" + error);
+            setAlert({
+               isOpen: true,
+               errorMessage: "Delete staffs failed:\n" + error,
+            });
+            alertReset();
          }
       }
    };
@@ -532,6 +571,19 @@ export default function Members() {
                   Delete
                </button>
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="search">
                <input
                   type="search"
@@ -543,58 +595,59 @@ export default function Members() {
             </div>
          </div>
          <div className="content" ref={scrollRef}>
-            <form ref={formRef} onSubmit={handleSubmit}></form>
-            <table>
-               <thead>
-                  <tr>
-                     <th>Position</th>
-                     <th>NIM</th>
-                     <th>Name</th>
-                     <th>Photo path</th>
-                     <th>Instagram link</th>
-                     <th>LinkedIn link</th>
-                     <th>Github link</th>
-                  </tr>
-               </thead>
-               <tbody className={isEditing ? "edit" : ""}>
-                  {isLoading ? (
-                     <LoadingRow />
-                  ) : isEditing ? (
-                     <EditingRow
-                        members={members}
-                        staffs={staffs}
-                        selectedIds={selectedIds}
-                        formData={formData}
-                        setFormData={setFormData}
-                        fileSelected={fileSelected}
-                        setFileSelected={setFileSelected}
-                     />
-                  ) : (
-                     <>
-                        <AddRow
+            <form ref={formRef} onSubmit={handleSubmit}>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Position</th>
+                        <th>NIM</th>
+                        <th>Name</th>
+                        <th>Photo path</th>
+                        <th>Instagram link</th>
+                        <th>LinkedIn link</th>
+                        <th>Github link</th>
+                     </tr>
+                  </thead>
+                  <tbody className={isEditing ? "edit" : ""}>
+                     {isLoading ? (
+                        <LoadingRow />
+                     ) : isEditing ? (
+                        <EditingRow
+                           members={members}
+                           staffs={staffs}
+                           selectedIds={selectedIds}
                            formData={formData}
                            setFormData={setFormData}
-                           members={members}
                            fileSelected={fileSelected}
                            setFileSelected={setFileSelected}
                         />
+                     ) : (
+                        <>
+                           <AddRow
+                              formData={formData}
+                              setFormData={setFormData}
+                              members={members}
+                              fileSelected={fileSelected}
+                              setFileSelected={setFileSelected}
+                           />
 
-                        {paginatedStaffs.map((staff) => {
-                           const isSelected = selectedIds.includes(staff.id);
+                           {paginatedStaffs.map((staff) => {
+                              const isSelected = selectedIds.includes(staff.id);
 
-                           return (
-                              <NormalRow
-                                 key={staff.id}
-                                 staff={staff}
-                                 isSelected={isSelected}
-                                 handleCheckboxChange={handleCheckboxChange}
-                              />
-                           );
-                        })}
-                     </>
-                  )}
-               </tbody>
-            </table>
+                              return (
+                                 <NormalRow
+                                    key={staff.id}
+                                    staff={staff}
+                                    isSelected={isSelected}
+                                    handleCheckboxChange={handleCheckboxChange}
+                                 />
+                              );
+                           })}
+                        </>
+                     )}
+                  </tbody>
+               </table>
+            </form>
          </div>
          <div className="pagination">
             <div className="left-section">
@@ -632,6 +685,7 @@ export default function Members() {
                ))}
             </div>
          </div>
+         <ConfirmDialog />
       </main>
    );
 }

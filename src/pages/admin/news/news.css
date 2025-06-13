@@ -62,8 +62,24 @@ main.news .navigation .button .btn.disable {
    background-color: var(--gray-200);
 }
 
+main.news .navigation .alert {
+   max-width: 30%;
+   width: fit-content;
+   text-align: center;
+   height: 100%;
+}
+
+main.news .navigation .alert.success {
+   font-size: var(--fs-3);
+   color: var(--btn-save);
+}
+main.news .navigation .alert.error {
+   font-size: var(--fs-1);
+   color: var(--btn-danger);
+}
+
 main.news .navigation .search {
-   width: 100%;
+   width: 25%;
    height: var(--px-40);
    display: flex;
    justify-content: end;
@@ -71,7 +87,7 @@ main.news .navigation .search {
 }
 main.news .navigation .search input {
    border-radius: var(--px-8);
-   width: 30%;
+   width: 100%;
    height: 100%;
    padding: var(--px-8) var(--px-16);
    font-size: var(--fs-1);
@@ -419,3 +435,54 @@ main.news .content-add-edit .bottom-section button:hover {
    box-shadow: 1px 1px 2px var(--gray-200);
 }
 /* ===== Create-content style end ===== */
+
+/* ===== Confirm modal style start ===== */
+main.news .confirm-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.4);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+}
+
+main.news .confirm-box {
+   background: var(--white);
+   padding: var(--px-24);
+   border-radius: var(--px-8);
+   max-width: var(--px-320);
+   box-shadow: 0 2px 1px var(--gray-100);
+   text-align: center;
+   font-size: var(--fs-2);
+}
+
+main.news .confirm-buttons {
+   margin-top: var(--px-24);
+   display: flex;
+   justify-content: center;
+   gap: var(--px-32);
+}
+
+main.news .confirm-buttons button {
+   padding: var(--px-8) var(--px-16);
+   cursor: pointer;
+   border: none;
+   border-radius: 4px;
+   color: var(--white);
+   transition: 0.2s ease;
+   font-size: var(--fs-2);
+}
+main.news .confirm-buttons button.yes {
+   background-color: var(--btn-danger);
+}
+main.news .confirm-buttons button.no {
+   background-color: var(--btn-info);
+}
+main.news .confirm-buttons button:hover {
+   background-color: var(--gray-200);
+}
+/* ===== Confirm modal style end ===== */

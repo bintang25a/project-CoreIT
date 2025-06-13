@@ -8,6 +8,22 @@ import "./staff.css";
 export default function Registers() {
    const { members, fetchData } = useOutletContext();
 
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
+
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -114,7 +130,6 @@ export default function Registers() {
       try {
          const payload = new FormData();
          for (const key in formData[i]) {
-            console.log(formData[key]);
             payload.append(key, formData[i][key]);
          }
 
@@ -126,14 +141,21 @@ export default function Registers() {
 
          setDisableInput(true);
 
-         alert("Add staffs successfully");
+         setAlert({
+            isOpen: true,
+            successMessage: "Add staffs successfully",
+         });
+         alertReset();
 
          if (submitted.length + 1 === Number(count)) {
             navigate("/admin/staffs");
          }
       } catch (error) {
-         console.log(error);
-         alert("Add staffs failed\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: error,
+         });
+         alertReset();
       }
    };
    const handleSubmits = async (e) => {
@@ -167,11 +189,20 @@ export default function Registers() {
                })
          );
 
-         alert("Add all staffs successfully");
+         setAlert({
+            isOpen: true,
+            successMessage: "Add all staffs successfully",
+         });
+         alertReset();
          navigate("/admin/staffs");
       } catch (error) {
          console.log(error);
-         alert("Add staffs failed\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage:
+               "Add or Edit members failed:\n make sure all form has value",
+         });
+         alertReset();
       }
    };
    const scrollRef = useRef(null);
@@ -188,8 +219,6 @@ export default function Registers() {
          setImagePreview({});
       }
    };
-
-   console.table(formData);
 
    return (
       <main className="staffs">
@@ -208,6 +237,19 @@ export default function Registers() {
                   Reset
                </button>
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="count">
                <label htmlFor="count">Number staff created</label>
                <input

@@ -2,7 +2,11 @@ import API from "../_api";
 
 const message = (error) => {
    if (error.status == 422) {
-      return Object.values(error.response?.data["message"]).join("\n");
+      if (error.response?.data == {}) {
+         return Object.values(error.response?.data["message"]).join("\n");
+      } else {
+         return Object.values(error.response?.data).join("\n");
+      }
    } else {
       return error.response?.data["message"];
    }

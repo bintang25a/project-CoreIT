@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaUser } from "react-icons/fa";
 import { logout } from "../../_services/auth";
+import Skeleton from "react-loading-skeleton";
 
-export default function Navbar({ imageUrl }) {
+export default function Navbar({ imageUrl, isLoading }) {
    const [isSticky, setIsSticky] = useState(false);
    const [user, setUser] = useState({});
    const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +68,11 @@ export default function Navbar({ imageUrl }) {
                </div>
             )}
             <div className="profile-image">
-               <img src={imageUrl + user.image} alt="Foto Profil" />
+               {isLoading ? (
+                  <Skeleton circle width={"100%"} height={"100%"} />
+               ) : (
+                  <img src={imageUrl + user.image} alt="Foto Profil" />
+               )}
             </div>
             {isOpen && (
                <div className="dropdown-menu">

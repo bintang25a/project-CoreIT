@@ -5,6 +5,22 @@ import "./galleries.css";
 import { createImage } from "../../../_services/galleries.js";
 
 export default function GalleryAdd() {
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
+
    //Kode data disimpan dari database
    const [imagePreview, setImagePreview] = useState(null);
    const initialFormData = {
@@ -56,11 +72,19 @@ export default function GalleryAdd() {
 
          await createImage(payload);
 
-         alert("Add image successfully");
+         setAlert({
+            isOpen: true,
+            successMessage: "Add iamges successfully",
+         });
+         alertReset();
          navigate("/admin/galleries");
       } catch (error) {
          console.log(error);
-         alert("Add galleries failed\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: error,
+         });
+         alertReset();
       }
    };
 
@@ -78,6 +102,19 @@ export default function GalleryAdd() {
                   ← Back
                </button>
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="search"></div>
          </div>
          <div className="name-space">Add Image to CORE IT Galleries</div>

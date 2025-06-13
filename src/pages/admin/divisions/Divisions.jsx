@@ -8,6 +8,7 @@ import {
 } from "../../../_services/divisions.js";
 import { FaCheckCircle } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
+import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
 import "./divisions.css";
 
 function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
@@ -225,6 +226,25 @@ function LoadingRow() {
 export default function Divisions() {
    const { divisions, logoUrl, fetchData } = useOutletContext();
 
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
+
+   //Kode confirm modal
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -286,7 +306,11 @@ export default function Divisions() {
 
             await createDivision(payload);
 
-            alert("Add division successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Add division successfully",
+            });
+
             setFileSelected(false);
             setFormData(initialFormData);
             fetchData();
@@ -310,16 +334,26 @@ export default function Divisions() {
                })
             );
 
-            alert("Edit divisions successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Edit divisions successfully",
+            });
+
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
             navigate("/admin/divisions");
          }
+
+         alertReset();
       } catch (error) {
          console.log(error);
-         alert("Add or Edit divisions failed\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: "Failed: " + error,
+         });
+         alertReset();
       }
    };
    const triggerSubmit = () => {
@@ -328,7 +362,7 @@ export default function Divisions() {
       }
    };
 
-   //Kode edit staff
+   //Kode edit divisions
    const [selectedIds, setSelectedIds] = useState([]);
    const [isEditing, setIsEditing] = useState(false);
    const handleEdit = () => setIsEditing((prev) => !prev);
@@ -338,23 +372,30 @@ export default function Divisions() {
       );
    };
 
-   //Kode delete staff
+   //Kode delete divisions
    const handleDelete = async (idData) => {
-      let confirmDelete = false;
+      let result = false;
       if (!isEditing && idData.length > 0) {
-         confirmDelete = window.confirm("Apus ga nih?");
+         result = await confirm("Are you sure you want to delete this?");
       }
 
-      if (confirmDelete) {
+      if (result) {
          try {
             await Promise.all(idData.map((id) => deleteDivision(id)));
 
             setSelectedIds([]);
-            alert("Deleting divisions successfully");
+            setAlert({
+               isOpen: true,
+               successMessage: "Delete divisions successfully",
+            });
+            alertReset();
             fetchData();
          } catch (error) {
-            console.error(error);
-            alert("Deleting divisions failed\n" + error);
+            setAlert({
+               isOpen: true,
+               errorMessage: "Delete divisions failed\n" + error,
+            });
+            alertReset();
          }
       }
    };
@@ -384,6 +425,19 @@ export default function Divisions() {
                   Delete
                </button>
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="search">
                <input
                   type="search"
@@ -395,56 +449,60 @@ export default function Divisions() {
             </div>
          </div>
          <div className="content">
-            <form ref={formRef} onSubmit={handleSubmit}></form>
-            <table>
-               <thead>
-                  <tr>
-                     <th>Logo</th>
-                     <th>Name</th>
-                     <th>Description</th>
-                     <th>Member</th>
-                     <th>Navigation</th>
-                  </tr>
-               </thead>
-               <tbody className={isEditing ? "edit" : ""}>
-                  {isLoading ? (
-                     <LoadingRow />
-                  ) : isEditing ? (
-                     <EditingRow
-                        divisions={divisions}
-                        selectedIds={selectedIds}
-                        formData={formData}
-                        setFormData={setFormData}
-                        fileSelected={fileSelected}
-                        setFileSelected={setFileSelected}
-                     />
-                  ) : (
-                     <>
-                        <AddRow
+            <form ref={formRef} onSubmit={handleSubmit}>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Logo</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Member</th>
+                        <th>Navigation</th>
+                     </tr>
+                  </thead>
+                  <tbody className={isEditing ? "edit" : ""}>
+                     {isLoading ? (
+                        <LoadingRow />
+                     ) : isEditing ? (
+                        <EditingRow
+                           divisions={divisions}
+                           selectedIds={selectedIds}
                            formData={formData}
                            setFormData={setFormData}
                            fileSelected={fileSelected}
                            setFileSelected={setFileSelected}
                         />
+                     ) : (
+                        <>
+                           <AddRow
+                              formData={formData}
+                              setFormData={setFormData}
+                              fileSelected={fileSelected}
+                              setFileSelected={setFileSelected}
+                           />
 
-                        {filteredDivisions.map((division) => {
-                           const isSelected = selectedIds.includes(division.id);
+                           {filteredDivisions.map((division) => {
+                              const isSelected = selectedIds.includes(
+                                 division.id
+                              );
 
-                           return (
-                              <NormalRow
-                                 key={division.id}
-                                 division={division}
-                                 logoUrl={logoUrl}
-                                 isSelected={isSelected}
-                                 handleCheckboxChange={handleCheckboxChange}
-                              />
-                           );
-                        })}
-                     </>
-                  )}
-               </tbody>
-            </table>
+                              return (
+                                 <NormalRow
+                                    key={division.id}
+                                    division={division}
+                                    logoUrl={logoUrl}
+                                    isSelected={isSelected}
+                                    handleCheckboxChange={handleCheckboxChange}
+                                 />
+                              );
+                           })}
+                        </>
+                     )}
+                  </tbody>
+               </table>
+            </form>
          </div>
+         <ConfirmDialog />
       </main>
    );
 }

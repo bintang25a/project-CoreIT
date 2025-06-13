@@ -19,13 +19,18 @@ export default function Dashboard() {
       }
 
       const loadingTimeout = setTimeout(() => {
-         if (members.length > 0) {
+         if (
+            (members.length > 0) &
+            (staffs.length > 0) &
+            (divisions.length > 0) &
+            (informations.length > 0)
+         ) {
             setIsLoading(false);
          }
       }, 250);
 
       return () => clearTimeout(loadingTimeout);
-   }, [members, isLoading]);
+   }, [members, staffs, divisions, informations, isLoading]);
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
@@ -34,10 +39,15 @@ export default function Dashboard() {
          }
       }, 1500);
 
-      if (members.length > 0) {
+      if (
+         members.length > 0 &&
+         staffs.length > 0 &&
+         divisions.length > 0 &&
+         informations.length > 0
+      ) {
          clearTimeout(fetchTimeout);
       }
-   }, [members, fetchData, isLoading]);
+   }, [members, staffs, divisions, informations, fetchData, isLoading]);
 
    useEffect(() => {
       if (location.state?.scrollTo) {

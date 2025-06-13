@@ -59,6 +59,22 @@ export default function Profile() {
    const [isDivLoading, setIsDivLoading] = useState(true);
    const { id } = useParams();
 
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
+
    useEffect(() => {
       const fetchData = async () => {
          const [staffData, imageUrlData] = await Promise.all([
@@ -89,7 +105,11 @@ export default function Profile() {
 
    const handleChangePassword = async () => {
       if (!passwordNow || !passwordNew) {
-         alert("Both fields are required.");
+         setAlert({
+            isOpen: true,
+            errorMessage: "Both field required",
+         });
+         alertReset();
          return;
       }
 
@@ -99,11 +119,19 @@ export default function Profile() {
             passwordNew,
          });
 
-         alert("Password changed successfully!");
+         setAlert({
+            isOpen: true,
+            successMessage: "Password changed successfully!",
+         });
+         alertReset();
          setPasswordNow("");
          setPasswordNew("");
-      } catch (err) {
-         alert("Failed to change password:\n" + err);
+      } catch (error) {
+         setAlert({
+            isOpen: true,
+            errorMessage: error,
+         });
+         alertReset();
       }
    };
 
@@ -155,6 +183,7 @@ export default function Profile() {
                      </div>
                   </div>
                </div>
+
                <div className="update">
                   <input
                      type="password"
@@ -173,6 +202,15 @@ export default function Profile() {
                      autoComplete="new-password"
                   />
                   <button onClick={handleChangePassword}>Change</button>
+                  {alert.isOpen ? (
+                     <h1 className={alert.errorMessage ? "error" : "success"}>
+                        {alert.errorMessage
+                           ? alert.errorMessage
+                           : alert.successMessage}
+                     </h1>
+                  ) : (
+                     ""
+                  )}
                </div>
             </>
          )}

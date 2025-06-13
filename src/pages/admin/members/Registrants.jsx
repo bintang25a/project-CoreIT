@@ -59,13 +59,11 @@ function Card({ members, logoUrl, fetchData }) {
       if (confirmDelete) {
          try {
             await deleteMember(id);
-
-            alert("Member rejected");
             fetchData();
             navigate("/admin/members/registrants");
          } catch (error) {
             console.log(error);
-            alert("Reject member failed\n" + error);
+            alert("Error\n" + error);
          }
       }
    };
@@ -103,7 +101,7 @@ function Card({ members, logoUrl, fetchData }) {
          fetchData();
       } catch (error) {
          console.log(error);
-         alert(error);
+         alert("Error\n" + error);
       }
    };
 
@@ -322,10 +320,15 @@ export default function Registrants() {
                   ← Back
                </button>
                <button
+                  disabled={isLoading}
                   onClick={handleToggle}
                   className={status ? "btn-close" : "btn-open"}
                >
-                  {status ? "Tutup Pendaftaran" : "Buka Pendaftaran"}
+                  {status
+                     ? "Tutup Pendaftaran"
+                     : isLoading
+                     ? "Loading ... "
+                     : "Buka Pendaftaran"}
                </button>
             </div>
             {status ? <ClockWithDate /> : " "}

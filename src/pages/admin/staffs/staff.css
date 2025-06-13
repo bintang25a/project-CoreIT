@@ -63,8 +63,24 @@ main.staffs .navigation .button .btn.disable {
    background-color: var(--gray-200);
 }
 
+main.staffs .navigation .alert {
+   max-width: 30%;
+   width: fit-content;
+   text-align: center;
+   height: 100%;
+}
+
+main.staffs .navigation .alert.success {
+   font-size: var(--fs-3);
+   color: var(--btn-save);
+}
+main.staffs .navigation .alert.error {
+   font-size: var(--fs-1);
+   color: var(--btn-danger);
+}
+
 main.staffs .navigation .count {
-   width: 100%;
+   width: 30%;
    height: var(--px-40);
    display: flex;
    justify-content: end;
@@ -77,7 +93,7 @@ main.staffs .navigation .count label {
 }
 main.staffs .navigation .count input {
    border-radius: var(--px-8);
-   width: 5%;
+   width: 15%;
    height: 100%;
    padding: var(--px-8) 0;
    font-size: var(--fs-3);
@@ -89,7 +105,7 @@ input[type="number"]::-webkit-inner-spin-button {
    margin: 0;
 }
 main.staffs .navigation .count button {
-   width: 5%;
+   width: 15%;
    padding: var(--px-8) 0;
    border-radius: var(--px-8);
    font-size: var(--fs-2);
@@ -99,7 +115,7 @@ main.staffs .navigation .count button {
    font-weight: 600;
 }
 main.staffs .navigation .search {
-   width: 100%;
+   width: 25%;
    height: var(--px-40);
    display: flex;
    justify-content: end;
@@ -107,7 +123,7 @@ main.staffs .navigation .search {
 }
 main.staffs .navigation .search input {
    border-radius: var(--px-8);
-   width: 30%;
+   width: 100%;
    height: 100%;
    padding: var(--px-8) var(--px-16);
    font-size: var(--fs-1);
@@ -628,4 +644,67 @@ main.profile-user .update button:hover {
    background-color: var(--btn-save);
    transform: scale(1.1);
 }
+main.profile-user .update h1 {
+   font-size: var(--fs-1);
+   font-weight: 500;
+   text-align: left;
+   flex: 1;
+}
+main.profile-user .update h1.error {
+   color: var(--btn-danger);
+}
+main.profile-user .update h1.success {
+   color: var(--btn-save);
+}
 /* ===== Profile user style end ===== */
+
+/* ===== Confirm modal style start ===== */
+main.staffs .confirm-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.4);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+}
+
+main.staffs .confirm-box {
+   background: var(--white);
+   padding: var(--px-24);
+   border-radius: var(--px-8);
+   max-width: var(--px-320);
+   box-shadow: 0 2px 1px var(--gray-100);
+   text-align: center;
+   font-size: var(--fs-2);
+}
+
+main.staffs .confirm-buttons {
+   margin-top: var(--px-24);
+   display: flex;
+   justify-content: center;
+   gap: var(--px-32);
+}
+
+main.staffs .confirm-buttons button {
+   padding: var(--px-8) var(--px-16);
+   cursor: pointer;
+   border: none;
+   border-radius: 4px;
+   color: var(--white);
+   transition: 0.2s ease;
+   font-size: var(--fs-2);
+}
+main.staffs .confirm-buttons button.yes {
+   background-color: var(--btn-danger);
+}
+main.staffs .confirm-buttons button.no {
+   background-color: var(--btn-info);
+}
+main.staffs .confirm-buttons button:hover {
+   background-color: var(--gray-200);
+}
+/* ===== Confirm modal style end ===== */

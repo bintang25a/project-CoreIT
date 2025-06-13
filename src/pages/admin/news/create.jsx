@@ -3,10 +3,25 @@ import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
 import "./news.css";
 import { createNews } from "../../../_services/news.js";
-import Skeleton from "react-loading-skeleton";
 
 export default function NewsAdd() {
    const { informations, fetchData } = useOutletContext();
+
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
 
    //Kode data disimpan dari database
    const [mainImagePreview, setMainImagePreview] = useState(null);
@@ -93,11 +108,19 @@ export default function NewsAdd() {
 
          await createNews(payload);
 
-         alert("Add news successfully");
+         setAlert({
+            isOpen: true,
+            successMessage: "Add news successfully",
+         });
+         alertReset();
          navigate("/admin/news");
       } catch (error) {
          console.log(error);
-         alert("Add news failed\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: "Failed: " + error,
+         });
+         alertReset();
       }
    };
 
@@ -115,6 +138,19 @@ export default function NewsAdd() {
                   ← Back
                </button>
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="search"></div>
          </div>
          <div className="name-space">

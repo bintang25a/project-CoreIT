@@ -4,9 +4,29 @@ import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "./galleries.css";
 import { deleteImage } from "../../../_services/galleries.js";
+import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
 
 export default function Galleries() {
    const { images, imageUrl, fetchData } = useOutletContext();
+
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
+
+   //Kode confirm modal
+   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
@@ -74,21 +94,29 @@ export default function Galleries() {
    //Kode delete staff
    const [selectedIds, setSelectedIds] = useState([]);
    const handleDelete = async (idData) => {
-      let confirmDelete = false;
+      let result = false;
       if (idData.length > 0) {
-         confirmDelete = window.confirm("Apus ga nih?");
+         result = await confirm("Are you sure you want to delete this?");
       }
 
-      if (confirmDelete) {
+      if (result) {
          try {
             await Promise.all(idData.map((id) => deleteImage(id)));
 
             setSelectedIds([]);
+            setAlert({
+               isOpen: true,
+               successMessage: "Delete iamges successfully",
+            });
+            alertReset();
             fetchData();
-            alert("Delete images successfully");
          } catch (error) {
             console.log(error);
-            alert("Delete images failed\n" + error);
+            setAlert({
+               isOpen: true,
+               errorMessage: error,
+            });
+            alertReset();
          }
       }
    };
@@ -126,6 +154,19 @@ export default function Galleries() {
                   Delete
                </button>
             </div>
+            {alert.isOpen ? (
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
+            ) : (
+               ""
+            )}
             <div className="search">
                <input
                   type="search"
@@ -207,6 +248,7 @@ export default function Galleries() {
                ))}
             </div>
          </div>
+         <ConfirmDialog />
       </main>
    );
 }
