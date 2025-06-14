@@ -19,7 +19,8 @@ return [
 
     'allowed_origins' => [
         'http://localhost:3000',
-        'https://7418fqfm-3000.asse.devtunnels.ms'
+        'http://localhost:4173',
+        'https://7418fqfm-3000.asse.devtunnels.ms',
     ],
 
     'allowed_origins_patterns' => [
