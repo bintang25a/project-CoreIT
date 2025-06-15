@@ -1,5 +1,5 @@
 import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
-import "./login.css";
+import "./index.css";
 import background from "/images/background/gambar1.jpg";
 import { useState } from "react";
 import { login } from "../../_services/auth";

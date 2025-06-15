@@ -38,19 +38,33 @@
    --px-256: 16vw;
    --px-320: 20vw;
 
+   --spx-8: 1vh;
+   --spx-12: 1.5vh;
+   --spx-16: 2vh;
+   --spx-24: 3vh;
+   --spx-32: 4vh;
+   --spx-40: 5vh;
+   --spx-48: 6vh;
+   --spx-56: 7vh;
+   --spx-64: 8vh;
+   --spx-128: 16vh;
+   --spx-192: 24vh;
+   --spx-256: 32vh;
+   --spx-320: 40vh;
+
    --fs-0: clamp(8px, 0.67vw, 1.25rem);
-   --fs-1: clamp(12px, 0.88vw, 1.75rem); /* XS → max ~21px */
-   --fs-2: clamp(14px, 1.025vw, 2rem); /* S  → max ~24px */
-   --fs-3: clamp(16px, 1.17vw, 2.25rem); /* Base → max ~27px */
-   --fs-4: clamp(18px, 1.32vw, 2.5rem); /* M → max ~30px */
-   --fs-5: clamp(20px, 1.47vw, 3rem); /* L → max ~36px */
-   --fs-6: clamp(24px, 1.76vw, 3.5rem); /* XL → max ~42px */
-   --fs-7: clamp(28px, 2.05vw, 4rem); /* 2XL → max ~48px */
-   --fs-8: clamp(32px, 2.34vw, 5rem); /* 3XL → max ~60px */
-   --fs-9: clamp(40px, 2.93vw, 6rem); /* 4XL → max ~72px */
-   --fs-10: clamp(48px, 3.52vw, 7rem); /* 5XL */
-   --fs-11: clamp(56px, 4.1vw, 8rem); /* 6XL */
-   --fs-12: clamp(64px, 4.69vw, 9rem); /* 7XL */
+   --fs-1: clamp(12px, 0.88vw, 1.75rem);
+   --fs-2: clamp(14px, 1.025vw, 2rem);
+   --fs-3: clamp(16px, 1.17vw, 2.25rem);
+   --fs-4: clamp(18px, 1.32vw, 2.5rem);
+   --fs-5: clamp(20px, 1.47vw, 3rem);
+   --fs-6: clamp(24px, 1.76vw, 3.5rem);
+   --fs-7: clamp(28px, 2.05vw, 4rem);
+   --fs-8: clamp(32px, 2.34vw, 5rem);
+   --fs-9: clamp(40px, 2.93vw, 6rem);
+   --fs-10: clamp(48px, 3.52vw, 7rem);
+   --fs-11: clamp(56px, 4.1vw, 8rem);
+   --fs-12: clamp(64px, 4.69vw, 9rem);
 
    --btn-danger: #dc3545;
    --btn-warning: #f59e0b;

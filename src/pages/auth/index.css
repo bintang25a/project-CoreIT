@@ -1,0 +1,282 @@
+main.login,
+main.register {
+   width: 100%;
+   height: 100vh;
+   padding: 0;
+   position: relative;
+   overflow: hidden;
+}
+main.login form,
+main.register form {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+main.login .background,
+main.register .background {
+   width: 100%;
+   height: 100vh;
+   position: absolute;
+   top: 0;
+   left: 0;
+   z-index: -1;
+}
+
+main.login .background::after,
+main.register .background::after {
+   content: "";
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(24, 24, 24, 0.4);
+   backdrop-filter: blur(2px);
+   z-index: 1;
+}
+
+main.login .background img,
+main.register .background img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   filter: blur(1px);
+}
+
+main.login .login-container,
+main.login .login-container .header-section,
+main.login .login-container .input-section,
+main.login .login-container .submit-section,
+main.login .login-container .submit-section button,
+main.register .register-container,
+main.register .register-container .header-section,
+main.register .register-container .input-section,
+main.register .register-container .submit-section,
+main.register .register-container .submit-section button {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+main.login .login-container,
+main.register .register-container {
+   max-width: 30%;
+   min-width: 280px;
+   width: 30%;
+   height: auto;
+   gap: var(--px-16);
+   padding: var(--px-32) var(--px-16);
+   border: 1px solid var(--primary);
+   border-radius: var(--px-16);
+   background-color: var(--gray-100);
+   backdrop-filter: blur(1px);
+}
+
+main.login .login-container .header-section,
+main.register .register-container .header-section {
+   width: 50%;
+   display: flex;
+   font-size: var(--fs-6);
+   font-weight: 700;
+   color: var(--gray-600);
+   padding: var(--px-8);
+   border-bottom: 2px solid var(--primary);
+}
+
+main.login .login-container .input-section,
+main.register .register-container .input-section {
+   width: 100%;
+   gap: var(--px-32);
+   margin-top: var(--px-32);
+}
+main.login .login-container .input-section .input,
+main.register .register-container .input-section .input {
+   width: 100%;
+   height: var(--px-40);
+   overflow: hidden;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   padding-left: var(--px-16);
+   gap: var(--px-8);
+   font-size: var(--fs-2);
+   font-weight: 400;
+   background-color: var(--gray-100);
+   border-bottom: 2px solid var(--primary);
+   border-radius: var(--px-8);
+   position: relative;
+}
+main.login .login-container .input-section .input input,
+main.register .register-container .input-section .input input {
+   width: 100%;
+   height: 100%;
+   background-color: transparent;
+}
+.input .icon {
+   font-size: var(--fs-3);
+}
+
+main.login .login-container .submit-section,
+main.register .register-container .submit-section {
+   width: 100%;
+   padding: var(--px-16) 0;
+}
+main.login .login-container .submit-section button,
+main.register .register-container .submit-section button {
+   width: 100%;
+   height: var(--px-48);
+   background-color: var(--gray-600);
+   color: var(--gray-100);
+   border-radius: var(--px-16);
+   flex-direction: row;
+   gap: var(--px-8);
+   font-size: var(--fs-3);
+   font-weight: 500;
+   transition: 0.3s linear;
+}
+main.login .login-container .submit-section button:hover,
+main.register .register-container .submit-section button:hover {
+   cursor: pointer;
+   background-color: var(--primary);
+}
+
+main.register .register-container .input-section .profile,
+main.register .register-container .input-section .contact {
+   display: flex;
+   flex-direction: column;
+   gap: var(--px-16);
+   width: 95%;
+}
+
+main.register .register-container .input-section .division,
+main.register .register-container .input-section .project {
+   width: 95%;
+   border: 2px solid var(--primary);
+   border-radius: var(--px-8);
+   overflow: hidden;
+   font-size: var(--fs-2);
+   background-color: var(--primary);
+   color: var(--gray-100);
+}
+main.register .register-container .input-section .division select {
+   background-color: var(--primary);
+   width: 100%;
+   color: var(--gray-100);
+   transition: 0.3s ease;
+   width: 100%;
+   height: var(--px-40);
+   text-align: center;
+}
+main.register .register-container .input-section .division select:hover {
+   cursor: pointer;
+   background-color: var(--gray-100);
+   color: var(--gray-600);
+}
+
+main.register .register-container .input-section .project {
+   background-color: var(--gray-100);
+   height: var(--px-64);
+}
+main.register .register-container .input-section .project textarea {
+   width: 100%;
+   height: 100%;
+   resize: none;
+   font-size: var(--fs-1);
+   padding: 0 var(--px-8);
+}
+
+@media screen and (max-width: 1365px) {
+   main.register {
+      height: 100svh;
+   }
+
+   main.register .register-container {
+      max-width: 480px;
+      min-width: 280px;
+      width: 90%;
+      height: fit-content;
+      gap: var(--spx-16);
+      padding: var(--px-32) var(--spx-16);
+      border-radius: var(--spx-16);
+   }
+
+   main.register .register-container .header-section {
+      width: 50%;
+      font-size: 1.5rem;
+      padding: var(--spx-8);
+   }
+
+   main.register .register-container .input-section {
+      gap: var(--spx-32);
+      margin-top: var(--spx-32);
+   }
+   main.register .register-container .input-section .input {
+      height: var(--spx-40);
+      padding-left: var(--spx-16);
+      gap: var(--spx-8);
+      font-size: 1rem;
+      border-radius: var(--spx-8);
+   }
+   .input .icon {
+      font-size: 1rem;
+   }
+
+   main.register .register-container .submit-section {
+      padding: var(--spx-16) 0;
+   }
+   main.register .register-container .submit-section button {
+      height: var(--spx-48);
+      border-radius: var(--spx-16);
+      gap: var(--spx-8);
+      font-size: 1.2rem;
+   }
+
+   main.register .register-container .input-section .contact {
+      gap: var(--spx-16);
+   }
+
+   main.register .register-container .input-section .project {
+      border-radius: var(--spx-8);
+      font-size: 0.8rem;
+   }
+   main.register .register-container .input-section .division select {
+      height: var(--spx-40);
+   }
+
+   main.register .register-container .input-section .project {
+      height: var(--spx-64);
+   }
+   main.register .register-container .input-section .project textarea {
+      font-size: 0.8rem;
+      padding: 0 var(--spx-8);
+   }
+}
+
+@media screen and (max-width: 1365px) and (orientation: landscape) {
+   main.register .register-container .header-section {
+      font-size: 1.5rem;
+   }
+
+   main.register .register-container .input-section .input {
+      font-size: 0.7rem;
+   }
+
+   .input .icon {
+      font-size: 0.7rem;
+   }
+
+   main.register .register-container .submit-section button {
+      font-size: 0.8rem;
+   }
+
+   main.register .register-container .input-section .project {
+      font-size: 0.7rem;
+   }
+
+   main.register .register-container .input-section .project textarea {
+      font-size: 0.5rem;
+   }
+}

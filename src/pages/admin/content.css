@@ -208,10 +208,11 @@ main.registrants .content .card .profile {
    color: var(--gray-700);
    line-height: 1.2;
    border-bottom: 1px solid var(--gray-200);
+   gap: var(--px-8);
 }
 main.registrants .content .card .profile h1 {
    white-space: nowrap;
-   font-size: var(--fs-1);
+   font-size: var(--fs-3);
    font-weight: 500;
 }
 main.registrants .content .card .profile h2 {

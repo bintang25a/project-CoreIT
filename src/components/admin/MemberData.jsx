@@ -20,7 +20,7 @@ function Cards({ members, staffs }) {
                </div>
             </div>
             <div className="main">
-               <h1>{members.length - 1}</h1>
+               <h1>{members.length - 1 - registrants}</h1>
             </div>
             <div className="footer">
                <h1>
