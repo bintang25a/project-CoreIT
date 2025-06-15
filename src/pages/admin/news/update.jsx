@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-   useNavigate,
-   Link,
-   useParams,
-   useOutletContext,
-} from "react-router-dom";
+import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
-import "./news.css";
 import { showNews, updateNews } from "../../../_services/news.js";
 import { getImageUrl } from "../../../_services/galleries.js";
 

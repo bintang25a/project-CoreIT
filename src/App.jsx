@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminLayout from "./layouts/admin";
 import Dashboard from "./pages/admin";
 import Members from "./pages/admin/members/Members.jsx";
@@ -45,6 +45,7 @@ export default function App() {
                <Route path="divisions">
                   <Route index element={<Divisions />} />
                   <Route path="create" element={<Divisions />} />
+                  <Route path="update/:id" element={<Divisions />} />
                </Route>
                <Route path="news">
                   <Route index element={<News />} />

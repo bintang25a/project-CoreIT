@@ -1,4 +1,3 @@
-import "./index.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -6,6 +5,8 @@ import MemberData from "../../components/admin/MemberData";
 import DivisionData from "../../components/admin/DivisionData";
 import NewsInformation from "../../components/admin/NewsInformation";
 import StaffOnline from "../../components/admin/StaffOnline";
+import "./index.css";
+import "./content.css";
 
 export default function Dashboard() {
    const { members, staffs, divisions, logoUrl, informations, fetchData } =

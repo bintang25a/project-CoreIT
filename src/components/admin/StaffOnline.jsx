@@ -123,7 +123,7 @@ function LeftContent({ staffs, imageUrl }) {
                   (staff) => staff.isLogin == true && staff.position != "Admin"
                )
                .map((staff) => (
-                  <div className="user-online">
+                  <div key={staff.id} className="user-online">
                      <div className="photo">
                         <img
                            src={imageUrl + staff.gallery?.path}

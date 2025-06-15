@@ -26,11 +26,10 @@ export default function Login() {
 
       try {
          await login(loginForm);
-         navigate("/admin");
+         navigate("/admin", { replace: true });
       } catch (error) {
          console.log(error);
          alert("NIM or Password not correct\n" + error);
-         console.log(loginForm);
       }
    };
 

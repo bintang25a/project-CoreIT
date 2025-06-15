@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import "./galleries.css";
 import { deleteImage } from "../../../_services/galleries.js";
 import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
 

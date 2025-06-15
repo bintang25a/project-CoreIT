@@ -9,7 +9,6 @@ import {
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
-import "./staff.css";
 
 function NormalRow({ staff, isSelected, handleCheckboxChange }) {
    return (
@@ -340,7 +339,7 @@ function LoadingRow() {
       ));
 }
 
-export default function Members() {
+export default function Staffs() {
    const { members, staffs, fetchData } = useOutletContext();
    const { confirm, ConfirmDialog } = useConfirmDialog();
 

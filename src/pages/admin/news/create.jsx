@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
-import "./news.css";
 import { createNews } from "../../../_services/news.js";
 
 export default function NewsAdd() {

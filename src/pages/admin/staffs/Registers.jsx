@@ -3,10 +3,11 @@ import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import React from "react";
 import { createStaffs } from "../../../_services/staffs.js";
 import { FiUpload } from "react-icons/fi";
-import "./staff.css";
+import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
 
 export default function Registers() {
    const { members, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -58,13 +59,12 @@ export default function Registers() {
    const handleCountTerm = (search) => {
       setCountTerm(search);
    };
-   const handleCountSubmit = () => {
+   const handleCountSubmit = async () => {
+      let result;
       if (count > countTerm) {
-         const confirmSet = window.confirm(
-            "Data will not be saved, are you sure?"
-         );
+         result = await confirm("Data will not be saved, are you sure?");
 
-         if (confirmSet) {
+         if (result) {
             setCount(countTerm);
          }
       } else {
@@ -207,10 +207,10 @@ export default function Registers() {
    };
    const scrollRef = useRef(null);
 
-   const handleReset = () => {
-      const confirm = window.confirm("Are you sure? the data will be lost");
+   const handleReset = async () => {
+      const result = await confirm("Are you sure? the data will be lost");
 
-      if (confirm) {
+      if (result) {
          setSubmitted([]);
          setCount(1);
          setCountTerm(1);
@@ -375,6 +375,7 @@ export default function Registers() {
                   }
                })}
          </div>
+         <ConfirmDialog />
       </main>
    );
 }

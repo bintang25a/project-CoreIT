@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import "./news.css";
 import { deleteNews } from "../../../_services/news.js";
 import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
 
@@ -26,7 +25,7 @@ function NormalRow({ information, isSelected, handleCheckboxChange }) {
          <td>
             <div className="kolom-6">
                <Link
-                  to={`/admin/news/${information.id}`}
+                  to={`/news/${information.id}`}
                   className="btn view"
                   target="_blank"
                   rel="noopener noreferrer"

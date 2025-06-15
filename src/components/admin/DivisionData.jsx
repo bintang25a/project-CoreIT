@@ -45,13 +45,13 @@ function TableRow({ members, divisions, viewAll, logoUrl }) {
                   </Link>
                   <Link
                      className="button btn-view"
-                     to={`/admin/divisions/${division.id}`}
+                     to={`/divisions/${division.name.toLowerCase()}`}
                   >
                      View
                   </Link>
                   <Link
                      className="button btn-edit"
-                     to={`/admin/divisions/edit/${division.id}`}
+                     to={`/admin/divisions/update/${division.id}`}
                   >
                      Edit
                   </Link>

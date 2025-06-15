@@ -1,0 +1,1491 @@
+/* ===== Members style start ===== */
+main.members .content {
+   flex: 1;
+   width: 100%;
+   max-width: 73.5vw;
+   min-height: 33vw;
+   overflow: auto;
+}
+main.members .content table {
+   width: 100vw;
+   table-layout: fixed;
+   text-align: center;
+   border-collapse: collapse;
+}
+main.members .content table * {
+   user-select: text;
+}
+main.members .content table tbody tr {
+   height: var(--px-40);
+}
+main.members .content table tbody:not(.edit) tr:not(:first-child):hover {
+   background-color: var(--gray-100);
+}
+
+main.members .content table th {
+   height: 3.25vw;
+   padding: var(--px-8);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   color: var(--white);
+}
+main.members .content table td {
+   font-size: var(--fs-1);
+   border-bottom: 1px solid var(--secondary);
+   color: var(--gray-500);
+   overflow: hidden;
+}
+main.members .content table td input[type="text"],
+main.members .content table td input[type="email"] {
+   padding: 0.2vw var(--px-8);
+   background-color: var(--gray-100);
+   border: 1px solid var(--secondary);
+   border-radius: 4px;
+   box-sizing: border-box;
+}
+main.members .content table td h1 {
+   font-size: var(--fs-1);
+}
+
+main.members .content table th:nth-child(1),
+main.members .content table td:nth-child(1) {
+   width: 25%;
+}
+main.members .content table th:nth-child(2),
+main.members .content table td:nth-child(2) {
+   width: 10%;
+}
+main.members .content table th:nth-child(3),
+main.members .content table td:nth-child(3) {
+   width: 12%;
+}
+main.members .content table th:nth-child(4),
+main.members .content table td:nth-child(4) {
+   width: 15%;
+}
+main.members .content table th:nth-child(5),
+main.members .content table td:nth-child(5) {
+   width: 8%;
+}
+main.members .content table th:nth-child(6),
+main.members .content table td:nth-child(6) {
+   width: 20%;
+}
+main.members .content table th:nth-child(7),
+main.members .content table td:nth-child(7) {
+   width: 10%;
+}
+
+main.members .content table .kolom-1 {
+   display: flex;
+   gap: var(--px-8);
+}
+main.members .content table .kolom-1 h1,
+main.members .content table td:nth-child(4) h1 {
+   font-weight: 500;
+}
+main.members .content table td:nth-child(4) img {
+   width: var(--px-24);
+}
+main.members .content table .kolom-4 {
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+main.members .content table td:nth-child(1) input[type="text"],
+main.members .content table td:nth-child(2) input[type="text"],
+main.members .content table td:nth-child(3) input[type="text"],
+main.members .content table td:nth-child(6) input[type="email"],
+main.members .content table td:nth-child(7) input[type="text"] {
+   font-size: var(--fs-1);
+   width: 80%;
+}
+main.members .content table td:nth-child(4) select,
+main.members .content table td:nth-child(5) select {
+   width: fit-content;
+   height: var(--px-32);
+   font-size: var(--fs-1);
+   background-color: var(--gray-100);
+   border: 1px solid var(--secondary);
+   cursor: pointer;
+}
+
+main.members .content table tr.add td {
+   height: var(--px-56);
+}
+main.members .content table tr.add td:nth-child(1) input[type="text"],
+main.members .content table tr.add td:nth-child(2) input[type="text"],
+main.members .content table tr.add td:nth-child(3) input[type="text"],
+main.members .content table tr.add td:nth-child(6) input[type="email"] {
+   font-size: var(--fs-0);
+   width: 90%;
+   height: var(--px-32);
+   font-size: var(--fs-1);
+}
+main.members .content table tr.add td:nth-child(1) input[type="text"] {
+   display: flex;
+}
+main.members .content table tr.add td:nth-child(7) input[type="text"] {
+   width: 99%;
+   height: var(--px-32);
+   font-size: var(--fs-1);
+}
+/* ===== Members style end ===== */
+
+/* ===== Members registrant style start ===== */
+main.registrants .name-space {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: var(--px-56);
+   font-size: var(--fs-4);
+   font-weight: 500;
+   color: var(--gray-100);
+}
+
+main.registrants .content {
+   width: 100%;
+   min-height: 30vw;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   align-items: flex-start;
+   gap: var(--px-32);
+   padding: var(--px-24) 0;
+}
+main.registrants .content h1 {
+   font-size: var(--fs-7);
+   font-weight: 700;
+   color: var(--gray-700);
+}
+
+main.registrants .content .card {
+   min-width: 30%;
+   max-width: 30%;
+   box-sizing: border-box;
+   box-shadow: 1px 1px 4px var(--gray-200);
+   border-radius: var(--px-16);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
+   overflow: hidden;
+}
+main.registrants .content .card .header,
+main.registrants .content .card .profile,
+main.registrants .content .card .contact,
+main.registrants .content .card .project,
+main.registrants .content .card .footer,
+main.registrants .content .card .footer .reject,
+main.registrants .content .card .footer .accept {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-shrink: 0;
+}
+
+main.registrants .content .card .header {
+   width: 100%;
+   background-color: var(--gray-400);
+   padding: var(--px-12);
+   font-size: var(--fs-4);
+   font-weight: 500;
+   gap: var(--px-12);
+}
+main.registrants .content .card .header img {
+   width: 10%;
+   height: 10%;
+   border-radius: 100px;
+}
+
+main.registrants .content .card .profile {
+   width: 96%;
+   flex-direction: column;
+   align-items: flex-start;
+   padding: var(--px-8) var(--px-8);
+   color: var(--gray-700);
+   line-height: 1.2;
+   border-bottom: 1px solid var(--gray-200);
+}
+main.registrants .content .card .profile h1 {
+   white-space: nowrap;
+   font-size: var(--fs-1);
+   font-weight: 500;
+}
+main.registrants .content .card .profile h2 {
+   font-size: var(--fs-1);
+   font-weight: 600;
+}
+
+main.registrants .content .card .contact {
+   width: 96%;
+   flex-direction: column;
+   align-items: flex-start;
+   padding: var(--px-8);
+   border-bottom: 1px solid var(--gray-200);
+}
+main.registrants .content .card .contact h1 {
+   justify-content: flex-start;
+   font-size: var(--fs-1);
+   color: var(--gray-500);
+   font-weight: 500;
+}
+main.registrants .content .card .contact h1 span {
+   color: var(--gray-700);
+   font-weight: 700;
+}
+
+main.registrants .content .card .project {
+   width: 96%;
+   flex-direction: column;
+   align-items: flex-start;
+   padding: var(--px-8);
+   padding-bottom: var(--px-16);
+   border-bottom: 1px solid var(--gray-200);
+}
+main.registrants .content .card .project h1 {
+   font-size: var(--fs-1);
+   color: var(--gray-700);
+   font-weight: 700;
+}
+main.registrants .content .card .project h2 {
+   padding-left: var(--px-8);
+   font-size: var(--fs-1);
+   padding: 0.2vw var(--px-12);
+   color: var(--gray-400);
+   font-weight: var(--600);
+}
+main.registrants .content .card .project .project-container {
+   display: flex;
+   gap: var(--px-8);
+}
+main.registrants .content .card .project .project-container a {
+   font-size: var(--fs-1);
+   padding: 0.2vw var(--px-12);
+   background-color: var(--primary);
+   color: var(--white);
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+main.registrants .content .card .footer {
+   width: 100%;
+   padding: var(--px-8);
+   padding-top: var(--px-16);
+   gap: var(--px-8);
+}
+main.registrants .content .card .footer button {
+   border-radius: var(--px-8);
+   transition: 0.3s linear;
+}
+main.registrants .content .card .footer .reject {
+   aspect-ratio: 1/1;
+   width: auto;
+   height: var(--px-32);
+   cursor: pointer;
+   font-weight: 900;
+   color: var(--gray-100);
+   background-color: var(--btn-danger);
+}
+main.registrants .content .card .footer .reject:hover {
+   transform: scale(1.1);
+   background-color: var(--white);
+   color: var(--btn-danger);
+   box-shadow: 1px 1px 2px var(--btn-danger);
+}
+main.registrants .content .card .footer .accept {
+   flex: 1;
+   height: var(--px-32);
+   cursor: pointer;
+   font-size: var(--fs-2);
+   font-weight: 700;
+   gap: var(--px-8);
+   background-color: var(--btn-save);
+   color: var(--white);
+}
+main.registrants .content .card .footer .accept:hover {
+   background-color: var(--gray-200);
+   color: var(--gray-500);
+}
+/* ===== Members registrant style end ===== */
+
+/* ===== Divisions style start ===== */
+main.divisions .content {
+   width: 73.5vw;
+   min-height: 33vw;
+   overflow: auto;
+}
+main.divisions .content table {
+   width: 100%;
+   table-layout: fixed;
+   text-align: center;
+   border-collapse: collapse;
+}
+main.divisions .content table * {
+   user-select: text;
+}
+main.divisions .content table tbody tr {
+   height: var(--px-40);
+}
+main.divisions .content table tbody:not(.edit) tr:not(:first-child):hover {
+   background-color: var(--gray-100);
+}
+
+main.divisions .content table th {
+   height: 3.25vw;
+   padding: var(--px-8);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   color: var(--white);
+}
+main.divisions .content table td {
+   font-size: var(--fs-1);
+   border-bottom: 1px solid var(--secondary);
+   color: var(--gray-500);
+   overflow: hidden;
+}
+main.divisions .content table td input[type="text"] {
+   padding: 0 var(--px-8);
+   background-color: var(--gray-100);
+   border: 1px solid var(--secondary);
+   border-radius: 4px;
+   box-sizing: border-box;
+}
+main.divisions .content table td h1 {
+   font-size: var(--fs-1);
+}
+
+main.divisions .content table th:nth-child(1),
+main.divisions .content table td:nth-child(1) {
+   width: 6%;
+   text-align: start;
+}
+main.divisions .content table td:nth-child(1) img {
+   width: var(--px-40);
+}
+main.divisions .content table th:nth-child(2),
+main.divisions .content table td:nth-child(2) {
+   width: 21%;
+}
+main.divisions .content table td:nth-child(2) {
+   text-align: start;
+}
+main.divisions .content table th:nth-child(3),
+main.divisions .content table td:nth-child(3) {
+   width: 50%;
+}
+main.divisions .content table td:nth-child(3) {
+   text-align: justify;
+}
+main.divisions .content table th:nth-child(4),
+main.divisions .content table td:nth-child(4) {
+   width: 8%;
+}
+main.divisions .content table th:nth-child(5),
+main.divisions .content table td:nth-child(5) {
+   width: 15%;
+}
+main.divisions .content table td:nth-child(1),
+main.divisions .content table td:nth-child(2),
+main.divisions .content table td:nth-child(3),
+main.divisions .content table td:nth-child(4),
+main.divisions .content table td:nth-child(5) {
+   font-size: var(--fs-1);
+   padding: var(--px-8) 0;
+}
+
+main.divisions .content table .kolom-1 {
+   display: flex;
+   gap: var(--px-8);
+}
+main.divisions .content table .kolom-1 h1 {
+   font-weight: 500;
+}
+main.divisions .content table .kolom-5 {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   gap: var(--px-16);
+}
+main.divisions .content table .kolom-5 .button {
+   color: var(--white);
+   padding: var(--px-8) var(--px-16);
+   text-align: center;
+   border-radius: 100px;
+   font-size: var(--fs-0);
+   font-weight: 600;
+   transition: 0.3s ease-in-out;
+}
+main.divisions .content table .kolom-5 .button:hover {
+   transform: scale(1.1);
+}
+main.divisions .content table .kolom-5 .button.view {
+   background-color: var(--btn-neutral);
+}
+main.divisions .content table .kolom-5 .button.member {
+   background-color: var(--btn-save);
+}
+
+main.divisions .content table .file-upload {
+   display: inline-block;
+   padding: var(--px-8) var(--px-16);
+   font-size: var(--fs-0);
+   font-weight: 500;
+   color: var(--white);
+   background-color: var(--secondary);
+   border-radius: 6px;
+   cursor: pointer;
+   transition: background-color 0.2s ease;
+}
+
+main.divisions .content table .file-upload:hover {
+   background-color: var(--primary);
+}
+
+main.divisions .content table .file-upload input[type="file"] {
+   display: none;
+}
+
+main.divisions .content table td:nth-child(1) input[type="text"],
+main.divisions .content table td:nth-child(2) input[type="text"] {
+   font-size: var(--fs-1);
+   padding: 0.2vw var(--px-8);
+   width: 95%;
+}
+main.divisions .content table td:nth-child(3) input[type="text"] {
+   font-size: var(--fs-1);
+   padding: 0.2vw var(--px-8);
+   width: 100%;
+}
+
+main.divisions .content table tr.add td {
+   height: var(--px-56);
+}
+main.divisions .content table tr.add td:nth-child(2) input[type="text"],
+main.divisions .content table tr.add td:nth-child(3) input[type="text"] {
+   font-size: var(--fs-0);
+   width: 90%;
+   height: var(--px-32);
+   font-size: var(--fs-1);
+}
+main.divisions .content table tr.add td:nth-child(3) input[type="text"] {
+   width: 100%;
+}
+main.divisions .content table tr.add .file-upload,
+main.divisions .content table tr .file-upload {
+   aspect-ratio: 1/1;
+   display: inline-block;
+   padding: var(--px-8) 0;
+   text-align: center;
+   width: var(--px-48);
+   height: var(--px-48);
+   font-size: var(--fs-0);
+   font-weight: 500;
+   color: var(--white);
+   background-color: var(--secondary);
+
+   border-radius: 6px;
+   cursor: pointer;
+   transition: background-color 0.2s ease;
+}
+main.divisions .content table tr.add .file-upload.has-file,
+main.divisions .content table tr .file-upload.has-file,
+main.divisions .content table tr .file-upload:hover {
+   background-color: var(--gray-200);
+   color: var(--gray-500);
+}
+
+main.divisions .content table tr.add .file-upload.has-file,
+main.divisions .content table tr .file-upload.has-file {
+   background-color: var(--btn-save);
+}
+main.divisions .content table tr.add .file-upload.has-file .icon-style,
+main.divisions .content table tr .file-upload.has-file .icon-style {
+   width: 95%;
+   height: 95%;
+   color: var(--white);
+}
+/* ===== Divisions style end ===== */
+
+/* ===== Staff style start ===== */
+main.staffs .content {
+   width: 73.5vw;
+   height: 33vw;
+   overflow: auto;
+}
+main.staffs .content table {
+   width: 150vw;
+   table-layout: fixed;
+   text-align: center;
+   border-collapse: collapse;
+}
+main.staffs .content table * {
+   user-select: text;
+}
+main.staffs .content table tbody tr {
+   height: var(--px-40);
+}
+main.staffs .content table tbody:not(.edit) tr:not(:first-child):hover {
+   background-color: var(--gray-100);
+}
+
+main.staffs .content table th {
+   height: 3.25vw;
+   padding: var(--px-8);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   color: var(--white);
+}
+main.staffs .content table td {
+   font-size: var(--fs-1);
+   border-bottom: 1px solid var(--secondary);
+   color: var(--gray-500);
+   overflow: hidden;
+}
+main.staffs .content table td input[type="text"] {
+   padding: 0 var(--px-8);
+   background-color: var(--gray-100);
+   border: 1px solid var(--secondary);
+   border-radius: 4px;
+   box-sizing: border-box;
+}
+main.staffs .content table td h1 {
+   font-size: var(--fs-1);
+}
+
+main.staffs .content table th:nth-child(1),
+main.staffs .content table td:nth-child(1) {
+   width: 24%;
+}
+main.staffs .content table td:nth-child(1) {
+   text-align: start;
+}
+main.staffs .content table th:nth-child(3),
+main.staffs .content table td:nth-child(3) {
+   width: 18%;
+   text-align: center;
+}
+main.staffs .content table th:nth-child(2),
+main.staffs .content table td:nth-child(2) {
+   width: 6%;
+}
+main.staffs .content table th:nth-child(4),
+main.staffs .content table td:nth-child(4),
+main.staffs .content table th:nth-child(5),
+main.staffs .content table td:nth-child(5),
+main.staffs .content table th:nth-child(6),
+main.staffs .content table td:nth-child(6),
+main.staffs .content table th:nth-child(7),
+main.staffs .content table td:nth-child(7) {
+   width: 13%;
+}
+main.staffs .content table td:nth-child(4),
+main.staffs .content table td:nth-child(5),
+main.staffs .content table td:nth-child(6),
+main.staffs .content table td:nth-child(7) {
+   font-size: var(--fs-0);
+   padding: 0 0.2vw;
+}
+
+main.staffs .content table .kolom-1 {
+   display: flex;
+   gap: var(--px-8);
+}
+main.staffs .content table .kolom-1 h1 {
+   font-weight: 500;
+}
+
+main.staffs .content table .file-upload {
+   display: inline-block;
+   padding: var(--px-8) var(--px-16);
+   font-size: var(--fs-0);
+   font-weight: 500;
+   color: var(--white);
+   background-color: var(--secondary);
+   border-radius: 6px;
+   cursor: pointer;
+   transition: background-color 0.2s ease;
+}
+
+main.staffs .content table .file-upload:hover {
+   background-color: var(--primary);
+}
+
+main.staffs .content table .file-upload input[type="file"] {
+   display: none;
+}
+
+main.staffs .content table td:nth-child(1) input[type="text"],
+main.staffs .content table td:nth-child(2) input[type="text"],
+main.staffs .content table td:nth-child(3) input[type="text"],
+main.staffs .content table td:nth-child(5) input[type="text"],
+main.staffs .content table td:nth-child(6) input[type="text"],
+main.staffs .content table td:nth-child(7) input[type="text"] {
+   font-size: var(--fs-1);
+   width: 90%;
+   padding: 0.2vw var(--px-8);
+}
+
+main.staffs .content table tr.add td {
+   height: var(--px-56);
+}
+main.staffs .content table tr.add td:nth-child(1) input[type="text"],
+main.staffs .content table tr.add td:nth-child(5) input[type="text"],
+main.staffs .content table tr.add td:nth-child(6) input[type="text"],
+main.staffs .content table tr.add td:nth-child(7) input[type="text"] {
+   font-size: var(--fs-0);
+   width: 90%;
+   height: var(--px-32);
+   font-size: var(--fs-1);
+}
+main.staffs .content table tr.add td:nth-child(1) input[type="text"] {
+   display: flex;
+}
+main.staffs .content table tr.add td:nth-child(7) input[type="text"] {
+   width: 99%;
+   height: var(--px-32);
+   font-size: var(--fs-1);
+}
+main.staffs .content table td:nth-child(2) select,
+main.staffs .content table td:nth-child(3) select {
+   width: 95%;
+   height: var(--px-32);
+   font-size: var(--fs-1);
+   background-color: var(--gray-100);
+   border: 1px solid var(--secondary);
+   border-radius: 4px;
+   cursor: pointer;
+}
+main.staffs .content table tr.add .file-upload {
+   display: inline-block;
+   padding: var(--px-8) var(--px-16);
+   font-size: var(--fs-0);
+   font-weight: 500;
+   color: var(--white);
+   background-color: var(--secondary);
+   border-radius: 6px;
+   cursor: pointer;
+   transition: background-color 0.2s ease;
+}
+main.staffs .content table tr.add .file-upload.has-file,
+main.staffs .content table tr .file-upload.has-file {
+   background-color: var(--gray-200);
+   color: var(--gray-500);
+}
+/* ===== Staff style end ===== */
+
+/* ===== Staff Register style start ===== */
+main.staffs .name-space {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: var(--px-56);
+   font-size: var(--fs-4);
+   font-weight: 500;
+   color: var(--gray-100);
+}
+
+main.staffs .content-register {
+   width: 100%;
+   min-height: 25vw;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+   padding: var(--px-16) 0;
+   gap: var(--px-16);
+}
+
+main.staffs .content-register .card,
+main.staffs .content-register .card .image,
+main.staffs .content-register .card .image .input-image,
+main.staffs .content-register .card .profile,
+main.staffs .content-register .card .support,
+main.staffs .content-register .card .support .left-section,
+main.staffs .content-register .card .support .right-section,
+main.staffs .content-register .card .button-submit {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+main.staffs .content-register .card {
+   width: 45%;
+   flex-direction: column;
+   background: linear-gradient(to bottom, var(--primary) 25%, transparent 0%);
+   padding: var(--px-32) var(--px-8) var(--px-8) var(--px-8);
+   border-radius: var(--px-16);
+   box-shadow: 1px 1px 4px var(--gray-200);
+   gap: var(--px-12);
+}
+main.staffs .content-register .card form {
+   width: 100%;
+   height: fit-content;
+}
+
+main.staffs .content-register .card .image {
+   width: 100%;
+}
+main.staffs .content-register .card .image .input-image {
+   aspect-ratio: 1/1;
+   max-width: 50%;
+   flex-direction: column-reverse;
+   gap: var(--px-8);
+   flex: 1;
+   background-color: var(--secondary);
+   border-radius: 4px;
+   color: var(--white);
+   font-size: var(--fs-2);
+   font-weight: 600;
+   cursor: pointer;
+   transition: 0.3s ease;
+}
+main.staffs .content-register .card .image .input-image:hover {
+   opacity: 0.9;
+}
+main.staffs .content-register .card .image .input-image .icon-style {
+   width: var(--px-48);
+   height: var(--px-48);
+}
+main.staffs .content-register .card .image .input-image input[type="file"] {
+   display: none;
+}
+
+main.staffs .content-register .card .profile {
+   width: 100%;
+   flex-direction: column;
+   gap: var(--px-8);
+   padding: var(--px-16) 0;
+   border-bottom: 1px solid var(--gray-400);
+}
+main.staffs .content-register .card .profile select,
+main.staffs .content-register .card .profile input {
+   appearance: none;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   width: 100%;
+   padding: var(--px-8);
+   text-align: center;
+   font-size: var(--fs-1);
+   border: 1px solid var(--primary);
+   border-radius: var(--px-8);
+   color: var(--gray-500);
+   background-color: var(--gray-100);
+}
+main.staffs .content-register .card .profile select option {
+   font-size: var(--fs-1);
+}
+main.staffs .content-register .card .profile input {
+   text-align: left;
+}
+
+main.staffs .content-register .card .support {
+   width: 100%;
+   padding: var(--px-16) 0;
+   gap: var(--px-8);
+   border-bottom: 1px solid var(--gray-400);
+}
+main.staffs .content-register .card .support .left-section,
+main.staffs .content-register .card .support .right-section {
+   width: 100%;
+   flex-direction: column;
+   gap: var(--px-8);
+}
+main.staffs .content-register .card .support input {
+   width: 100%;
+   padding: var(--px-8);
+   border: 1px solid var(--primary);
+   border-radius: var(--px-8);
+   font-size: var(--fs-1);
+   background-color: var(--gray-100);
+}
+
+main.staffs .content-register .card .button-submit {
+   width: 100%;
+   padding-top: var(--px-16);
+}
+main.staffs .content-register .card .button-submit button {
+   font-size: var(--fs-2);
+   font-weight: 500;
+   color: var(--gray-100);
+   width: 100%;
+   padding: var(--px-8);
+   border-radius: var(--px-8);
+   cursor: pointer;
+   background-color: var(--btn-save);
+   transition: 0.3s ease;
+}
+main.staffs .content-register .card .button-submit button:hover {
+   background-color: var(--gray-100);
+   color: var(--btn-save);
+}
+/* ===== Staff Register style end ===== */
+
+/* ===== Staff Profile user style start ===== */
+main.profile-user {
+   width: auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: var(--px-64);
+   padding: var(--px-32);
+   border-radius: var(--px-16);
+   background-color: var(--gray-100);
+   box-shadow: 1px 1px 2px var(--gray-500);
+}
+
+main.profile-user .general {
+   width: 100%;
+   display: flex;
+   align-items: center;
+   gap: var(--px-12);
+   padding-bottom: var(--px-32);
+   border-bottom: 2px solid var(--gray-500);
+}
+main.profile-user .general img {
+   width: var(--px-128);
+   border-radius: 100px;
+   border: 1px solid var(--primary);
+}
+main.profile-user .general .profile {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   gap: var(--px-8);
+}
+main.profile-user .general .profile h1 {
+   font-size: var(--fs-8);
+   color: var(--gray-600);
+   font-weight: 600;
+}
+main.profile-user .general .profile h2 {
+   font-size: var(--fs-5);
+   color: var(--gray-500);
+   font-weight: 700;
+}
+
+main.profile-user .specific {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding-bottom: var(--px-64);
+   border-bottom: 2px solid var(--gray-600);
+}
+
+main.profile-user .specific .left-section,
+main.profile-user .specific .right-section {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: flex-start;
+   gap: var(--px-32);
+}
+main.profile-user .specific .left-section .box,
+main.profile-user .specific .right-section .box {
+   width: 100%;
+   font-size: var(--fs-1);
+}
+main.profile-user .specific .left-section .box h1,
+main.profile-user .specific .right-section .box h1 {
+   font-weight: 600;
+}
+main.profile-user .specific .left-section .box h2,
+main.profile-user .specific .right-section .box h2 {
+   color: var(--gray-500);
+   font-weight: 500;
+}
+
+main.profile-user .update {
+   width: 100%;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   gap: var(--px-32);
+   padding-bottom: var(--px-64);
+   border-bottom: 2px solid var(--gray-600);
+}
+main.profile-user .update input {
+   width: 32%;
+   height: var(--px-48);
+   border-radius: var(--px-8);
+   padding: var(--px-8) var(--px-16);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   border: 1px solid var(--gray-400);
+}
+main.profile-user .update button {
+   height: var(--px-48);
+   border-radius: var(--px-8);
+   padding: var(--px-8) var(--px-16);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   background-color: var(--btn-danger);
+   color: var(--gray-100);
+   transition: 0.3s ease;
+   cursor: pointer;
+}
+main.profile-user .update button:hover {
+   background-color: var(--btn-save);
+   transform: scale(1.1);
+}
+main.profile-user .update h1 {
+   font-size: var(--fs-1);
+   font-weight: 500;
+   text-align: left;
+   flex: 1;
+}
+main.profile-user .update h1.error {
+   color: var(--btn-danger);
+}
+main.profile-user .update h1.success {
+   color: var(--btn-save);
+}
+/* ===== Staff Profile user style end ===== */
+
+/* ===== News style start ===== */
+main.news .content {
+   width: 73.5vw;
+   min-height: 30vw;
+   overflow: auto;
+}
+main.news .content table {
+   width: 100%;
+   table-layout: fixed;
+   text-align: center;
+   border-collapse: collapse;
+   overflow: hidden;
+}
+main.news .content table * {
+   user-select: text;
+}
+main.news .content table tbody tr {
+   height: var(--px-40);
+}
+main.news .content table tbody tr:hover {
+   background-color: var(--gray-100);
+}
+
+main.news .content table th {
+   height: 3.35vw;
+   padding: var(--px-8);
+   font-size: var(--fs-2);
+   font-weight: 500;
+   color: var(--white);
+}
+main.news .content table td {
+   font-size: var(--fs-1);
+   border-bottom: 1px solid var(--secondary);
+   color: var(--gray-500);
+   overflow: hidden;
+}
+main.news .content table td h1 {
+   font-size: var(--fs-1);
+}
+
+main.news .content table th:nth-child(1),
+main.news .content table td:nth-child(1) {
+   width: 41%;
+   text-align: start;
+}
+main.news .content table th:nth-child(2),
+main.news .content table td:nth-child(2),
+main.news .content table th:nth-child(3),
+main.news .content table td:nth-child(3),
+main.news .content table th:nth-child(4),
+main.news .content table td:nth-child(4) {
+   width: 12%;
+}
+main.news .content table th:nth-child(5),
+main.news .content table td:nth-child(5) {
+   width: 8%;
+}
+main.news .content table th:nth-child(6),
+main.news .content table td:nth-child(6) {
+   width: 15%;
+}
+main.news .content table td:nth-child(1),
+main.news .content table td:nth-child(2),
+main.news .content table td:nth-child(3),
+main.news .content table td:nth-child(4),
+main.news .content table td:nth-child(5) {
+   padding: var(--px-8) var(--px-8);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+main.news .content table td:nth-child(2),
+main.news .content table td:nth-child(3),
+main.news .content table td:nth-child(4) {
+   font-size: var(--fs-0);
+}
+
+main.news .content table .kolom-1 {
+   display: flex;
+   gap: var(--px-8);
+}
+main.news .content table .kolom-1 h1 {
+   font-weight: 500;
+}
+main.news .content table .kolom-6 {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   gap: var(--px-16);
+}
+main.news .content table .kolom-6 .button {
+   color: var(--white);
+   padding: var(--px-8) var(--px-16);
+   text-align: center;
+   border-radius: 100px;
+   font-size: var(--fs-0);
+   font-weight: 600;
+   transition: 0.3s ease-in-out;
+}
+main.news .content table .kolom-5 .button:hover {
+   transform: scale(1.1);
+}
+main.news .content table .kolom-5 .button.view {
+   background-color: var(--btn-neutral);
+}
+main.news .content table .kolom-5 .button.edit {
+   background-color: var(--btn-info);
+}
+/* ===== News style end ===== */
+
+/* ===== News create-update content style start ===== */
+main.news .name-space,
+main.news .content-add-edit,
+main.news .content-add-edit .form-container,
+main.news .content-add-edit .middle-section,
+main.news .content-add-edit .middle-section .left-section .input-image,
+main.news .content-add-edit .middle-section .left-section,
+main.news .content-add-edit .middle-section .right-section,
+main.news .content-add-edit .bottom-section {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+main.news .name-space {
+   height: var(--px-56);
+   font-size: var(--fs-4);
+   font-weight: 500;
+   color: var(--gray-100);
+}
+
+main.news .kolom-6 .btn {
+   height: fit-content;
+   padding: 0 var(--px-16);
+   font-size: var(--fs-1);
+   line-height: 2;
+   font-weight: 600;
+   border-radius: 32px;
+   color: var(--white);
+   cursor: pointer;
+   transition: 0.3s ease;
+}
+main.news .kolom-6 .btn:hover {
+   opacity: 0.8;
+   transform: scale(1.1);
+}
+main.news .kolom-6 .btn:nth-child(1) {
+   background-color: var(--btn-neutral);
+}
+main.news .kolom-6 .btn:nth-child(2) {
+   background-color: var(--btn-info);
+}
+
+main.news .content-add-edit {
+   width: 100%;
+}
+main.news .content-add-edit .form-container {
+   width: 64vw;
+   height: fit-content;
+   flex-direction: column;
+   gap: var(--px-16);
+   box-shadow: 1px 1px 3px var(--primary);
+   background-color: var(--gray-100);
+   border-radius: 12px;
+   padding: var(--px-16) var(--px-12);
+   margin: var(--px-16) 0;
+}
+
+main.news .content-add-edit .top-section {
+   width: 100%;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   padding: var(--px-8) var(--px-16);
+   background-color: var(--white);
+}
+main.news .content-add-edit .top-section input {
+   width: 100%;
+   font-size: var(--fs-2);
+   background-color: transparent;
+}
+
+main.news .content-add-edit .middle-section {
+   width: 100%;
+   height: 100%;
+   gap: var(--px-16);
+}
+main.news .content-add-edit .middle-section .left-section {
+   width: 35.5%;
+   height: 100%;
+   flex-direction: column;
+   gap: var(--px-8);
+   overflow: hidden;
+}
+main.news .content-add-edit .middle-section .left-section img {
+   width: 100%;
+   height: 100%;
+   max-height: var(--px-192);
+   object-fit: cover;
+   display: block;
+}
+main.news .content-add-edit .middle-section .left-section .input-image {
+   aspect-ratio: 16/9;
+   width: 100%;
+   flex-direction: column-reverse;
+   gap: var(--px-8);
+   flex: 1;
+   background-color: var(--secondary);
+   border-radius: 4px;
+   color: var(--white);
+   font-size: var(--fs-2);
+   font-weight: 600;
+   cursor: pointer;
+   transition: 0.3s ease;
+}
+main.news .content-add-edit .middle-section .left-section .input-image:hover {
+   opacity: 0.9;
+}
+main.news
+   .content-add-edit
+   .middle-section
+   .left-section
+   .input-image.has-image {
+   background-color: transparent;
+}
+main.news
+   .content-add-edit
+   .middle-section
+   .left-section
+   .input-image
+   .icon-style {
+   width: var(--px-48);
+   height: var(--px-48);
+}
+main.news .content-add-edit .middle-section .left-section input[type="file"] {
+   display: none;
+}
+main.news .content-add-edit .middle-section .right-section {
+   width: 64.5%;
+   flex-direction: column;
+   gap: var(--px-8);
+}
+main.news .content-add-edit .middle-section .right-section textarea {
+   width: 100%;
+   height: var(--px-128);
+   font-size: var(--fs-1);
+   background-color: var(--white);
+   border: 1px solid var(--primary);
+   border-radius: 4px;
+   padding: var(--px-8) var(--px-16);
+   overflow: auto;
+   resize: none;
+   line-height: 1.2;
+   text-align: justify;
+}
+
+main.news .content-add-edit .bottom-section {
+   width: 100%;
+}
+main.news .content-add-edit .bottom-section button {
+   width: 100%;
+   padding: var(--px-8);
+   border-radius: 4px;
+   background-color: var(--btn-save);
+   border: 1px solid var(--gray-100);
+   cursor: pointer;
+   color: var(--white);
+   font-size: var(--fs-3);
+   font-weight: 600;
+   transition: 0.3s linear;
+}
+main.news .content-add-edit .bottom-section button:hover {
+   background-color: var(--primary);
+   box-shadow: 1px 1px 2px var(--gray-200);
+}
+/* ===== News create-update style end ===== */
+
+/* ===== Galleries style start ===== */
+main.galleries .content {
+   min-height: 30vw;
+   padding: var(--px-32);
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   overflow: auto;
+}
+
+main.galleries .content .gallery-grid {
+   width: 100%;
+   column-count: 3;
+   column-gap: var(--px-24);
+}
+
+main.galleries .content .gallery-grid .gallery-item {
+   break-inside: avoid;
+   margin-bottom: var(--px-24);
+   border-radius: 8px;
+   overflow: hidden;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+   position: relative;
+}
+
+main.galleries .content .gallery-grid .gallery-item input {
+   width: var(--px-16);
+   height: var(--px-16);
+   position: absolute;
+   top: var(--px-8);
+   left: var(--px-8);
+   cursor: pointer;
+   z-index: 100;
+}
+
+main.galleries .content .gallery-grid .gallery-item img {
+   width: 100%;
+   height: fit-content;
+   display: block;
+   object-fit: cover;
+   cursor: pointer;
+   transition: 0.3s linear;
+}
+main.galleries .content .gallery-grid .gallery-item img:hover {
+   transform: scale(1.15);
+}
+/* ===== Galleries style end ===== */
+
+/* ===== Galleries create content style start ===== */
+main.galleries .name-space,
+main.galleries .content-add,
+main.galleries .content-add .form-container,
+main.galleries .content-add .top-section,
+main.galleries .content-add .top-section .left-section .input-image,
+main.galleries .content-add .top-section .left-section,
+main.galleries .content-add .top-section .right-section,
+main.galleries .content-add .bottom-section {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+main.galleries .name-space {
+   height: var(--px-56);
+   font-size: var(--fs-4);
+   font-weight: 500;
+   color: var(--gray-100);
+}
+
+main.galleries .kolom-6 .btn {
+   height: fit-content;
+   padding: 0 var(--px-16);
+   font-size: var(--fs-1);
+   line-height: 2;
+   font-weight: 600;
+   border-radius: 32px;
+   color: var(--white);
+   cursor: pointer;
+   transition: 0.3s ease;
+}
+main.galleries .kolom-6 .btn:hover {
+   opacity: 0.8;
+   transform: scale(1.1);
+}
+main.galleries .kolom-6 .btn:nth-child(1) {
+   background-color: var(--btn-neutral);
+}
+main.galleries .kolom-6 .btn:nth-child(2) {
+   background-color: var(--btn-info);
+}
+
+main.galleries .content-add {
+   width: 100%;
+   min-height: 36vw;
+   align-items: flex-start;
+}
+main.galleries .content-add .form-container {
+   width: 64vw;
+   height: fit-content;
+   flex-direction: column;
+   gap: var(--px-16);
+   box-shadow: 1px 1px 3px var(--primary);
+   background-color: var(--gray-100);
+   border-radius: 12px;
+   padding: var(--px-16) var(--px-12);
+   margin: var(--px-16) 0;
+}
+
+main.galleries .content-add .top-section {
+   width: 100%;
+   height: 100%;
+   gap: var(--px-8);
+   align-items: start;
+}
+main.galleries .content-add .top-section .left-section {
+   width: 28%;
+   height: 100%;
+   flex-direction: column;
+   gap: var(--px-8);
+   overflow: hidden;
+}
+main.galleries .content-add .top-section .left-section img {
+   width: 100%;
+   height: 100%;
+   max-height: var(--px-192);
+   object-fit: cover;
+   display: block;
+}
+main.galleries .content-add .top-section .left-section .input-image {
+   aspect-ratio: 16/9;
+   width: 100%;
+   flex-direction: column-reverse;
+   gap: var(--px-8);
+   flex: 1;
+   background-color: var(--secondary);
+   border-radius: 4px;
+   color: var(--white);
+   font-size: var(--fs-2);
+   font-weight: 600;
+   cursor: pointer;
+   transition: 0.3s ease;
+}
+main.galleries .content-add .top-section .left-section .input-image:hover {
+   opacity: 0.9;
+}
+main.galleries .content-add .top-section .left-section .input-image img {
+   width: 100%;
+   max-height: 100%;
+   object-position: top;
+   object-fit: contain;
+   background-color: var(--gray-100);
+}
+main.galleries
+   .content-add
+   .top-section
+   .left-section
+   .input-image
+   .icon-style {
+   width: var(--px-48);
+   height: var(--px-48);
+}
+main.galleries .content-add .top-section .left-section input[type="file"] {
+   display: none;
+}
+main.galleries .content-add .top-section .right-section {
+   width: 72%;
+   flex-direction: column;
+   gap: var(--px-8);
+}
+main.galleries .content-add .top-section .right-section input {
+   width: 100%;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   padding: var(--px-8) var(--px-16);
+   background-color: var(--white);
+   color: var(--gray-500);
+   font-size: var(--fs-3);
+}
+main.galleries .content-add .top-section .right-section .category {
+   width: 100%;
+   flex: 1;
+   display: flex;
+   justify-content: flex-start;
+   gap: var(--px-8);
+}
+main.galleries .content-add .top-section .right-section .category button {
+   padding: var(--px-8) var(--px-16);
+   box-shadow: 1px 1px 4px var(--gray-200);
+   cursor: pointer;
+   border-radius: 4px;
+   font-size: var(--fs-3);
+   font-weight: 500;
+   color: var(--primary);
+   transition: 0.3s linear;
+}
+main.galleries .content-add .top-section .right-section .category button:hover {
+   background-color: var(--primary);
+   color: var(--white);
+}
+
+main.galleries .content-add .bottom-section {
+   width: 100%;
+}
+main.galleries .content-add .bottom-section button {
+   width: 100%;
+   padding: var(--px-8);
+   border-radius: 4px;
+   background-color: var(--btn-save);
+   border: 1px solid var(--gray-100);
+   cursor: pointer;
+   color: var(--white);
+   font-size: var(--fs-3);
+   font-weight: 600;
+   transition: 0.3s linear;
+}
+main.galleries .content-add .bottom-section button:hover {
+   background-color: var(--primary);
+   box-shadow: 1px 1px 2px var(--gray-200);
+}
+/* ===== Galleries create-content style end ===== */
+
+/* ===== Galleries image-modal style start ===== */
+main.galleries .modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgba(0, 0, 0, 0.7);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 999;
+}
+
+main.galleries .modal-overlay .modal-content {
+   position: relative;
+   background-color: var(--gray-100);
+   padding: var(--px-8);
+   border-radius: 8px;
+   max-width: 90%;
+   max-height: 90%;
+   overflow: auto;
+   box-shadow: 0 4px 12px var(--gray-200);
+}
+
+main.galleries .modal-overlay .modal-content .modal-image {
+   max-width: 100%;
+   max-height: 80vh;
+}
+
+main.galleries .modal-overlay .modal-content .close-button {
+   position: absolute;
+   top: var(--px-8);
+   right: var(--px-16);
+   background: transparent;
+   border: none;
+   font-size: var(--fs-7);
+   cursor: pointer;
+   color: var(--gray-300);
+}
+
+main.galleries .modal-overlay .modal-content .close-button:hover {
+   color: var(--gray-700);
+}
+/* ===== Galleries image-modal style end ===== */

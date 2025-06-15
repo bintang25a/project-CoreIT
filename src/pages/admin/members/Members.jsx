@@ -8,7 +8,7 @@ import {
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import useConfirmDialog from "../../../components/admin/ConfirmModal";
-import "./member.css";
+// import "./member.css";
 
 function NormalRow({ member, isSelected, handleCheckboxChange, logoUrl }) {
    return (
@@ -499,20 +499,20 @@ export default function Members() {
             <div className="button">
                {divisionName ? (
                   <button
-                     className="button-back"
-                     onClick={() => navigateBack(-1)} // kembali ke halaman sebelumnya
+                     className="button-back btn"
+                     onClick={() => navigateBack(-1)}
                   >
                      ← Back
                   </button>
                ) : (
                   <>
-                     <button onClick={triggerSubmit}>
+                     <button className="btn" onClick={triggerSubmit}>
                         {isEditing ? "Save" : "Add"}
                      </button>
                      <button
                         disabled={selectedIds.length < 1}
                         onClick={handleEdit}
-                        className={selectedIds < 1 ? "disable" : ""}
+                        className={selectedIds < 1 ? "disable btn" : "btn"}
                      >
                         Edit
                      </button>
@@ -520,7 +520,7 @@ export default function Members() {
                         disabled={selectedIds.length < 1 || isEditing}
                         onClick={() => handleDelete(selectedIds)}
                         className={
-                           selectedIds < 1 || isEditing ? "disable" : ""
+                           selectedIds < 1 || isEditing ? "disable btn" : "btn"
                         }
                      >
                         Delete
@@ -547,7 +547,7 @@ export default function Members() {
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => handleSearchTerm(e.target.value)}
-                  disabled={isEditing}
+                  disabled={isEditing || divisionName}
                />
             </div>
          </div>

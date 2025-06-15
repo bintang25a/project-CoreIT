@@ -1,16 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaLayerGroup, FaLock } from "react-icons/fa";
 import coreit from "/images/logo/Logo CORE IT whitetext.png";
-import { useEffect, useState } from "react";
 
-export default function Sidebar() {
-   const [id, setId] = useState(null);
-
-   useEffect(() => {
-      const userData = JSON.parse(localStorage.getItem("user"));
-      setId(userData.id);
-   }, []);
-
+export default function Sidebar({ id }) {
    return (
       <aside>
          <div className="logo">

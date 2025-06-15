@@ -1,11 +1,20 @@
 import API from "../_api";
 
 const message = (error) => {
-   if (error.status == 422) {
-      if (error.response?.data == {}) {
-         return Object.values(error.response?.data["message"]).join("\n");
+   const response = error.response;
+
+   if (response?.status === 422 || response?.status === 400) {
+      const data = response.data;
+      const messages = data?.message;
+
+      if (messages && typeof messages === "object") {
+         // Gabungkan pesan dari setiap field
+         return Object.values(messages).flat().join("\n");
+      } else if (typeof messages === "string") {
+         // Kalau message berupa string
+         return messages;
       } else {
-         return Object.values(error.response?.data).join("\n");
+         return "The given data was invalid.";
       }
    } else {
       return error.response?.data["message"];

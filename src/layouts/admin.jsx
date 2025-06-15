@@ -23,6 +23,7 @@ export default function AdminLayout() {
    const [staffs, setStaffs] = useState([]);
    const [news, setNews] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
+   const [id, setId] = useState(null);
 
    const fetchData = async () => {
       if (currentPath.startsWith("/admin/members")) {
@@ -106,23 +107,22 @@ export default function AdminLayout() {
       const checkAuth = async () => {
          const valid = await isAuthenticated();
          if (!valid) {
-            navigate("/login");
+            navigate("/login", { replace: true });
+         } else {
+            fetchData();
+            const userData = JSON.parse(localStorage.getItem("user"));
+            setId(userData.id);
          }
       };
-
       checkAuth();
    }, [navigate]);
-
-   useEffect(() => {
-      fetchData();
-   }, []);
 
    return (
       <>
          <div className="mobile">
             <h1>BUKA DI PC KOCAK</h1>
          </div>
-         <Sidebar />
+         <Sidebar id={id} />
          <div className="right-content" id="top">
             <Navbar imageUrl={imageUrl} isLoading={isLoading} />
             <Outlet

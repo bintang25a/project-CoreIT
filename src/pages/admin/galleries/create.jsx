@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
-import "./galleries.css";
 import { createImage } from "../../../_services/galleries.js";
 
 export default function GalleryAdd() {

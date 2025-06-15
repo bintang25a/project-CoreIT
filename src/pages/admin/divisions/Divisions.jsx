@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import React from "react";
-import { useNavigate, Link, useOutletContext } from "react-router-dom";
+import {
+   useNavigate,
+   Link,
+   useOutletContext,
+   useParams,
+} from "react-router-dom";
 import {
    createDivision,
    updateDivision,
@@ -9,7 +14,7 @@ import {
 import { FaCheckCircle } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
-import "./divisions.css";
+// import "./divisions.css";
 
 function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
    return (
@@ -29,10 +34,7 @@ function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
          <td>{division.user?.length}</td>
          <td>
             <div className="kolom-5">
-               <Link
-                  to={`/admin/divisions/${division.id}`}
-                  className="button view"
-               >
+               <Link to={`/divisions/${division.id}`} className="button view">
                   view
                </Link>
                <Link
@@ -393,12 +395,26 @@ export default function Divisions() {
          } catch (error) {
             setAlert({
                isOpen: true,
-               errorMessage: "Delete divisions failed\n" + error,
+               errorMessage: error,
             });
             alertReset();
          }
       }
    };
+
+   //Kode untuk edit 1 data
+   const navigateBack = useNavigate();
+   const { id } = useParams();
+   useEffect(() => {
+      const ID = Number(id);
+      setSelectedIds([]);
+      setIsEditing(false);
+
+      if (ID) {
+         setSelectedIds([ID]);
+         setIsEditing(true);
+      }
+   }, [id]);
 
    return (
       <main className="divisions">
@@ -407,23 +423,44 @@ export default function Divisions() {
          </div>
          <div className="navigation">
             <div className="button">
-               <button onClick={triggerSubmit}>
-                  {isEditing ? "Save" : "Add"}
-               </button>
-               <button
-                  disabled={selectedIds.length < 1}
-                  onClick={handleEdit}
-                  className={selectedIds < 1 ? "disable" : ""}
-               >
-                  Edit
-               </button>
-               <button
-                  disabled={selectedIds.length < 1 || isEditing}
-                  onClick={() => handleDelete(selectedIds)}
-                  className={selectedIds < 1 || isEditing ? "disable" : ""}
-               >
-                  Delete
-               </button>
+               {id ? (
+                  <>
+                     <button
+                        className="button-back btn"
+                        onClick={() => navigateBack(-1)}
+                     >
+                        ← Back
+                     </button>
+                     <button
+                        className="btn button-save"
+                        onClick={triggerSubmit}
+                     >
+                        {isEditing ? "Save" : "Add"}
+                     </button>
+                  </>
+               ) : (
+                  <>
+                     <button className="btn" onClick={triggerSubmit}>
+                        {isEditing ? "Save" : "Add"}
+                     </button>
+                     <button
+                        disabled={selectedIds.length < 1}
+                        onClick={handleEdit}
+                        className={selectedIds < 1 ? "disable btn" : "btn"}
+                     >
+                        Edit
+                     </button>
+                     <button
+                        disabled={selectedIds.length < 1 || isEditing}
+                        onClick={() => handleDelete(selectedIds)}
+                        className={
+                           selectedIds < 1 || isEditing ? "disable btn" : "btn"
+                        }
+                     >
+                        Delete
+                     </button>
+                  </>
+               )}
             </div>
             {alert.isOpen ? (
                <div

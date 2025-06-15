@@ -7,7 +7,7 @@ import {
 } from "../../../_services/auth";
 import { FaBan, FaCheck } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
-import "./registrants.css";
+import useConfirmDialog from "../../../components/admin/ConfirmModal";
 
 function ClockWithDate() {
    const [now, setNow] = useState(new Date());
@@ -48,15 +48,14 @@ function ClockWithDate() {
    );
 }
 
-function Card({ members, logoUrl, fetchData }) {
+function Card({ members, logoUrl, fetchData, confirm }) {
    const navigate = useNavigate();
 
    //Kode reject member
-   const handleDelete = async (id) => {
-      let confirmDelete = false;
-      confirmDelete = window.confirm("Reject nih?");
+   const handleDelete = async (id, name) => {
+      const result = await confirm(`Are u sure reject ${name}?`);
 
-      if (confirmDelete) {
+      if (result) {
          try {
             await deleteMember(id);
             fetchData();
@@ -161,7 +160,7 @@ function Card({ members, logoUrl, fetchData }) {
             <div className="footer">
                <button
                   type="button"
-                  onClick={() => handleDelete(member.id)}
+                  onClick={() => handleDelete(member.id, member.name)}
                   className="reject"
                >
                   <FaBan />
@@ -223,6 +222,7 @@ function CardNull() {
 
 export default function Registrants() {
    const { members, logoUrl, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog;
 
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -316,13 +316,22 @@ export default function Registrants() {
          </div>
          <div className="navigation">
             <div className="button">
-               <button className="button-back" onClick={() => navigateBack(-1)}>
+               <button
+                  className="btn button-back"
+                  onClick={() => navigateBack(-1)}
+               >
                   ← Back
                </button>
                <button
                   disabled={isLoading}
                   onClick={handleToggle}
-                  className={status ? "btn-close" : "btn-open"}
+                  className={
+                     isLoading
+                        ? "btn disable"
+                        : status
+                        ? "btn-close btn"
+                        : "btn-open btn"
+                  }
                >
                   {status
                      ? "Tutup Pendaftaran"
@@ -352,6 +361,7 @@ export default function Registrants() {
                         members={paginatedMembers}
                         logoUrl={logoUrl}
                         fetchData={fetchData}
+                        confirm={confirm}
                      />
                   ) : (
                      <CardNull />
