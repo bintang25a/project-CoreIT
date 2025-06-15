@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import AdminLayout from "./layouts/admin";
 import Dashboard from "./pages/admin";
 import Members from "./pages/admin/members/Members.jsx";
@@ -16,12 +19,26 @@ import Profile from "./pages/admin/staffs/Profile.jsx";
 import Register from "./pages/auth/Register.jsx";
 import Login from "./pages/auth/Login.jsx";
 
+import PublicLayout from "./layouts/public.jsx";
+import Home from "./pages/public";
+import DivisionsPublic from "./pages/public/divisions.jsx";
+import StaffsPublic from "./pages/public/staffs.jsx";
+import GalleriesPublic from "./pages/public/galleries.jsx";
+
 export default function App() {
    return (
       <BrowserRouter>
          <Routes>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+
+            <Route path="/" element={<PublicLayout />}>
+               <Route index element={<Home />} />
+               <Route path="divisions" element={<DivisionsPublic />} />
+               <Route path="divisions/:id" element={<DivisionsPublic />} />
+               <Route path="staffs" element={<StaffsPublic />} />
+               <Route path="galleries" element={<GalleriesPublic />} />
+            </Route>
 
             <Route
                path="admin"
