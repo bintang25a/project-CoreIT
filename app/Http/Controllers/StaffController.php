@@ -111,7 +111,7 @@ class StaffController extends Controller
 
         $validator = Validator::make($request->all(), [
             'position' => 'required|string',
-            'nim' => 'required|numeric|exists:users,nim|unique:staffs,nim,' . $staff->nim,
+            'nim' => 'required|numeric|exists:users,nim|unique:staffs,nim,' . $staff->id,
             'password' => 'nullable|string',
             'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
             'instagram' => 'nullable|string',
