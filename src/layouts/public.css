@@ -88,6 +88,17 @@
    nav.scrolled .nav-list a:hover {
       border: 1px solid var(--primary);
    }
+
+   nav.div .logo img {
+      width: 100%;
+      filter: grayscale(0%) brightness(100%);
+   }
+   nav.div a {
+      color: var(--gray-500);
+   }
+   nav.div a:hover {
+      border: 1px solid var(--primary);
+   }
 }
 /* ===== navbar style end ===== */
 

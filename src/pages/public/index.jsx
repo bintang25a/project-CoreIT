@@ -79,15 +79,15 @@ export default function Home() {
       }
    }, [fetchData, isLoading, divisions, news]);
 
-   useEffect(() => {
-      fetchData();
-   }, []);
-
    function formatTanggal(created_at) {
       const tanggal = new Date(created_at);
       const options = { day: "numeric", month: "long", year: "numeric" };
       return tanggal.toLocaleDateString("id-ID", options);
    }
+
+   useEffect(() => {
+      window.scrollTo(0, 0);
+   }, []);
 
    return (
       <div className="home-page">

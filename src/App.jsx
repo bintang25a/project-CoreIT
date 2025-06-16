@@ -22,8 +22,10 @@ import Login from "./pages/auth/Login.jsx";
 import PublicLayout from "./layouts/public.jsx";
 import Home from "./pages/public";
 import DivisionsPublic from "./pages/public/divisions.jsx";
+import DivisionPublic from "./pages/public/division.jsx";
 import StaffsPublic from "./pages/public/staffs.jsx";
 import GalleriesPublic from "./pages/public/galleries.jsx";
+import NewsPublic from "./pages/public/news.jsx";
 
 export default function App() {
    return (
@@ -35,9 +37,11 @@ export default function App() {
             <Route path="/" element={<PublicLayout />}>
                <Route index element={<Home />} />
                <Route path="divisions" element={<DivisionsPublic />} />
-               <Route path="divisions/:id" element={<DivisionsPublic />} />
+               <Route path="divisions/:id" element={<DivisionPublic />} />
                <Route path="staffs" element={<StaffsPublic />} />
                <Route path="galleries" element={<GalleriesPublic />} />
+               <Route path="news" element={<NewsPublic />} />
+               <Route path="news/:id" element={<NewsPublic />} />
             </Route>
 
             <Route

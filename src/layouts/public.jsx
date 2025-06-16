@@ -108,13 +108,13 @@ export default function PublicLayout() {
       return () => window.removeEventListener("scroll", onScroll);
    }, []);
 
-   useEffect(() => {
-      fetchData();
-   }, []);
-
    return (
       <div className="public-layout">
-         <Navbar logo={logo} isScrolled={isScrolled} />
+         <Navbar
+            logo={logo}
+            isScrolled={isScrolled}
+            currentPath={currentPath}
+         />
          <Outlet
             context={{
                members,

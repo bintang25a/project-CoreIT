@@ -31,10 +31,6 @@ export default function Galleries() {
       }
    }, [fetchData, isLoading, images]);
 
-   useEffect(() => {
-      fetchData();
-   }, []);
-
    const [selectedImage, setSelectedImage] = useState(null);
    const openModal = (image) => setSelectedImage(image);
    const closeModal = () => setSelectedImage(null);
@@ -48,6 +44,10 @@ export default function Galleries() {
    const handleSearchTerm = (search) => {
       setSearchTerm(search);
    };
+
+   useEffect(() => {
+      window.scrollTo(0, 0);
+   }, []);
 
    return (
       <div className="galleries-public">
@@ -86,17 +86,20 @@ export default function Galleries() {
          </div>
          <div className="content">
             <div className="gallery-grid">
-               {filteredImages.slice(0, 20).map((image, index) => {
-                  return (
-                     <div className="gallery-item" key={index}>
-                        <img
-                           src={imageUrl + image.path}
-                           alt={`Gallery ${index}`}
-                           onClick={() => openModal(image)}
-                        />
-                     </div>
-                  );
-               })}
+               {[...filteredImages]
+                  .reverse()
+                  .slice(0, 20)
+                  .map((image, index) => {
+                     return (
+                        <div className="gallery-item" key={index}>
+                           <img
+                              src={imageUrl + image.path}
+                              alt={`Gallery ${index}`}
+                              onClick={() => openModal(image)}
+                           />
+                        </div>
+                     );
+                  })}
             </div>
             {selectedImage && (
                <div className="modal-overlay" onClick={closeModal}>
