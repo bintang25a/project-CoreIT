@@ -311,8 +311,12 @@
 
 @media screen and (max-width: 1365px) and (orientation: landscape) {
    .public-layout {
+      nav .logo {
+         width: 15%;
+      }
+
       nav.scrolled .nav-list {
-         top: var(--px-192);
+         top: calc(var(--spx-128) + var(--spx-24));
          display: flex;
          flex-wrap: wrap;
          flex-direction: unset;

@@ -1,6 +1,7 @@
 import Sidebar from "../components/admin/Sidebar";
 import Navbar from "..//components/admin/Navbar";
 import Footer from "../components/admin/Footer";
+import MobileProtected from "../components/admin/MobileProtected";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { isAuthenticated } from "../_services/auth";
@@ -120,7 +121,7 @@ export default function AdminLayout() {
    return (
       <>
          <div className="mobile">
-            <h1>BUKA DI PC KOCAK</h1>
+            <MobileProtected />
          </div>
          <Sidebar id={id} />
          <div className="right-content" id="top">

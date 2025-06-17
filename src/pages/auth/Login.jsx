@@ -4,6 +4,7 @@ import background from "/images/background/gambar1.jpg";
 import { useState } from "react";
 import { login } from "../../_services/auth";
 import { useNavigate } from "react-router-dom";
+import MobileProtected from "../../components/admin/MobileProtected";
 
 export default function Login() {
    const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function Login() {
 
       try {
          await login(loginForm);
-         navigate("/admin", { replace: true });
+         navigate("/admin");
       } catch (error) {
          console.log(error);
          alert("NIM or Password not correct\n" + error);
@@ -34,44 +35,52 @@ export default function Login() {
    };
 
    return (
-      <main className="login">
-         <form onSubmit={(e) => handleSubmit(e)}>
-            <div className="background">
-               <img src={background} alt="background" />
-            </div>
-            <div className="login-container">
-               <div className="header-section">Staff Login</div>
-               <div className="input-section">
-                  <div className="input">
-                     <FaUser className="icon" />
-                     <input
-                        type="text"
-                        placeholder="type your nim"
-                        name="nim"
-                        id="nim"
-                        value={loginForm.nim}
-                        onChange={(e) => handleChange(e)}
-                     />
+      <>
+         <div className="mobile">
+            <MobileProtected />
+         </div>
+         <main className="login">
+            <form onSubmit={(e) => handleSubmit(e)}>
+               <div className="background">
+                  <img src={background} alt="background" />
+               </div>
+               <div className="login-container">
+                  <div className="header-section">Staff Login</div>
+                  <div className="input-section">
+                     <div className="input">
+                        <FaUser className="icon" />
+                        <input
+                           type="text"
+                           placeholder="type your nim"
+                           name="nim"
+                           id="nim"
+                           value={loginForm.nim}
+                           onChange={handleChange}
+                           required
+                        />
+                     </div>
+                     <div className="input">
+                        <FaLock className="icon" />
+                        <input
+                           type="password"
+                           placeholder="type your password"
+                           name="password"
+                           id="password"
+                           value={loginForm.password}
+                           onChange={handleChange}
+                           required
+                           autoComplete="new-password"
+                        />
+                     </div>
                   </div>
-                  <div className="input">
-                     <FaLock className="icon" />
-                     <input
-                        type="password"
-                        placeholder="type your password"
-                        name="password"
-                        id="password"
-                        value={loginForm.password}
-                        onChange={(e) => handleChange(e)}
-                     />
+                  <div className="submit-section">
+                     <button type="submit">
+                        <FaSignInAlt /> Login
+                     </button>
                   </div>
                </div>
-               <div className="submit-section">
-                  <button type="submit">
-                     <FaSignInAlt /> Login
-                  </button>
-               </div>
-            </div>
-         </form>
-      </main>
+            </form>
+         </main>
+      </>
    );
 }

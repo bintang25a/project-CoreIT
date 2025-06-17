@@ -99,8 +99,8 @@
 
          .division-button {
             .btn {
-               padding: var(--spx-16) var(--spx-64);
-               font-size: var(--fs-4);
+               padding: var(--spx-8) var(--spx-32);
+               font-size: var(--fs-2);
             }
             .btn:hover {
                transform: scale(1.1);
@@ -226,8 +226,8 @@
             margin-top: var(--spx-16);
 
             .btn {
-               padding: var(--spx-16) var(--spx-64);
-               font-size: var(--fs-4);
+               padding: var(--spx-8) var(--spx-32);
+               font-size: var(--fs-2);
             }
          }
       }
@@ -237,7 +237,7 @@
       .register-section {
          width: 100%;
          min-height: 20svh;
-         gap: var(--spx-16);
+         gap: var(--spx-32);
          padding: var(--spx-64) var(--spx-8);
 
          h1 {
@@ -250,7 +250,8 @@
          }
 
          .btn {
-            padding: var(--spx-16) var(--spx-64);
+            padding: var(--spx-8) var(--spx-24);
+            font-size: var(--fs-1);
          }
       }
       /* ===== register style end ===== */
@@ -782,12 +783,12 @@
 
          .hero-content h1 {
             width: 70%;
-            font-size: var(--fs-8);
+            font-size: var(--fs-5);
          }
 
          .btn {
             padding: var(--spx-12) var(--spx-24);
-            font-size: var(--fs-5);
+            font-size: var(--fs-3);
          }
       }
       /* ===== hero style end ===== */
@@ -798,8 +799,8 @@
          justify-content: flex-start;
          align-items: center;
          flex-direction: column;
-         padding: var(--spx-64) var(--spx-16);
-         gap: var(--spx-32);
+         padding: var(--px-64) var(--px-16);
+         gap: var(--px-32);
 
          .about-text {
             width: 100%;
@@ -1003,7 +1004,7 @@
       .register-section {
          width: 100%;
          min-height: 20svh;
-         gap: var(--spx-16);
+         gap: var(--px-48);
          padding: var(--spx-64) var(--spx-8);
 
          h1 {

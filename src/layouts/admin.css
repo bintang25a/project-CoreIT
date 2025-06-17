@@ -207,13 +207,14 @@ footer h1 {
 /* ===== Footer style end ===== */
 
 @media screen and (max-width: 1365px) {
-   /* aside,
+   aside,
    nav,
    .right-content {
       display: none;
-   } */
+   }
 
    .mobile {
-      display: none;
+      width: 100%;
+      height: 100%;
    }
 }

@@ -7,8 +7,8 @@ export default function NotFound() {
    return (
       <div className="not-found">
          <div className="container">
-            <h1>404 - Page Not Found</h1>
-            <p>The page you are looking for not found</p>
+            <h1>Please access in your desktop</h1>
+            <p>The page you want to open doesnt support mobile access</p>
             <button onClick={() => navigate(-1, { replace: true })}>
                <FaArrowLeft />
             </button>
