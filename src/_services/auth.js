@@ -29,8 +29,9 @@ export const login = async (data) => {
 };
 
 export const validateToken = async () => {
-   const token = localStorage.getItem("token");
+   if (typeof window === "undefined") return false;
 
+   const token = localStorage.getItem("token");
    if (!token) return false;
 
    try {
@@ -52,8 +53,7 @@ export const validateToken = async () => {
 };
 
 export const isAuthenticated = async () => {
-   const valid = await validateToken();
-   return valid;
+   return await validateToken();
 };
 
 export const changePassword = async (id, data) => {
