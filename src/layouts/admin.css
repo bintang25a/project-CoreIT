@@ -1,5 +1,6 @@
 aside .logo,
 nav,
+nav .left-section-container,
 nav .left-section,
 nav .right-section,
 nav .right-section .profile-text,
@@ -104,6 +105,27 @@ nav {
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+nav .left-section-container {
+   height: 100%;
+   gap: var(--px-16);
+}
+nav .left-section-container button {
+   aspect-ratio: 1/1;
+   height: 100%;
+   width: auto;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: var(--fs-8);
+   color: var(--primary);
+   background-color: var(--white);
+   border-radius: 8px;
+   transition: 0.3s ease;
+}
+nav .left-section-container button:hover {
+   background-color: var(--gray-200);
+   cursor: pointer;
+}
 nav .left-section {
    width: fit-content;
    height: 100%;

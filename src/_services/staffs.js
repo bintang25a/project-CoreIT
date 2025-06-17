@@ -8,10 +8,8 @@ const message = (error) => {
       const messages = data?.message;
 
       if (messages && typeof messages === "object") {
-         // Gabungkan pesan dari setiap field
          return Object.values(messages).flat().join("\n");
       } else if (typeof messages === "string") {
-         // Kalau message berupa string
          return messages;
       } else {
          return "The given data was invalid.";

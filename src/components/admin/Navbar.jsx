@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaUser } from "react-icons/fa";
+import { LuRefreshCcw } from "react-icons/lu";
 import { logout } from "../../_services/auth";
 import Skeleton from "react-loading-skeleton";
 
-export default function Navbar({ imageUrl, isLoading }) {
+export default function Navbar({ imageUrl, isLoading, fetchData }) {
    const [isSticky, setIsSticky] = useState(false);
    const [user, setUser] = useState({});
    const [isOpen, setIsOpen] = useState(false);
@@ -47,18 +48,23 @@ export default function Navbar({ imageUrl, isLoading }) {
 
    const handleLogout = async () => {
       await logout();
-      navigate("/login");
+      navigate("/login", { replace: true });
    };
 
    return (
       <nav ref={dropdownRef} className={`${isSticky ? "sticky-shadow" : ""}`}>
-         <div className="left-section">
-            <Link to={"/admin"} state={{ scrollTo: "top" }}>
-               <FaHome className="icon-style" />
-            </Link>
-            <Link to={"/admin/staff/profile/id"}>
-               <FaUser className="icon-style" />
-            </Link>
+         <div className="left-section-container">
+            <div className="left-section">
+               <Link to={"/admin"} state={{ scrollTo: "top" }}>
+                  <FaHome className="icon-style" />
+               </Link>
+               <Link to={"/admin/staff/profile/id"}>
+                  <FaUser className="icon-style" />
+               </Link>
+            </div>
+            <button type="button" onClick={fetchData}>
+               <LuRefreshCcw />
+            </button>
          </div>
          <div className="right-section" onClick={toggleDropdown}>
             {user && (

@@ -124,7 +124,11 @@ export default function AdminLayout() {
          </div>
          <Sidebar id={id} />
          <div className="right-content" id="top">
-            <Navbar imageUrl={imageUrl} isLoading={isLoading} />
+            <Navbar
+               imageUrl={imageUrl}
+               isLoading={isLoading}
+               fetchData={fetchData}
+            />
             <Outlet
                context={{
                   members,
