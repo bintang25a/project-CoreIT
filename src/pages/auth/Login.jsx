@@ -1,9 +1,9 @@
-import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
+import { FaUser, FaLock, FaSignInAlt, FaArrowLeft } from "react-icons/fa";
 import "./index.css";
 import background from "/images/background/gambar1.jpg";
 import { useState } from "react";
 import { login } from "../../_services/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import MobileProtected from "../../components/admin/MobileProtected";
 
 export default function Login() {
@@ -12,6 +12,22 @@ export default function Login() {
       nim: "",
       password: "",
    });
+
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -30,7 +46,11 @@ export default function Login() {
          navigate("/admin");
       } catch (error) {
          console.log(error);
-         alert("NIM or Password not correct\n" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: error,
+         });
+         alertReset();
       }
    };
 
@@ -46,6 +66,15 @@ export default function Login() {
                </div>
                <div className="login-container">
                   <div className="header-section">Staff Login</div>
+                  <div
+                     className={
+                        alert.errorMessage ? "alert error" : "alert success"
+                     }
+                  >
+                     {alert.errorMessage
+                        ? alert.errorMessage
+                        : alert.successMessage}
+                  </div>
                   <div className="input-section">
                      <div className="input">
                         <FaUser className="icon" />
@@ -80,6 +109,11 @@ export default function Login() {
                   </div>
                </div>
             </form>
+            <div className="btn-back">
+               <Link to={"/"} className="btn back">
+                  <FaArrowLeft />
+               </Link>
+            </div>
          </main>
       </>
    );

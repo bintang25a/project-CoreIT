@@ -9,10 +9,10 @@ function LoadingCard() {
          <div className="card" key={i}>
             <Skeleton circle height={100} width={100} />
             <h1>
-               <Skeleton height={20} width={"15vw"} />
+               <Skeleton height={20} />
             </h1>
             <h2>
-               <Skeleton count={6} height={10} width={"15vw"} />
+               <Skeleton count={6} height={10} />
             </h2>
          </div>
       ));

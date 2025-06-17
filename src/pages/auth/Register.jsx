@@ -5,9 +5,10 @@ import {
    FaIdCard,
    FaPhoneAlt,
    FaEnvelope,
+   FaArrowLeft,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getRecruitmentStatus } from "../../_services/auth";
 import background from "/images/background/gambar1.jpg";
 import { getDivisions } from "../../_services/divisions";
@@ -17,6 +18,22 @@ export default function Register() {
    const navigate = useNavigate();
    const [status, setStatus] = useState(true);
    const [divisions, setDivisions] = useState([]);
+
+   //Kode custom alert
+   const [alert, setAlert] = useState({
+      isOpen: false,
+      errorMessage: "",
+      successMessage: "",
+   });
+   const alertReset = () => {
+      setTimeout(() => {
+         setAlert({
+            isOpen: false,
+            errorMessage: "",
+            successMessage: "",
+         });
+      }, 5000);
+   };
 
    useEffect(() => {
       const fetchStatus = async () => {
@@ -62,10 +79,18 @@ export default function Register() {
 
       try {
          await createMember(loginForm);
-         navigate("/", { replace: true });
+         setAlert({
+            isOpen: true,
+            successMessage: "Congratulations, Register successfully",
+         });
+         alertReset();
       } catch (error) {
          console.log(error);
-         alert("Failed, NIM already registed, try contact Staff" + error);
+         setAlert({
+            isOpen: true,
+            errorMessage: "Failed: " + error,
+         });
+         alertReset();
       }
    };
 
@@ -77,6 +102,15 @@ export default function Register() {
             </div>
             <div className="register-container">
                <div className="header-section">Join Core IT</div>
+               <div
+                  className={
+                     alert.errorMessage ? "alert error" : "alert success"
+                  }
+               >
+                  {alert.errorMessage
+                     ? alert.errorMessage
+                     : alert.successMessage}
+               </div>
                <div className="input-section">
                   <div className="profile">
                      <div className="input">
@@ -174,6 +208,11 @@ export default function Register() {
                </div>
             </div>
          </form>
+         <div className="btn-back">
+            <Link to={"/"} className="btn back">
+               <FaArrowLeft />
+            </Link>
+         </div>
       </main>
    );
 }

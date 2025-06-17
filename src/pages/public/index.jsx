@@ -16,12 +16,12 @@ function DivisionsCardLoading() {
       .fill(0)
       .map((_, i) => (
          <div key={i} className="card">
-            <Skeleton className="skeleton-style" height={150} />
+            <Skeleton circle height={75} width={75} />
             <h1>
-               <Skeleton className="skeleton-style" />
+               <Skeleton height={20} />
             </h1>
             <h2>
-               <Skeleton className="skeleton-style" />
+               <Skeleton count={6} height={10} />
             </h2>
          </div>
       ));
@@ -33,17 +33,17 @@ function NewsCardLoading() {
       .map((_, i) => (
          <div key={i} className="news-card">
             <div className="image">
-               <Skeleton height={150} />
+               <Skeleton height={100} />
             </div>
             <h1>Loading ..</h1>
             <div className="title">
                <h1>
-                  <Skeleton count={4} />
+                  <Skeleton height={20} />
                </h1>
             </div>
             <div className="footer">
                <h1>
-                  <Skeleton width={50} />
+                  <Skeleton count={3} height={10} />
                </h1>
                <a className="btn">Loading ...</a>
             </div>

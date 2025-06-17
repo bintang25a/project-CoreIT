@@ -145,7 +145,26 @@ function NewsHome({
          </div>
          <div className="content">
             {isLoading ? (
-               <Skeleton count={8} width={"90vw"} height={32} />
+               <>
+                  <div className="left-content">
+                     <Skeleton count={10} height={15} />
+                  </div>
+                  <div className="right-content">
+                     <div className="header-content">
+                        <h1>See other news</h1>
+                     </div>
+                     <div className="card">
+                        <div className="image">
+                           <Skeleton count={2} height={30} />
+                        </div>
+                        <div className="title">
+                           <h1>
+                              <Skeleton count={10} height={30} />
+                           </h1>
+                        </div>
+                     </div>
+                  </div>
+               </>
             ) : (
                <>
                   <div className="left-content">

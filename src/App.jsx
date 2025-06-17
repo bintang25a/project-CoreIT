@@ -23,6 +23,7 @@ import PublicLayout from "./layouts/public.jsx";
 import Home from "./pages/public";
 import DivisionsPublic from "./pages/public/divisions.jsx";
 import DivisionPublic from "./pages/public/division.jsx";
+import Programs from "./pages/public/programs.jsx";
 import StaffsPublic from "./pages/public/staffs.jsx";
 import GalleriesPublic from "./pages/public/galleries.jsx";
 import NewsPublic from "./pages/public/news.jsx";
@@ -39,6 +40,7 @@ export default function App() {
                <Route index element={<Home />} />
                <Route path="divisions" element={<DivisionsPublic />} />
                <Route path="divisions/:id" element={<DivisionPublic />} />
+               <Route path="programs" element={<Programs />} />
                <Route path="staffs" element={<StaffsPublic />} />
                <Route path="galleries" element={<GalleriesPublic />} />
                <Route path="news" element={<NewsPublic />} />

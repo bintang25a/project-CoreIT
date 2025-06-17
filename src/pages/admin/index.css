@@ -522,21 +522,6 @@ main.registrants .navigation.divider {
    color: var(--gray-700);
 }
 
-main .navigation .alert {
-   max-width: 30%;
-   width: fit-content;
-   text-align: center;
-   height: 100%;
-}
-main .navigation .alert.success {
-   font-size: var(--fs-3);
-   color: var(--btn-save);
-}
-main .navigation .alert.error {
-   font-size: var(--fs-1);
-   color: var(--btn-danger);
-}
-
 main .navigation .search {
    width: 25%;
    height: var(--px-40);
@@ -726,3 +711,20 @@ main .confirm-buttons button:hover {
 }
 /* ===== Confirm modal style end ===== */
 /* ===== Pages style end ===== */
+
+/* ===== Custom alert style start */
+main .alert {
+   max-width: 100%;
+   width: fit-content;
+   text-align: center;
+   height: fit-content;
+}
+main .alert.success {
+   font-size: var(--fs-2);
+   color: var(--btn-save);
+}
+main .alert.error {
+   font-size: var(--fs-1);
+   color: var(--btn-danger);
+}
+/* ===== Custom alert style end */

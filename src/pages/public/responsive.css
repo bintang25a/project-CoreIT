@@ -366,7 +366,7 @@
                      aspect-ratio: 3/4;
                      min-height: fit-content;
                      height: var(--px-320);
-                     width: auto;
+                     width: 100%;
                   }
 
                   .profile {
@@ -748,7 +748,7 @@
                font-size: var(--fs-1);
             }
             tr td {
-               font-size: var(--fs-1);
+               font-size: var(--fs-0);
             }
          }
       }

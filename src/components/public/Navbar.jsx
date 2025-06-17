@@ -45,7 +45,7 @@ export default function Navbar({
             <Link onClick={handleClick} to={"/divisions"}>
                <FaProjectDiagram className="icon" /> Division
             </Link>
-            <Link onClick={handleClick} to={"/program"}>
+            <Link onClick={handleClick} to={"/programs"}>
                <FaTasks className="icon" /> Program
             </Link>
             <Link onClick={handleClick} to={"/staffs"}>
