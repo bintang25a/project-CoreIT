@@ -23,7 +23,11 @@ function TableRow({ news, viewAll }) {
                </td>
                <td>
                   <div className="kolom-4">
-                     <a className="button btn-view" href={`/news/${info.id}`}>
+                     <a
+                        target="_blank"
+                        className="button btn-view"
+                        href={`/news/${info.id}`}
+                     >
                         View
                      </a>
                      <Link
