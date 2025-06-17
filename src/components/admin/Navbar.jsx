@@ -58,7 +58,7 @@ export default function Navbar({ imageUrl, isLoading, fetchData }) {
                <Link to={"/admin"} state={{ scrollTo: "top" }}>
                   <FaHome className="icon-style" />
                </Link>
-               <Link to={"/admin/staff/profile/id"}>
+               <Link to={`/admin/staff/profile/${user.id}`}>
                   <FaUser className="icon-style" />
                </Link>
             </div>

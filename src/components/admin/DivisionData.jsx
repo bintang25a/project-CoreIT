@@ -43,12 +43,13 @@ function TableRow({ members, divisions, viewAll, logoUrl }) {
                   >
                      Member
                   </Link>
-                  <Link
+                  <a
+                     target="_blank"
                      className="button btn-view"
-                     to={`/divisions/${division.id}`}
+                     href={`/divisions/${division.id}`}
                   >
                      View
-                  </Link>
+                  </a>
                   <Link
                      className="button btn-edit"
                      to={`/admin/divisions/update/${division.id}`}
