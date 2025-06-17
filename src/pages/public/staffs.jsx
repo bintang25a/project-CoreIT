@@ -146,7 +146,6 @@ export default function Staffs() {
       setIsClose(true);
    }, [setIsClose]);
 
-   console.log(ketuas[0]);
    return (
       <div className="staffs-public">
          <div className="header">
@@ -168,7 +167,7 @@ export default function Staffs() {
                            .map((staff) => (
                               <div className="card">
                                  <div className="position">
-                                    <h1>{staff.name}</h1>
+                                    <h1>{staff.position}</h1>
                                  </div>
                                  <div className="photo">
                                     <img
@@ -263,7 +262,7 @@ export default function Staffs() {
                            .map((staff) => (
                               <div className="card">
                                  <div className="position">
-                                    <h1>{staff.name}</h1>
+                                    <h1>{staff.position}</h1>
                                  </div>
                                  <div className="photo">
                                     <img
@@ -343,7 +342,7 @@ export default function Staffs() {
                            .map((staff) => (
                               <div className="card">
                                  <div className="position">
-                                    <h1>{staff.name}</h1>
+                                    <h1>{staff.position}</h1>
                                  </div>
                                  <div className="photo">
                                     <img
@@ -423,7 +422,7 @@ export default function Staffs() {
                            .map((staff) => (
                               <div className="card">
                                  <div className="position">
-                                    <h1>{staff.name}</h1>
+                                    <h1>{staff.position}</h1>
                                  </div>
                                  <div className="photo">
                                     <img
@@ -503,7 +502,7 @@ export default function Staffs() {
                            .map((staff) => (
                               <div className="card">
                                  <div className="position">
-                                    <h1>{staff.name}</h1>
+                                    <h1>{staff.position}</h1>
                                  </div>
                                  <div className="photo">
                                     <img
