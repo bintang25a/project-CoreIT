@@ -34,9 +34,13 @@ function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
          <td>{division.user?.length}</td>
          <td>
             <div className="kolom-5">
-               <Link to={`/divisions/${division.id}`} className="button view">
+               <a
+                  target="_blank"
+                  href={`/divisions/${division.id}`}
+                  className="button view"
+               >
                   view
-               </Link>
+               </a>
                <Link
                   to={`/admin/members/division/${division.name.toLowerCase()}`}
                   className="button member"
