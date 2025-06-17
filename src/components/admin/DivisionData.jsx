@@ -45,7 +45,7 @@ function TableRow({ members, divisions, viewAll, logoUrl }) {
                   </Link>
                   <Link
                      className="button btn-view"
-                     to={`/divisions/${division.name.toLowerCase()}`}
+                     to={`/divisions/${division.id}`}
                   >
                      View
                   </Link>

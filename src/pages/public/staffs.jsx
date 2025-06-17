@@ -163,32 +163,36 @@ export default function Staffs() {
                         <h1>Trisula</h1>
                      </div>
                      <div className="row">
-                        <div className="card">
-                           <div className="position">
-                              <h1>{ketuas[0]?.position}</h1>
-                           </div>
-                           <div className="photo">
-                              <img
-                                 src={imageUrl + ketuas[0].gallery?.path}
-                                 alt=""
-                              />
-                           </div>
-                           <div className="profile">
-                              <h1>{ketuas[0]?.user?.name}</h1>
-                              <h2>{ketuas[0]?.user?.prodi}</h2>
-                           </div>
-                           <div className="social">
-                              <a href={ketuas[0]?.instagram}>
-                                 <FaInstagram className="icon" />
-                              </a>
-                              <a href={ketuas[0]?.linkedin}>
-                                 <FaLinkedin className="icon" />
-                              </a>
-                              <a href={ketuas[0]?.github}>
-                                 <FaGithub className="icon" />
-                              </a>
-                           </div>
-                        </div>
+                        {ketuas
+                           .filter((item) => item.position === "Ketua")
+                           .map((staff) => (
+                              <div className="card">
+                                 <div className="position">
+                                    <h1>{staff.name}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff?.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff?.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff?.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
                      </div>
                      <div className="row">
                         <div className="card">
@@ -250,32 +254,40 @@ export default function Staffs() {
                         <h1>{`Departemen ${position[0]}`}</h1>
                      </div>
                      <div className="row">
-                        <div className="card">
-                           <div className="position">
-                              <h1>{ketuas[1]?.position}</h1>
-                           </div>
-                           <div className="photo">
-                              <img
-                                 src={imageUrl + ketuas[1].gallery?.path}
-                                 alt=""
-                              />
-                           </div>
-                           <div className="profile">
-                              <h1>{ketuas[1]?.user?.name}</h1>
-                              <h2>{ketuas[1]?.user?.prodi}</h2>
-                           </div>
-                           <div className="social">
-                              <a href={ketuas[1]?.instagram}>
-                                 <FaInstagram className="icon" />
-                              </a>
-                              <a href={ketuas[1]?.linkedin}>
-                                 <FaLinkedin className="icon" />
-                              </a>
-                              <a href={ketuas[1]?.github}>
-                                 <FaGithub className="icon" />
-                              </a>
-                           </div>
-                        </div>
+                        {ketuas
+                           .filter((item) =>
+                              item.position
+                                 .toLowerCase()
+                                 .includes(position[0].toLowerCase())
+                           )
+                           .map((staff) => (
+                              <div className="card">
+                                 <div className="position">
+                                    <h1>{staff.name}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff?.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff?.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff?.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
                      </div>
                      <div className="row anggota">
                         {staffs
@@ -322,32 +334,40 @@ export default function Staffs() {
                         <h1>{`Departemen ${position[1]}`}</h1>
                      </div>
                      <div className="row">
-                        <div className="card">
-                           <div className="position">
-                              <h1>{ketuas[2]?.position}</h1>
-                           </div>
-                           <div className="photo">
-                              <img
-                                 src={imageUrl + ketuas[2].gallery?.path}
-                                 alt=""
-                              />
-                           </div>
-                           <div className="profile">
-                              <h1>{ketuas[2]?.user?.name}</h1>
-                              <h2>{ketuas[2]?.user?.prodi}</h2>
-                           </div>
-                           <div className="social">
-                              <a href={ketuas[2]?.instagram}>
-                                 <FaInstagram className="icon" />
-                              </a>
-                              <a href={ketuas[2]?.linkedin}>
-                                 <FaLinkedin className="icon" />
-                              </a>
-                              <a href={ketuas[2]?.github}>
-                                 <FaGithub className="icon" />
-                              </a>
-                           </div>
-                        </div>
+                        {ketuas
+                           .filter((item) =>
+                              item.position
+                                 .toLowerCase()
+                                 .includes(position[1].toLowerCase())
+                           )
+                           .map((staff) => (
+                              <div className="card">
+                                 <div className="position">
+                                    <h1>{staff.name}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff?.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff?.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff?.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
                      </div>
                      <div className="row anggota">
                         {staffs
@@ -394,32 +414,40 @@ export default function Staffs() {
                         <h1>{`Departemen ${position[2]}`}</h1>
                      </div>
                      <div className="row">
-                        <div className="card">
-                           <div className="position">
-                              <h1>{ketuas[3]?.position}</h1>
-                           </div>
-                           <div className="photo">
-                              <img
-                                 src={imageUrl + ketuas[3].gallery?.path}
-                                 alt=""
-                              />
-                           </div>
-                           <div className="profile">
-                              <h1>{ketuas[3]?.user?.name}</h1>
-                              <h2>{ketuas[3]?.user?.prodi}</h2>
-                           </div>
-                           <div className="social">
-                              <a href={ketuas[3]?.instagram}>
-                                 <FaInstagram className="icon" />
-                              </a>
-                              <a href={ketuas[3]?.linkedin}>
-                                 <FaLinkedin className="icon" />
-                              </a>
-                              <a href={ketuas[3]?.github}>
-                                 <FaGithub className="icon" />
-                              </a>
-                           </div>
-                        </div>
+                        {ketuas
+                           .filter((item) =>
+                              item.position
+                                 .toLowerCase()
+                                 .includes(position[2].toLowerCase())
+                           )
+                           .map((staff) => (
+                              <div className="card">
+                                 <div className="position">
+                                    <h1>{staff.name}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff?.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff?.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff?.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
                      </div>
                      <div className="row anggota">
                         {staffs
@@ -466,32 +494,40 @@ export default function Staffs() {
                         <h1>{`Departemen ${position[3]}`}</h1>
                      </div>
                      <div className="row">
-                        <div className="card">
-                           <div className="position">
-                              <h1>{ketuas[4]?.position}</h1>
-                           </div>
-                           <div className="photo">
-                              <img
-                                 src={imageUrl + ketuas[4].gallery?.path}
-                                 alt=""
-                              />
-                           </div>
-                           <div className="profile">
-                              <h1>{ketuas[4]?.user?.name}</h1>
-                              <h2>{ketuas[4]?.user?.prodi}</h2>
-                           </div>
-                           <div className="social">
-                              <a href={ketuas[4]?.instagram}>
-                                 <FaInstagram className="icon" />
-                              </a>
-                              <a href={ketuas[4]?.linkedin}>
-                                 <FaLinkedin className="icon" />
-                              </a>
-                              <a href={ketuas[4]?.github}>
-                                 <FaGithub className="icon" />
-                              </a>
-                           </div>
-                        </div>
+                        {ketuas
+                           .filter((item) =>
+                              item.position
+                                 .toLowerCase()
+                                 .includes(position[3].toLowerCase())
+                           )
+                           .map((staff) => (
+                              <div className="card">
+                                 <div className="position">
+                                    <h1>{staff.name}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff?.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff?.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff?.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
                      </div>
                      <div className="row anggota">
                         {staffs
