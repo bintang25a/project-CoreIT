@@ -6,7 +6,7 @@ import { getImages, getImageUrl } from "../_services/galleries";
 import { getMembers } from "../_services/members";
 import { getStaffs } from "../_services/staffs";
 import { getNews } from "../_services/news";
-import logo from "/images/logo/Logo CORE IT whitetext.png";
+import logo from "/images/logo/Logo CORE IT transparan.png";
 import "./public.css";
 
 import Navbar from "../components/public/Navbar";
@@ -22,6 +22,7 @@ export default function PublicLayout() {
    const [staffs, setStaffs] = useState([]);
    const [news, setNews] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
+   const [isClose, setIsClose] = useState(true);
 
    const fetchData = async () => {
       if (currentPath.startsWith("/members")) {
@@ -37,8 +38,12 @@ export default function PublicLayout() {
       }
 
       if (currentPath.startsWith("/staffs")) {
-         const [staffsData] = await Promise.all([getStaffs()]);
+         const [staffsData, imageUrlData] = await Promise.all([
+            getStaffs(),
+            getImageUrl(),
+         ]);
          setStaffs(staffsData);
+         setImageUrl(imageUrlData);
       }
 
       if (currentPath.startsWith("/divisions")) {
@@ -114,6 +119,8 @@ export default function PublicLayout() {
             logo={logo}
             isScrolled={isScrolled}
             currentPath={currentPath}
+            isClose={isClose}
+            setIsClose={setIsClose}
          />
          <Outlet
             context={{
@@ -127,6 +134,7 @@ export default function PublicLayout() {
                fetchData,
                isLoading,
                setIsLoading,
+               setIsClose,
             }}
          />
          <footer>

@@ -1,8 +1,28 @@
 import { Link } from "react-router-dom";
+import {
+   FaHome,
+   FaBars,
+   FaProjectDiagram,
+   FaTasks,
+   FaUsers,
+   FaNewspaper,
+   FaImages,
+} from "react-icons/fa";
 
-export default function Navbar({ isScrolled, logo, currentPath }) {
+export default function Navbar({
+   isScrolled,
+   logo,
+   currentPath,
+   isClose,
+   setIsClose,
+}) {
    const handleClick = () => {
       window.scrollTo(0, 0);
+      setIsClose(true);
+   };
+
+   const handleClickMenu = () => {
+      setIsClose(!isClose);
    };
 
    return (
@@ -18,27 +38,30 @@ export default function Navbar({ isScrolled, logo, currentPath }) {
          <div className="logo">
             <img src={logo} alt="Logo Core it" />
          </div>
-         <div className="nav-list">
+         <div className={isClose ? "nav-list close" : "nav-list"}>
             <Link onClick={handleClick} to={"/"}>
-               Home
+               <FaHome className="icon" /> Home
             </Link>
             <Link onClick={handleClick} to={"/divisions"}>
-               Division
+               <FaProjectDiagram className="icon" /> Division
             </Link>
-            <Link onClick={handleClick} to={"/"}>
-               Program
+            <Link onClick={handleClick} to={"/program"}>
+               <FaTasks className="icon" /> Program
             </Link>
             <Link onClick={handleClick} to={"/staffs"}>
-               Our Staff
+               <FaUsers className="icon" /> Our Staff
             </Link>
             <Link onClick={handleClick} to={"/news"}>
-               News
+               <FaNewspaper className="icon" /> News
             </Link>
             <Link onClick={handleClick} to={"/galleries"}>
-               Gallery
+               <FaImages className="icon" /> Gallery
             </Link>
          </div>
          <div className="button">
+            <button type="button" onClick={handleClickMenu}>
+               <FaBars className="hamburger-menu" />
+            </button>
             <a className="btn" href="/register" target="_blank">
                Join?
             </a>

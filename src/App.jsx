@@ -26,6 +26,7 @@ import DivisionPublic from "./pages/public/division.jsx";
 import StaffsPublic from "./pages/public/staffs.jsx";
 import GalleriesPublic from "./pages/public/galleries.jsx";
 import NewsPublic from "./pages/public/news.jsx";
+import NotFound from "./pages/public/NotFound.jsx";
 
 export default function App() {
    return (
@@ -78,6 +79,8 @@ export default function App() {
                   <Route path="add" element={<GalleryAdd />} />
                </Route>
             </Route>
+
+            <Route path="*" element={<NotFound />} />
          </Routes>
       </BrowserRouter>
    );

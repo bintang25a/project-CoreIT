@@ -1,5 +1,52 @@
-/* ===== hero style start ===== */
+.public-layout {
+   .btn {
+      display: flex;
+      align-items: center;
+      gap: var(--px-12);
+   }
+
+   .not-container {
+      display: flex;
+      width: 100%;
+      height: fit-content;
+      padding: var(--px-32);
+      border-radius: 0.5rem;
+      background-color: var(--gray-200);
+      color: var(--btn-danger);
+      box-shadow: 1px 1px 2px var(--gray-700);
+      justify-content: center;
+
+      h1 {
+         font-size: var(--fs-4);
+      }
+   }
+
+   .btn-back {
+      position: fixed;
+      left: 0;
+      top: 40%;
+      height: 100%;
+
+      .btn {
+         background-color: var(--primary);
+         color: var(--gray-100);
+         font-size: var(--fs-1);
+         padding: var(--spx-24);
+         padding-left: var(--spx-12);
+         border-top-right-radius: 10rem;
+         border-bottom-right-radius: 10rem;
+         transition: 0.3s ease-in-out;
+      }
+      .btn:hover {
+         transform: scale(1.1);
+         cursor: pointer;
+      }
+   }
+}
+
+/* ===== Homepage style start ===== */
 .public-layout .home-page {
+   /* ===== hero style start ===== */
    .hero-section {
       position: relative;
       height: 100vh;
@@ -49,7 +96,6 @@
       }
 
       .btn {
-         display: inline-block;
          background-color: var(--primary);
          color: var(--gray-100);
          padding: var(--px-12) var(--px-24);
@@ -417,6 +463,7 @@
    }
    /* ===== register style end ===== */
 }
+/* ===== Homepage style end ===== */
 
 /* ===== divisions style start ===== */
 .public-layout .divisions-public {
@@ -1075,6 +1122,7 @@
    }
 
    .news-detail {
+      background-color: var(--gray-100);
       width: 100%;
       padding: var(--px-64);
       display: flex;
@@ -1130,6 +1178,7 @@
 
    .name {
       aspect-ratio: 3/1;
+      height: auto;
       min-width: 400px;
       width: 30%;
       display: flex;
@@ -1142,6 +1191,7 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
+      position: relative;
       transition: 0.3s ease;
 
       h1 {
@@ -1155,10 +1205,40 @@
          width: auto;
          height: 90%;
       }
+
+      .back {
+         aspect-ratio: 1/1;
+         height: 1%;
+         width: 1%;
+         padding: var(--px-8);
+         border-radius: 4rem;
+         position: absolute;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         opacity: 0;
+         transition: 0.3s ease;
+         overflow: hidden;
+      }
+      .back h1 {
+         color: var(--gray-100);
+         font-weight: 500;
+         font-size: var(--fs-3);
+         text-wrap: nowrap;
+      }
    }
    .name:hover {
       transform: scale(1.05);
       transform: rotate(3deg);
+      cursor: pointer;
+   }
+   .name:hover .back {
+      height: 100%;
+      width: auto;
+      opacity: 1;
+      height: auto;
+      background-color: rgba(18, 18, 18, 0.9);
+      z-index: 999;
    }
 
    .description {
@@ -1271,3 +1351,47 @@
    }
 }
 /* ===== div style end ===== */
+
+/* Not found page style start */
+.not-found {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100vh;
+   background-color: var(--gray-100);
+
+   .container {
+      padding: var(--px-128);
+      box-shadow: 1px 2px 3px var(--gray-700);
+      background-color: var(--white);
+      font-size: var(--fs-4);
+      border-radius: 1rem;
+      border-top: 0.5rem solid var(--primary);
+      text-align: center;
+
+      h1 {
+         color: var(--gray-700);
+         font-weight: 700;
+      }
+
+      p {
+         font-weight: 500;
+         color: var(--gray-500);
+      }
+
+      button {
+         margin-top: var(--px-12);
+         background-color: var(--btn-info);
+         padding: var(--px-8) var(--px-32);
+         cursor: pointer;
+         border-radius: 4px;
+         color: var(--gray-100);
+         transition: 0.3s linear;
+      }
+      button:hover {
+         transform: scale(1.1);
+      }
+   }
+}
+/* Not found page style end */

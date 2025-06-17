@@ -4,9 +4,12 @@ import history1 from "/images/background/gambar3.png";
 import history2 from "/images/background/gambar4.png";
 import { useOutletContext, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { FaArrowRight, FaExternalLinkAlt } from "react-icons/fa";
+import { FiArrowUpRight } from "react-icons/fi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./index.css";
+import "./responsive.css";
 
 function DivisionsCardLoading() {
    return Array(4)
@@ -49,7 +52,7 @@ function NewsCardLoading() {
 }
 
 export default function Home() {
-   const { divisions, divisionsLogo, news, imageUrl, fetchData } =
+   const { divisions, divisionsLogo, news, imageUrl, fetchData, setIsClose } =
       useOutletContext();
 
    const [isLoading, setIsLoading] = useState(true);
@@ -87,7 +90,8 @@ export default function Home() {
 
    useEffect(() => {
       window.scrollTo(0, 0);
-   }, []);
+      setIsClose(true);
+   }, [setIsClose]);
 
    return (
       <div className="home-page">
@@ -100,7 +104,7 @@ export default function Home() {
                <h1>Community of Research and Innovation Technology</h1>
             </div>
             <a className="btn" href="/register" target="_blank">
-               Join Now!
+               Join Now! <FaArrowRight />
             </a>
          </div>
          <div className="about-section">
@@ -144,7 +148,7 @@ export default function Home() {
             </div>
             <div className="division-button">
                <Link className="btn" to={"/divisions"}>
-                  View all divisions
+                  View all divisions <FiArrowUpRight />
                </Link>
             </div>
          </div>
@@ -217,7 +221,7 @@ export default function Home() {
             </div>
             <div className="news-button">
                <Link className="btn" to={"/news"}>
-                  View all news
+                  View all news <FiArrowUpRight />
                </Link>
             </div>
          </div>
@@ -228,9 +232,9 @@ export default function Home() {
                technology, collaborate on innovative projects, and build a
                professional network.
             </h2>
-            <Link className="btn" to={"/register"}>
-               Register Now!
-            </Link>
+            <a className="btn" href="/register" target="_blank">
+               Register Now! <FaExternalLinkAlt />
+            </a>
          </div>
       </div>
    );

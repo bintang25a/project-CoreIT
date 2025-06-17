@@ -205,7 +205,7 @@ main.register .register-container .input-section .project textarea {
 
    main.register .register-container .header-section {
       width: 50%;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       padding: var(--spx-8);
    }
 

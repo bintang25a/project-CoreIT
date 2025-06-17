@@ -158,7 +158,13 @@ export default function Register() {
                      </div>
                   </div>
                   <div className="project">
-                     <textarea placeholder="Masukan link project disini, Gdrive, github, linked, dll" />
+                     <textarea
+                        name="link_project"
+                        id="link_project"
+                        value={loginForm.link_project}
+                        onChange={(e) => handleChange(e)}
+                        placeholder="Masukan link project disini, Gdrive, github, linked, dll"
+                     />
                   </div>
                </div>
                <div className="submit-section">

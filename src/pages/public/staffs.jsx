@@ -1,9 +1,93 @@
 import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+
+function LoadingGroup() {
+   return (
+      <div className="group trisula">
+         <div className="header">
+            <h1>Trisula</h1>
+         </div>
+         <div className="row">
+            <div className="card">
+               <div className="position">
+                  <h1>Loading ...</h1>
+               </div>
+               <div className="photo">
+                  <Skeleton height={"100%"} />
+               </div>
+               <div className="profile">
+                  <h1>Loading ...</h1>
+                  <h2>Loading ...</h2>
+               </div>
+               <div className="social">
+                  <a>
+                     <FaInstagram className="icon" />
+                  </a>
+                  <a>
+                     <FaLinkedin className="icon" />
+                  </a>
+                  <a>
+                     <FaGithub className="icon" />
+                  </a>
+               </div>
+            </div>
+         </div>
+         <div className="row">
+            <div className="card">
+               <div className="position">
+                  <h1>Loading ...</h1>
+               </div>
+               <div className="photo">
+                  <Skeleton height={"100%"} />
+               </div>
+               <div className="profile">
+                  <h1>Loading ...</h1>
+                  <h2>Loading ...</h2>
+               </div>
+               <div className="social">
+                  <a>
+                     <FaInstagram className="icon" />
+                  </a>
+                  <a>
+                     <FaLinkedin className="icon" />
+                  </a>
+                  <a>
+                     <FaGithub className="icon" />
+                  </a>
+               </div>
+            </div>
+            <div className="card">
+               <div className="position">
+                  <h1>Loading ...</h1>
+               </div>
+               <div className="photo">
+                  <Skeleton height={"100%"} />
+               </div>
+               <div className="profile">
+                  <h1>Loading ...</h1>
+                  <h2>Loading ...</h2>
+               </div>
+               <div className="social">
+                  <a>
+                     <FaInstagram className="icon" />
+                  </a>
+                  <a>
+                     <FaLinkedin className="icon" />
+                  </a>
+                  <a>
+                     <FaGithub className="icon" />
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+   );
+}
 
 export default function Staffs() {
-   const { staffs, fetchData } = useOutletContext();
+   const { staffs, fetchData, setIsClose, imageUrl } = useOutletContext();
 
    const position = [
       "Research and Development",
@@ -59,8 +143,10 @@ export default function Staffs() {
 
    useEffect(() => {
       window.scrollTo(0, 0);
-   }, []);
+      setIsClose(true);
+   }, [setIsClose]);
 
+   console.log(ketuas[0]);
    return (
       <div className="staffs-public">
          <div className="header">
@@ -68,381 +154,387 @@ export default function Staffs() {
             <h2>CORE IT 2025/2026 Generation</h2>
          </div>
          <div className="content">
-            <div className="group trisula">
-               <div className="header">
-                  <h1>Trisula</h1>
-               </div>
-               <div className="row">
-                  <div className="card">
-                     <div className="position">
-                        <h1>{ketuas[0]?.position}</h1>
+            {isLoading ? (
+               <LoadingGroup />
+            ) : (
+               <>
+                  <div className="group trisula">
+                     <div className="header">
+                        <h1>Trisula</h1>
                      </div>
-                     <div className="photo">
-                        <img
-                           src="../../../public/images/photo/profile.jpg"
-                           alt=""
-                        />
-                     </div>
-                     <div className="profile">
-                        <h1>{ketuas[0]?.user?.name}</h1>
-                        <h2>{ketuas[0]?.user?.prodi}</h2>
-                     </div>
-                     <div className="social">
-                        <a href={ketuas[0]?.instagram}>
-                           <FaInstagram className="icon" />
-                        </a>
-                        <a href={ketuas[0]?.linkedin}>
-                           <FaLinkedin className="icon" />
-                        </a>
-                        <a href={ketuas[0]?.github}>
-                           <FaGithub className="icon" />
-                        </a>
-                     </div>
-                  </div>
-               </div>
-               <div className="row">
-                  <div className="card">
-                     <div className="position">
-                        <h1>{sekretaris[0]?.position}</h1>
-                     </div>
-                     <div className="photo">
-                        <img
-                           src="../../../public/images/photo/profile.jpg"
-                           alt=""
-                        />
-                     </div>
-                     <div className="profile">
-                        <h1>{sekretaris[0]?.user?.name}</h1>
-                        <h2>{sekretaris[0]?.user?.prodi}</h2>
-                     </div>
-                     <div className="social">
-                        <a href={sekretaris[0]?.instagram}>
-                           <FaInstagram className="icon" />
-                        </a>
-                        <a href={sekretaris[0]?.linkedin}>
-                           <FaLinkedin className="icon" />
-                        </a>
-                        <a href={sekretaris[0]?.github}>
-                           <FaGithub className="icon" />
-                        </a>
-                     </div>
-                  </div>
-                  <div className="card">
-                     <div className="position">
-                        <h1>{bendahara[0]?.position}</h1>
-                     </div>
-                     <div className="photo">
-                        <img
-                           src="../../../public/images/photo/profile.jpg"
-                           alt=""
-                        />
-                     </div>
-                     <div className="profile">
-                        <h1>{bendahara[0]?.user?.name}</h1>
-                        <h2>{bendahara[0]?.user?.prodi}</h2>
-                     </div>
-                     <div className="social">
-                        <a href={bendahara[0]?.instagram}>
-                           <FaInstagram className="icon" />
-                        </a>
-                        <a href={bendahara[0]?.linkedin}>
-                           <FaLinkedin className="icon" />
-                        </a>
-                        <a href={bendahara[0]?.github}>
-                           <FaGithub className="icon" />
-                        </a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div className="group rnd">
-               <div className="header">
-                  <h1>{`Departemen ${position[0]}`}</h1>
-               </div>
-               <div className="row">
-                  <div className="card">
-                     <div className="position">
-                        <h1>{ketuas[1]?.position}</h1>
-                     </div>
-                     <div className="photo">
-                        <img
-                           src="../../../public/images/photo/profile.jpg"
-                           alt=""
-                        />
-                     </div>
-                     <div className="profile">
-                        <h1>{ketuas[1]?.user?.name}</h1>
-                        <h2>{ketuas[1]?.user?.prodi}</h2>
-                     </div>
-                     <div className="social">
-                        <a href={ketuas[1]?.instagram}>
-                           <FaInstagram className="icon" />
-                        </a>
-                        <a href={ketuas[1]?.linkedin}>
-                           <FaLinkedin className="icon" />
-                        </a>
-                        <a href={ketuas[1]?.github}>
-                           <FaGithub className="icon" />
-                        </a>
-                     </div>
-                  </div>
-               </div>
-               <div className="row anggota">
-                  {staffs
-                     .filter(
-                        (staff) =>
-                           staff.position &&
-                           staff.position
-                              .toLowerCase()
-                              .includes(position[0].toLowerCase()) &&
-                           !staff.position.toLowerCase().includes("ketua")
-                     )
-                     .map((staff) => (
-                        <div className="card" key={staff.id}>
+                     <div className="row">
+                        <div className="card">
                            <div className="position">
-                              <h1>{staff.position}</h1>
+                              <h1>{ketuas[0]?.position}</h1>
                            </div>
                            <div className="photo">
                               <img
-                                 src="../../../public/images/photo/profile.jpg"
+                                 src={imageUrl + ketuas[0].gallery?.path}
                                  alt=""
                               />
                            </div>
                            <div className="profile">
-                              <h1>{staff?.user?.name}</h1>
-                              <h2>{staff?.user?.prodi}</h2>
+                              <h1>{ketuas[0]?.user?.name}</h1>
+                              <h2>{ketuas[0]?.user?.prodi}</h2>
                            </div>
                            <div className="social">
-                              <a href={staff.instagram}>
+                              <a href={ketuas[0]?.instagram}>
                                  <FaInstagram className="icon" />
                               </a>
-                              <a href={staff.linkedin}>
+                              <a href={ketuas[0]?.linkedin}>
                                  <FaLinkedin className="icon" />
                               </a>
-                              <a href={staff.github}>
+                              <a href={ketuas[0]?.github}>
                                  <FaGithub className="icon" />
                               </a>
                            </div>
                         </div>
-                     ))}
-               </div>
-            </div>
-            <div className="group pr">
-               <div className="header">
-                  <h1>{`Departemen ${position[1]}`}</h1>
-               </div>
-               <div className="row">
-                  <div className="card">
-                     <div className="position">
-                        <h1>{ketuas[2]?.position}</h1>
                      </div>
-                     <div className="photo">
-                        <img
-                           src="../../../public/images/photo/profile.jpg"
-                           alt=""
-                        />
-                     </div>
-                     <div className="profile">
-                        <h1>{ketuas[2]?.user?.name}</h1>
-                        <h2>{ketuas[2]?.user?.prodi}</h2>
-                     </div>
-                     <div className="social">
-                        <a href={ketuas[2]?.instagram}>
-                           <FaInstagram className="icon" />
-                        </a>
-                        <a href={ketuas[2]?.linkedin}>
-                           <FaLinkedin className="icon" />
-                        </a>
-                        <a href={ketuas[2]?.github}>
-                           <FaGithub className="icon" />
-                        </a>
-                     </div>
-                  </div>
-               </div>
-               <div className="row anggota">
-                  {staffs
-                     .filter(
-                        (staff) =>
-                           staff.position &&
-                           staff.position
-                              .toLowerCase()
-                              .includes(position[1].toLowerCase()) &&
-                           !staff.position.toLowerCase().includes("ketua")
-                     )
-                     .map((staff) => (
-                        <div className="card" key={staff.id}>
+                     <div className="row">
+                        <div className="card">
                            <div className="position">
-                              <h1>{staff.position}</h1>
+                              <h1>{sekretaris[0]?.position}</h1>
                            </div>
                            <div className="photo">
                               <img
-                                 src="../../../public/images/photo/profile.jpg"
+                                 src={imageUrl + sekretaris[0].gallery?.path}
                                  alt=""
                               />
                            </div>
                            <div className="profile">
-                              <h1>{staff?.user?.name}</h1>
-                              <h2>{staff?.user?.prodi}</h2>
+                              <h1>{sekretaris[0]?.user?.name}</h1>
+                              <h2>{sekretaris[0]?.user?.prodi}</h2>
                            </div>
                            <div className="social">
-                              <a href={staff.instagram}>
+                              <a href={sekretaris[0]?.instagram}>
                                  <FaInstagram className="icon" />
                               </a>
-                              <a href={staff.linkedin}>
+                              <a href={sekretaris[0]?.linkedin}>
                                  <FaLinkedin className="icon" />
                               </a>
-                              <a href={staff.github}>
+                              <a href={sekretaris[0]?.github}>
                                  <FaGithub className="icon" />
                               </a>
                            </div>
                         </div>
-                     ))}
-               </div>
-            </div>
-            <div className="group media">
-               <div className="header">
-                  <h1>{`Departemen ${position[2]}`}</h1>
-               </div>
-               <div className="row">
-                  <div className="card">
-                     <div className="position">
-                        <h1>{ketuas[3]?.position}</h1>
-                     </div>
-                     <div className="photo">
-                        <img
-                           src="../../../public/images/photo/profile.jpg"
-                           alt=""
-                        />
-                     </div>
-                     <div className="profile">
-                        <h1>{ketuas[3]?.user?.name}</h1>
-                        <h2>{ketuas[3]?.user?.prodi}</h2>
-                     </div>
-                     <div className="social">
-                        <a href={ketuas[3]?.instagram}>
-                           <FaInstagram className="icon" />
-                        </a>
-                        <a href={ketuas[3]?.linkedin}>
-                           <FaLinkedin className="icon" />
-                        </a>
-                        <a href={ketuas[3]?.github}>
-                           <FaGithub className="icon" />
-                        </a>
-                     </div>
-                  </div>
-               </div>
-               <div className="row anggota">
-                  {staffs
-                     .filter(
-                        (staff) =>
-                           staff.position &&
-                           staff.position
-                              .toLowerCase()
-                              .includes(position[2].toLowerCase()) &&
-                           !staff.position.toLowerCase().includes("ketua")
-                     )
-                     .map((staff) => (
-                        <div className="card" key={staff.id}>
+                        <div className="card">
                            <div className="position">
-                              <h1>{staff.position}</h1>
+                              <h1>{bendahara[0]?.position}</h1>
                            </div>
                            <div className="photo">
                               <img
-                                 src="../../../public/images/photo/profile.jpg"
+                                 src={imageUrl + bendahara[0].gallery?.path}
                                  alt=""
                               />
                            </div>
                            <div className="profile">
-                              <h1>{staff?.user?.name}</h1>
-                              <h2>{staff?.user?.prodi}</h2>
+                              <h1>{bendahara[0]?.user?.name}</h1>
+                              <h2>{bendahara[0]?.user?.prodi}</h2>
                            </div>
                            <div className="social">
-                              <a href={staff.instagram}>
+                              <a href={bendahara[0]?.instagram}>
                                  <FaInstagram className="icon" />
                               </a>
-                              <a href={staff.linkedin}>
+                              <a href={bendahara[0]?.linkedin}>
                                  <FaLinkedin className="icon" />
                               </a>
-                              <a href={staff.github}>
+                              <a href={bendahara[0]?.github}>
                                  <FaGithub className="icon" />
                               </a>
                            </div>
                         </div>
-                     ))}
-               </div>
-            </div>
-            <div className="group pp">
-               <div className="header">
-                  <h1>{`Departemen ${position[3]}`}</h1>
-               </div>
-               <div className="row">
-                  <div className="card">
-                     <div className="position">
-                        <h1>{ketuas[4]?.position}</h1>
-                     </div>
-                     <div className="photo">
-                        <img
-                           src="../../../public/images/photo/profile.jpg"
-                           alt=""
-                        />
-                     </div>
-                     <div className="profile">
-                        <h1>{ketuas[4]?.user?.name}</h1>
-                        <h2>{ketuas[4]?.user?.prodi}</h2>
-                     </div>
-                     <div className="social">
-                        <a href={ketuas[4]?.instagram}>
-                           <FaInstagram className="icon" />
-                        </a>
-                        <a href={ketuas[4]?.linkedin}>
-                           <FaLinkedin className="icon" />
-                        </a>
-                        <a href={ketuas[4]?.github}>
-                           <FaGithub className="icon" />
-                        </a>
                      </div>
                   </div>
-               </div>
-               <div className="row anggota">
-                  {staffs
-                     .filter(
-                        (staff) =>
-                           staff.position &&
-                           staff.position
-                              .toLowerCase()
-                              .includes(position[3].toLowerCase()) &&
-                           !staff.position.toLowerCase().includes("ketua")
-                     )
-                     .map((staff) => (
-                        <div className="card" key={staff.id}>
+                  <div className="group rnd">
+                     <div className="header">
+                        <h1>{`Departemen ${position[0]}`}</h1>
+                     </div>
+                     <div className="row">
+                        <div className="card">
                            <div className="position">
-                              <h1>{staff.position}</h1>
+                              <h1>{ketuas[1]?.position}</h1>
                            </div>
                            <div className="photo">
                               <img
-                                 src="../../../public/images/photo/profile.jpg"
+                                 src={imageUrl + ketuas[1].gallery?.path}
                                  alt=""
                               />
                            </div>
                            <div className="profile">
-                              <h1>{staff?.user?.name}</h1>
-                              <h2>{staff?.user?.prodi}</h2>
+                              <h1>{ketuas[1]?.user?.name}</h1>
+                              <h2>{ketuas[1]?.user?.prodi}</h2>
                            </div>
                            <div className="social">
-                              <a href={staff.instagram}>
+                              <a href={ketuas[1]?.instagram}>
                                  <FaInstagram className="icon" />
                               </a>
-                              <a href={staff.linkedin}>
+                              <a href={ketuas[1]?.linkedin}>
                                  <FaLinkedin className="icon" />
                               </a>
-                              <a href={staff.github}>
+                              <a href={ketuas[1]?.github}>
                                  <FaGithub className="icon" />
                               </a>
                            </div>
                         </div>
-                     ))}
-               </div>
-            </div>
+                     </div>
+                     <div className="row anggota">
+                        {staffs
+                           .filter(
+                              (staff) =>
+                                 staff.position &&
+                                 staff.position
+                                    .toLowerCase()
+                                    .includes(position[0].toLowerCase()) &&
+                                 !staff.position.toLowerCase().includes("ketua")
+                           )
+                           .map((staff) => (
+                              <div className="card" key={staff.id}>
+                                 <div className="position">
+                                    <h1>{staff.position}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
+                     </div>
+                  </div>
+                  <div className="group pr">
+                     <div className="header">
+                        <h1>{`Departemen ${position[1]}`}</h1>
+                     </div>
+                     <div className="row">
+                        <div className="card">
+                           <div className="position">
+                              <h1>{ketuas[2]?.position}</h1>
+                           </div>
+                           <div className="photo">
+                              <img
+                                 src={imageUrl + ketuas[2].gallery?.path}
+                                 alt=""
+                              />
+                           </div>
+                           <div className="profile">
+                              <h1>{ketuas[2]?.user?.name}</h1>
+                              <h2>{ketuas[2]?.user?.prodi}</h2>
+                           </div>
+                           <div className="social">
+                              <a href={ketuas[2]?.instagram}>
+                                 <FaInstagram className="icon" />
+                              </a>
+                              <a href={ketuas[2]?.linkedin}>
+                                 <FaLinkedin className="icon" />
+                              </a>
+                              <a href={ketuas[2]?.github}>
+                                 <FaGithub className="icon" />
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="row anggota">
+                        {staffs
+                           .filter(
+                              (staff) =>
+                                 staff.position &&
+                                 staff.position
+                                    .toLowerCase()
+                                    .includes(position[1].toLowerCase()) &&
+                                 !staff.position.toLowerCase().includes("ketua")
+                           )
+                           .map((staff) => (
+                              <div className="card" key={staff.id}>
+                                 <div className="position">
+                                    <h1>{staff.position}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
+                     </div>
+                  </div>
+                  <div className="group media">
+                     <div className="header">
+                        <h1>{`Departemen ${position[2]}`}</h1>
+                     </div>
+                     <div className="row">
+                        <div className="card">
+                           <div className="position">
+                              <h1>{ketuas[3]?.position}</h1>
+                           </div>
+                           <div className="photo">
+                              <img
+                                 src={imageUrl + ketuas[3].gallery?.path}
+                                 alt=""
+                              />
+                           </div>
+                           <div className="profile">
+                              <h1>{ketuas[3]?.user?.name}</h1>
+                              <h2>{ketuas[3]?.user?.prodi}</h2>
+                           </div>
+                           <div className="social">
+                              <a href={ketuas[3]?.instagram}>
+                                 <FaInstagram className="icon" />
+                              </a>
+                              <a href={ketuas[3]?.linkedin}>
+                                 <FaLinkedin className="icon" />
+                              </a>
+                              <a href={ketuas[3]?.github}>
+                                 <FaGithub className="icon" />
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="row anggota">
+                        {staffs
+                           .filter(
+                              (staff) =>
+                                 staff.position &&
+                                 staff.position
+                                    .toLowerCase()
+                                    .includes(position[2].toLowerCase()) &&
+                                 !staff.position.toLowerCase().includes("ketua")
+                           )
+                           .map((staff) => (
+                              <div className="card" key={staff.id}>
+                                 <div className="position">
+                                    <h1>{staff.position}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
+                     </div>
+                  </div>
+                  <div className="group pp">
+                     <div className="header">
+                        <h1>{`Departemen ${position[3]}`}</h1>
+                     </div>
+                     <div className="row">
+                        <div className="card">
+                           <div className="position">
+                              <h1>{ketuas[4]?.position}</h1>
+                           </div>
+                           <div className="photo">
+                              <img
+                                 src={imageUrl + ketuas[4].gallery?.path}
+                                 alt=""
+                              />
+                           </div>
+                           <div className="profile">
+                              <h1>{ketuas[4]?.user?.name}</h1>
+                              <h2>{ketuas[4]?.user?.prodi}</h2>
+                           </div>
+                           <div className="social">
+                              <a href={ketuas[4]?.instagram}>
+                                 <FaInstagram className="icon" />
+                              </a>
+                              <a href={ketuas[4]?.linkedin}>
+                                 <FaLinkedin className="icon" />
+                              </a>
+                              <a href={ketuas[4]?.github}>
+                                 <FaGithub className="icon" />
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="row anggota">
+                        {staffs
+                           .filter(
+                              (staff) =>
+                                 staff.position &&
+                                 staff.position
+                                    .toLowerCase()
+                                    .includes(position[3].toLowerCase()) &&
+                                 !staff.position.toLowerCase().includes("ketua")
+                           )
+                           .map((staff) => (
+                              <div className="card" key={staff.id}>
+                                 <div className="position">
+                                    <h1>{staff.position}</h1>
+                                 </div>
+                                 <div className="photo">
+                                    <img
+                                       src={imageUrl + staff.gallery?.path}
+                                       alt=""
+                                    />
+                                 </div>
+                                 <div className="profile">
+                                    <h1>{staff?.user?.name}</h1>
+                                    <h2>{staff?.user?.prodi}</h2>
+                                 </div>
+                                 <div className="social">
+                                    <a href={staff.instagram}>
+                                       <FaInstagram className="icon" />
+                                    </a>
+                                    <a href={staff.linkedin}>
+                                       <FaLinkedin className="icon" />
+                                    </a>
+                                    <a href={staff.github}>
+                                       <FaGithub className="icon" />
+                                    </a>
+                                 </div>
+                              </div>
+                           ))}
+                     </div>
+                  </div>
+               </>
+            )}
          </div>
       </div>
    );

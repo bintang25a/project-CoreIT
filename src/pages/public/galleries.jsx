@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
+import Message from "../../components/public/NotFoundData";
+import Skeleton from "react-loading-skeleton";
 
 export default function Galleries() {
-   const { images, imageUrl, fetchData } = useOutletContext();
+   const { images, imageUrl, fetchData, setIsClose } = useOutletContext();
 
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -47,7 +49,8 @@ export default function Galleries() {
 
    useEffect(() => {
       window.scrollTo(0, 0);
-   }, []);
+      setIsClose(true);
+   }, [setIsClose]);
 
    return (
       <div className="galleries-public">
@@ -85,22 +88,30 @@ export default function Galleries() {
             </div>
          </div>
          <div className="content">
-            <div className="gallery-grid">
-               {[...filteredImages]
-                  .reverse()
-                  .slice(0, 20)
-                  .map((image, index) => {
-                     return (
-                        <div className="gallery-item" key={index}>
-                           <img
-                              src={imageUrl + image.path}
-                              alt={`Gallery ${index}`}
-                              onClick={() => openModal(image)}
-                           />
-                        </div>
-                     );
-                  })}
-            </div>
+            {!filteredImages ? (
+               <Message message={"Galleries has no images, :'("} />
+            ) : (
+               <div className="gallery-grid">
+                  {isLoading ? (
+                     <Skeleton count={6} width={"25vw"} height={"50vh"} />
+                  ) : (
+                     [...filteredImages]
+                        .reverse()
+                        .slice(0, 20)
+                        .map((image, index) => {
+                           return (
+                              <div className="gallery-item" key={index}>
+                                 <img
+                                    src={imageUrl + image.path}
+                                    alt={`Gallery ${index}`}
+                                    onClick={() => openModal(image)}
+                                 />
+                              </div>
+                           );
+                        })
+                  )}
+               </div>
+            )}
             {selectedImage && (
                <div className="modal-overlay" onClick={closeModal}>
                   <div

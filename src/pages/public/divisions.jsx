@@ -19,7 +19,8 @@ function LoadingCard() {
 }
 
 export default function Divisions() {
-   const { divisions, divisionsLogo, fetchData } = useOutletContext();
+   const { divisions, divisionsLogo, fetchData, setIsClose } =
+      useOutletContext();
 
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -50,7 +51,8 @@ export default function Divisions() {
 
    useEffect(() => {
       window.scrollTo(0, 0);
-   }, []);
+      setIsClose(true);
+   }, [setIsClose]);
 
    const navigate = useNavigate();
    const handleNavigate = (id) => {

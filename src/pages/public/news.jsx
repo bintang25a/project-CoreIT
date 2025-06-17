@@ -6,9 +6,49 @@ import {
    useParams,
 } from "react-router-dom";
 import { showNews } from "../../_services/news";
+import { FaArrowLeft } from "react-icons/fa";
 import background from "/images/background/gambar2.jpg";
+import Message from "../../components/public/NotFoundData";
+import Skeleton from "react-loading-skeleton";
 
-function NewsDetail({ id, formatTanggal, imageUrl }) {
+function NewsDetailLoading() {
+   return (
+      <>
+         <div className="header detail">
+            <div className="text">
+               <h1>
+                  <span>News:</span> Loading ...
+               </h1>
+            </div>
+            <div className="background">
+               <img src={background} alt="background" />
+            </div>
+         </div>
+         <div className="news-detail">
+            <div className="time">
+               <h1>News updated at: Loading ... </h1>
+            </div>
+            <div className="image">
+               <Skeleton height={"100%"} />
+            </div>
+            <div className="paragraph">
+               <p>Loading paragraph ...</p>
+            </div>
+            <div className="image">
+               <Skeleton height={"100%"} />
+            </div>
+            <div className="paragraph">
+               <p>Loading paragraph ...</p>
+            </div>
+            <div className="paragraph">
+               <p>Loading paragraph ...</p>
+            </div>
+         </div>
+      </>
+   );
+}
+
+function NewsDetail({ id, formatTanggal, imageUrl, isLoading }) {
    const [news, setNews] = useState([]);
    useEffect(() => {
       const fetchNews = async () => {
@@ -22,35 +62,52 @@ function NewsDetail({ id, formatTanggal, imageUrl }) {
 
    return (
       <>
-         <div className="header detail">
-            <div className="text">
-               <h1>
-                  <span>News:</span> {news.title}
-               </h1>
-            </div>
-            <div className="background">
-               <img src={background} alt="background" />
-            </div>
-         </div>
-         <div className="news-detail">
-            <div className="time">
-               <h1>News updated at: {formatTanggal(news.updated_at)}</h1>
-            </div>
-            <div className="image">
-               <img src={imageUrl + news.main_image?.path} alt={news.title} />
-            </div>
-            <div className="paragraph">
-               <p>{news.paragraph_1}</p>
-            </div>
-            <div className="image">
-               <img src={imageUrl + news.body_image?.path} alt={news.title} />
-            </div>
-            <div className="paragraph">
-               <p>{news.paragraph_2}</p>
-            </div>
-            <div className="paragraph">
-               <p>{news.paragraph_1}</p>
-            </div>
+         {isLoading ? (
+            <NewsDetailLoading />
+         ) : (
+            <>
+               <div className="header detail">
+                  <div className="text">
+                     <h1>
+                        <span>News:</span> {news.title}
+                     </h1>
+                  </div>
+                  <div className="background">
+                     <img src={background} alt="background" />
+                  </div>
+               </div>
+               <div className="news-detail">
+                  <div className="time">
+                     <h1>News updated at: {formatTanggal(news.updated_at)}</h1>
+                  </div>
+                  <div className="image">
+                     <img
+                        src={imageUrl + news.main_image?.path}
+                        alt={news.title}
+                     />
+                  </div>
+                  <div className="paragraph">
+                     <p>{news.paragraph_1}</p>
+                  </div>
+                  <div className="image">
+                     <img
+                        src={imageUrl + news.body_image?.path}
+                        alt={news.title}
+                     />
+                  </div>
+                  <div className="paragraph">
+                     <p>{news.paragraph_2}</p>
+                  </div>
+                  <div className="paragraph">
+                     <p>{news.paragraph_1}</p>
+                  </div>
+               </div>
+            </>
+         )}
+         <div className="btn-back">
+            <Link to={"/news"} className="btn back">
+               <FaArrowLeft />
+            </Link>
          </div>
       </>
    );
@@ -64,6 +121,7 @@ function NewsHome({
    handleSearchTerm,
    formatTanggal,
    handleNavigate,
+   isLoading,
 }) {
    return (
       <>
@@ -86,65 +144,85 @@ function NewsHome({
             </div>
          </div>
          <div className="content">
-            <div className="left-content">
-               {[...filteredNews]
-                  ?.reverse()
-                  .slice(0, 5)
-                  .map((item) => (
-                     <div key={item.id} className="card">
-                        <div className="image">
-                           <img
-                              src={imageUrl + item.main_image?.path}
-                              alt={item.title}
-                           />
-                        </div>
-                        <div className="title">
-                           <h1>{item.title}</h1>
-                        </div>
-                        <div className="time">
-                           <h1>Created at {formatTanggal(item.created_at)}</h1>
-                        </div>
-                        <div className="summary">
-                           <p>{item.paragraph_1}</p>
-                           <p> ... </p>
-                        </div>
-                        <div className="button">
-                           <Link className="btn" to={`/news/${item.id}`}>
-                              Read more
-                           </Link>
-                        </div>
-                     </div>
-                  ))}
-            </div>
-            <div className="right-content-news">
-               <div className="header-content">
-                  <h1>See other news</h1>
-               </div>
-               {news?.slice(0, 10).map((item) => (
-                  <div
-                     onClick={() => handleNavigate(item.id)}
-                     key={item.id}
-                     className="card"
-                  >
-                     <div className="image">
-                        <img
-                           src={imageUrl + item.main_image?.path}
-                           alt={item.title}
-                        />
-                     </div>
-                     <div className="title">
-                        <h1>{item.title}</h1>
-                     </div>
+            {isLoading ? (
+               <Skeleton count={8} width={"90vw"} height={32} />
+            ) : (
+               <>
+                  <div className="left-content">
+                     {filteredNews ? (
+                        [...filteredNews]
+                           ?.reverse()
+                           .slice(0, 5)
+                           .map((item) => (
+                              <div key={item.id} className="card">
+                                 <div className="image">
+                                    <img
+                                       src={imageUrl + item.main_image?.path}
+                                       alt={item.title}
+                                    />
+                                 </div>
+                                 <div className="title">
+                                    <h1>{item.title}</h1>
+                                 </div>
+                                 <div className="time">
+                                    <h1>
+                                       Created at{" "}
+                                       {formatTanggal(item.created_at)}
+                                    </h1>
+                                 </div>
+                                 <div className="summary">
+                                    <p>{item.paragraph_1}</p>
+                                 </div>
+                                 <div className="button">
+                                    <Link
+                                       className="btn"
+                                       to={`/news/${item.id}`}
+                                    >
+                                       Read more
+                                    </Link>
+                                 </div>
+                              </div>
+                           ))
+                     ) : (
+                        <Message message={"No news uploaded in here, :'("} />
+                     )}
                   </div>
-               ))}
-            </div>
+
+                  <div className="right-content-news">
+                     <div className="header-content">
+                        <h1>See other news</h1>
+                     </div>
+                     {news ? (
+                        news.slice(0, 10).map((item) => (
+                           <div
+                              onClick={() => handleNavigate(item.id)}
+                              key={item.id}
+                              className="card"
+                           >
+                              <div className="image">
+                                 <img
+                                    src={imageUrl + item.main_image?.path}
+                                    alt={item.title}
+                                 />
+                              </div>
+                              <div className="title">
+                                 <h1>{item.title}</h1>
+                              </div>
+                           </div>
+                        ))
+                     ) : (
+                        <Message message={"no other news, :'("} />
+                     )}
+                  </div>
+               </>
+            )}
          </div>
       </>
    );
 }
 
 export default function News() {
-   const { news, imageUrl, fetchData } = useOutletContext();
+   const { news, imageUrl, fetchData, setIsClose } = useOutletContext();
    const { id } = useParams();
 
    const [isLoading, setIsLoading] = useState(true);
@@ -199,7 +277,8 @@ export default function News() {
 
    useEffect(() => {
       window.scrollTo(0, 0);
-   }, []);
+      setIsClose(true);
+   }, [setIsClose]);
 
    return (
       <div className="news-public">
@@ -208,6 +287,7 @@ export default function News() {
                id={id}
                formatTanggal={formatTanggal}
                imageUrl={imageUrl}
+               isLoading={isLoading}
             />
          ) : (
             <NewsHome
@@ -218,6 +298,7 @@ export default function News() {
                handleSearchTerm={handleSearchTerm}
                formatTanggal={formatTanggal}
                handleNavigate={handleNavigate}
+               isLoading={isLoading}
             />
          )}
       </div>
