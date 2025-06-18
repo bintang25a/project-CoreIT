@@ -15,6 +15,10 @@ export default function Galleries() {
       const loadingTimeout = setTimeout(() => {
          if (images.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 
@@ -25,10 +29,6 @@ export default function Galleries() {
       const fetchTimeout = setTimeout(() => {
          if (isLoading) {
             fetchData();
-         } else {
-            setTimeout(() => {
-               setIsLoading(false);
-            }, 2500);
          }
       }, 1500);
 

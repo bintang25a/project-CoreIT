@@ -97,27 +97,12 @@ export default function Division() {
       }
    }, [fetchData, isLoading, divisionsLogo]);
 
-   useEffect(() => {
-      const fetchDivision = async () => {
-         const [divisionData] = await Promise.all([showDivision(id)]);
-
-         setDivision(divisionData);
-      };
-
-      const fetchDataAndStopLoading = async () => {
-         await fetchData();
-         await fetchDivision();
-         setTimeout(() => setIsLoading(false), 250);
-      };
-
-      fetchDataAndStopLoading();
-   }, [fetchData, id]);
-
    const [searchTerm, setSearchTerm] = useState("");
    const filteredMembers = division?.user?.filter(
       (member) =>
          member.role !== "registrant" &&
          member.role !== "admin" &&
+         member.staff?.position !== "Admin" &&
          (member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             member.nim.toLowerCase().includes(searchTerm.toLowerCase()) ||
             member.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
