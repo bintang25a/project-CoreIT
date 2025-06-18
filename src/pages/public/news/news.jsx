@@ -5,10 +5,10 @@ import {
    useNavigate,
    useParams,
 } from "react-router-dom";
-import { showNews } from "../../_services/news";
+import { showNews } from "../../../_services/news";
 import { FaArrowLeft } from "react-icons/fa";
 import background from "/images/background/gambar2.jpg";
-import Message from "../../components/public/NotFoundData";
+import Message from "../../../components/elements/NotFoundData";
 import Skeleton from "react-loading-skeleton";
 
 function NewsDetailLoading() {
@@ -150,74 +150,17 @@ function NewsHome({
                      <Skeleton count={10} height={15} />
                   </div>
                   <div className="right-content">
-                     <div className="header-content">
-                        <h1>See other news</h1>
-                     </div>
-                     <div className="card">
-                        <div className="image">
-                           <Skeleton count={2} height={30} />
-                        </div>
-                        <div className="title">
-                           <h1>
-                              <Skeleton count={10} height={30} />
-                           </h1>
-                        </div>
-                     </div>
+                     <Skeleton count={10} height={15} />
                   </div>
                </>
-            ) : (
+            ) : news.length > 0 ? (
                <>
                   <div className="left-content">
-                     {filteredNews ? (
-                        [...filteredNews]
-                           ?.reverse()
-                           .slice(0, 5)
-                           .map((item) => (
-                              <div key={item.id} className="card">
-                                 <div className="image">
-                                    <img
-                                       src={imageUrl + item.main_image?.path}
-                                       alt={item.title}
-                                    />
-                                 </div>
-                                 <div className="title">
-                                    <h1>{item.title}</h1>
-                                 </div>
-                                 <div className="time">
-                                    <h1>
-                                       Created at{" "}
-                                       {formatTanggal(item.created_at)}
-                                    </h1>
-                                 </div>
-                                 <div className="summary">
-                                    <p>{item.paragraph_1}</p>
-                                 </div>
-                                 <div className="button">
-                                    <Link
-                                       className="btn"
-                                       to={`/news/${item.id}`}
-                                    >
-                                       Read more
-                                    </Link>
-                                 </div>
-                              </div>
-                           ))
-                     ) : (
-                        <Message message={"No news uploaded in here, :'("} />
-                     )}
-                  </div>
-
-                  <div className="right-content-news">
-                     <div className="header-content">
-                        <h1>See other news</h1>
-                     </div>
-                     {news ? (
-                        news.slice(0, 10).map((item) => (
-                           <div
-                              onClick={() => handleNavigate(item.id)}
-                              key={item.id}
-                              className="card"
-                           >
+                     {[...filteredNews]
+                        ?.reverse()
+                        .slice(0, 5)
+                        .map((item) => (
+                           <div key={item.id} className="card">
                               <div className="image">
                                  <img
                                     src={imageUrl + item.main_image?.path}
@@ -227,13 +170,48 @@ function NewsHome({
                               <div className="title">
                                  <h1>{item.title}</h1>
                               </div>
+                              <div className="time">
+                                 <h1>
+                                    Created at {formatTanggal(item.created_at)}
+                                 </h1>
+                              </div>
+                              <div className="summary">
+                                 <p>{item.paragraph_1}</p>
+                              </div>
+                              <div className="button">
+                                 <Link className="btn" to={`/news/${item.id}`}>
+                                    Read more
+                                 </Link>
+                              </div>
                            </div>
-                        ))
-                     ) : (
-                        <Message message={"no other news, :'("} />
-                     )}
+                        ))}
+                  </div>
+
+                  <div className="right-content-news">
+                     <div className="header-content">
+                        <h1>See other news</h1>
+                     </div>
+                     {news.slice(0, 10).map((item) => (
+                        <div
+                           onClick={() => handleNavigate(item.id)}
+                           key={item.id}
+                           className="card"
+                        >
+                           <div className="image">
+                              <img
+                                 src={imageUrl + item.main_image?.path}
+                                 alt={item.title}
+                              />
+                           </div>
+                           <div className="title">
+                              <h1>{item.title}</h1>
+                           </div>
+                        </div>
+                     ))}
                   </div>
                </>
+            ) : (
+               <Message message={"No news uploaded in here, :'("} />
             )}
          </div>
       </>
@@ -253,6 +231,10 @@ export default function News() {
       const loadingTimeout = setTimeout(() => {
          if (news.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 

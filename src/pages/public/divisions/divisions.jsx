@@ -31,6 +31,10 @@ export default function Divisions() {
       const loadingTimeout = setTimeout(() => {
          if (divisions.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 

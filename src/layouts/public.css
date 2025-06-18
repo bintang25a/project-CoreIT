@@ -153,11 +153,6 @@
       font-weight: 500;
    }
 }
-
-.skeleton-style {
-   width: var(--px-256);
-   height: var(--px-64);
-}
 /* ===== footer style end ===== */
 
 @media screen and (max-width: 1365px) {

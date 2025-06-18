@@ -713,18 +713,41 @@ main .confirm-buttons button:hover {
 /* ===== Pages style end ===== */
 
 /* ===== Custom alert style start */
+main.user-profile .alert,
 main .alert {
    max-width: 100%;
    width: fit-content;
    text-align: center;
    height: fit-content;
 }
+main.user-profile .alert.success,
 main .alert.success {
    font-size: var(--fs-2);
    color: var(--btn-save);
 }
+main.user-profile .alert.error,
 main .alert.error {
    font-size: var(--fs-1);
    color: var(--btn-danger);
 }
 /* ===== Custom alert style end */
+
+.not-container {
+   display: flex;
+   width: 100%;
+   height: fit-content;
+   padding: var(--px-32);
+   border-radius: 0.5rem;
+   background-color: var(--gray-200);
+   color: var(--btn-danger);
+   box-shadow: 1px 1px 2px var(--gray-700);
+   justify-content: center;
+
+   h1 {
+      font-size: var(--fs-4);
+   }
+
+   p {
+      font-size: var(--fs-3);
+   }
+}

@@ -8,7 +8,7 @@ import {
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import useConfirmDialog from "../../../components/admin/ConfirmModal";
-// import "./member.css";
+import Message from "../../../components/elements/NotFoundData";
 
 function NormalRow({ member, isSelected, handleCheckboxChange, logoUrl }) {
    return (
@@ -305,6 +305,10 @@ export default function Members() {
       const loadingTimeout = setTimeout(() => {
          if ((members.length > 0) & (divisions.length > 0)) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 
@@ -584,21 +588,35 @@ export default function Members() {
                               setFormData={setFormData}
                            />
 
-                           {paginatedMembers.map((member) => {
-                              const isSelected = selectedIds.includes(
-                                 member.id
-                              );
+                           {members.length > 0 ? (
+                              paginatedMembers.map((member) => {
+                                 const isSelected = selectedIds.includes(
+                                    member.id
+                                 );
 
-                              return (
-                                 <NormalRow
-                                    key={member.id}
-                                    member={member}
-                                    isSelected={isSelected}
-                                    handleCheckboxChange={handleCheckboxChange}
-                                    logoUrl={logoUrl}
-                                 />
-                              );
-                           })}
+                                 return (
+                                    <NormalRow
+                                       key={member.id}
+                                       member={member}
+                                       isSelected={isSelected}
+                                       handleCheckboxChange={
+                                          handleCheckboxChange
+                                       }
+                                       logoUrl={logoUrl}
+                                    />
+                                 );
+                              })
+                           ) : (
+                              <tr>
+                                 <td colSpan={7}>
+                                    <Message
+                                       message={
+                                          "no members data in database, try to recrut some members"
+                                       }
+                                    />
+                                 </td>
+                              </tr>
+                           )}
                         </>
                      )}
                   </tbody>

@@ -233,6 +233,10 @@ export default function Registrants() {
       const loadingTimeout = setTimeout(() => {
          if (members.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 

@@ -48,6 +48,10 @@ export default function NewsAdd() {
       const loadingTimeout = setTimeout(() => {
          if (informations.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 

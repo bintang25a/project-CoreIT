@@ -211,7 +211,6 @@ main.registrants .content .card .profile {
    gap: var(--px-8);
 }
 main.registrants .content .card .profile h1 {
-   white-space: nowrap;
    font-size: var(--fs-3);
    font-weight: 500;
 }
@@ -849,7 +848,38 @@ main.profile-user .general img {
    width: var(--px-128);
    border-radius: 100px;
    border: 1px solid var(--primary);
+   position: relative;
 }
+main.profile-user .general label {
+   display: none;
+   position: absolute;
+}
+main.profile-user .general label input {
+   display: none;
+}
+main.profile-user .general img:hover + label,
+main.profile-user .general label:hover {
+   aspect-ratio: 1/1;
+   display: block;
+   width: 100%;
+   border-radius: 5rem;
+   background: rgba(0, 0, 0, 0.6);
+   cursor: pointer;
+   font-size: var(--fs-5);
+   font-weight: 600;
+   color: var(--gray-100);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   width: var(--px-128);
+
+   h1 {
+      font-size: var(--fs-1);
+      font-weight: 500;
+   }
+}
+
 main.profile-user .general .profile {
    width: 100%;
    display: flex;
@@ -861,6 +891,21 @@ main.profile-user .general .profile h1 {
    font-size: var(--fs-8);
    color: var(--gray-600);
    font-weight: 600;
+
+   .btn {
+      margin-left: var(--px-16);
+      font-size: var(--fs-0);
+      height: 100%;
+      background-color: var(--btn-info);
+      border-radius: 4px;
+      padding: var(--px-8) var(--px-16);
+      color: var(--gray-100);
+      transition: 0.3s ease;
+   }
+   .btn:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+   }
 }
 main.profile-user .general .profile h2 {
    font-size: var(--fs-5);

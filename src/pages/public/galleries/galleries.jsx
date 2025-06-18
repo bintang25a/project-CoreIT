@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import Message from "../../components/public/NotFoundData";
+import Message from "../../../components/elements/NotFoundData";
 import Skeleton from "react-loading-skeleton";
 
 export default function Galleries() {
@@ -25,6 +25,10 @@ export default function Galleries() {
       const fetchTimeout = setTimeout(() => {
          if (isLoading) {
             fetchData();
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 1500);
 
@@ -88,30 +92,38 @@ export default function Galleries() {
             </div>
          </div>
          <div className="content">
-            {!filteredImages ? (
-               <Message message={"Galleries has no images, :'("} />
-            ) : (
-               <div className="gallery-grid">
-                  {isLoading ? (
-                     <Skeleton count={6} width={"25vw"} height={"50vh"} />
-                  ) : (
-                     [...filteredImages]
-                        .reverse()
-                        .slice(0, 20)
-                        .map((image, index) => {
-                           return (
-                              <div className="gallery-item" key={index}>
-                                 <img
-                                    src={imageUrl + image.path}
-                                    alt={`Gallery ${index}`}
-                                    onClick={() => openModal(image)}
-                                 />
-                              </div>
-                           );
-                        })
-                  )}
-               </div>
-            )}
+            <div className="gallery-grid">
+               {isLoading ? (
+                  <Skeleton count={6} width={"25vw"} height={"50vh"} />
+               ) : images < 1 ? (
+                  <>
+                     <Message
+                        message={"Images not found in this gallery, :'("}
+                     />
+                     <Message
+                        message={"Images not found in this gallery, :'("}
+                     />
+                     <Message
+                        message={"Images not found in this gallery, :'("}
+                     />
+                  </>
+               ) : (
+                  [...filteredImages]
+                     .reverse()
+                     .slice(0, 20)
+                     .map((image, index) => {
+                        return (
+                           <div className="gallery-item" key={index}>
+                              <img
+                                 src={imageUrl + image.path}
+                                 alt={`Gallery ${index}`}
+                                 onClick={() => openModal(image)}
+                              />
+                           </div>
+                        );
+                     })
+               )}
+            </div>
             {selectedImage && (
                <div className="modal-overlay" onClick={closeModal}>
                   <div

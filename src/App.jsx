@@ -21,13 +21,14 @@ import Login from "./pages/auth/Login.jsx";
 
 import PublicLayout from "./layouts/public.jsx";
 import Home from "./pages/public";
-import DivisionsPublic from "./pages/public/divisions.jsx";
-import DivisionPublic from "./pages/public/division.jsx";
-import Programs from "./pages/public/programs.jsx";
-import StaffsPublic from "./pages/public/staffs.jsx";
-import GalleriesPublic from "./pages/public/galleries.jsx";
-import NewsPublic from "./pages/public/news.jsx";
-import NotFound from "./pages/public/NotFound.jsx";
+import DivisionsPublic from "./pages/public/divisions/divisions.jsx";
+import DivisionPublic from "./pages/public/divisions/division.jsx";
+import Programs from "./pages/public/programs/programs.jsx";
+import StaffsPublic from "./pages/public/staffs/staffs.jsx";
+import GalleriesPublic from "./pages/public/galleries/galleries.jsx";
+import NewsPublic from "./pages/public/news/news.jsx";
+
+import NotFound from "./pages/not found/NotFound.jsx";
 
 export default function App() {
    return (

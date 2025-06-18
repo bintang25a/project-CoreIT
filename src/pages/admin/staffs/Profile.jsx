@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { showStaff } from "../../../_services/staffs";
+import { showStaff, updateStaff } from "../../../_services/staffs";
 import { getImageUrl } from "../../../_services/galleries";
 import { showDivision } from "../../../_services/divisions";
 import { changePassword } from "../../../_services/auth";
 import Skeleton from "react-loading-skeleton";
+import { FiUpload } from "react-icons/fi";
 
 function LoadingProfile() {
    return (
@@ -57,6 +58,7 @@ export default function Profile() {
    const [passwordNew, setPasswordNew] = useState("");
    const [isLoading, setIsLoading] = useState(true);
    const [isDivLoading, setIsDivLoading] = useState(true);
+   const [formData, setFormData] = useState({});
    const { id } = useParams();
 
    //Kode custom alert
@@ -75,20 +77,25 @@ export default function Profile() {
       }, 5000);
    };
 
+   const fetchData = async () => {
+      const [staffData, imageUrlData] = await Promise.all([
+         showStaff(id),
+         getImageUrl(),
+      ]);
+
+      setFormData({
+         position: staffData.position || "",
+         nim: staffData.nim || "",
+         photo: null,
+      });
+      setStaff(staffData);
+      setImageUrl(imageUrlData);
+      setIsLoading(false);
+   };
+
    useEffect(() => {
-      const fetchData = async () => {
-         const [staffData, imageUrlData] = await Promise.all([
-            showStaff(id),
-            getImageUrl(),
-         ]);
-
-         setStaff(staffData);
-         setImageUrl(imageUrlData);
-         setIsLoading(false);
-      };
-
       fetchData();
-   }, [id]);
+   }, []);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -135,6 +142,51 @@ export default function Profile() {
       }
    };
 
+   console.log(formData);
+   const [filePhoto, setFilePhoto] = useState(false);
+   const [photoPreview, setPhotoPreview] = useState(null);
+   const handleChangeImage = (e) => {
+      const { name, files } = e.target;
+
+      if (name === "photo") {
+         const file = files[0];
+         if (!file) return;
+
+         setFilePhoto(true);
+         setPhotoPreview(URL.createObjectURL(file));
+
+         setFormData({
+            ...formData,
+            photo: file,
+         });
+      }
+   };
+   const handleSubmitImage = async () => {
+      const form = new FormData();
+      form.append("nim", formData.nim);
+      form.append("photo", formData.photo);
+      form.append("position", formData.position);
+
+      try {
+         await updateStaff(id, form);
+         setAlert({
+            isOpen: true,
+            successMessage: "Update photo successfully",
+         });
+         alertReset();
+         await fetchData();
+         setFilePhoto(false);
+         setPhotoPreview(null);
+         setFormData({ ...formData, photo: null });
+      } catch (error) {
+         setAlert({
+            isOpen: true,
+            errorMessage: error,
+         });
+         alertReset();
+      }
+   };
+
    return (
       <main className="profile-user">
          {isLoading ? (
@@ -143,15 +195,51 @@ export default function Profile() {
             <>
                <div className="general">
                   <img
-                     src={imageUrl + staff.gallery?.path}
+                     src={
+                        filePhoto && photoPreview
+                           ? photoPreview
+                           : imageUrl + staff.gallery?.path
+                     }
                      alt={staff.user?.name}
                   />
+                  <label htmlFor="photo">
+                     <input
+                        type="file"
+                        name="photo"
+                        id="photo"
+                        onChange={handleChangeImage}
+                     />
+                     <FiUpload />
+                     <h1>Change photo</h1>
+                  </label>
                   <div className="profile">
-                     <h1>{staff.user?.name}</h1>
+                     <h1>
+                        {staff.user?.name}
+                        {filePhoto ? (
+                           <button className="btn" onClick={handleSubmitImage}>
+                              Save photo
+                           </button>
+                        ) : (
+                           " "
+                        )}
+                     </h1>
                      <h2>
                         {staff.nim} | {staff.user?.prodi}
                      </h2>
                   </div>
+                  {alert.isOpen ? (
+                     <h1
+                        className={
+                           alert.errorMessage ? "alert error" : "alert success"
+                        }
+                     >
+                        {alert.errorMessage
+                           ? alert.errorMessage
+                           : alert.successMessage}
+                     </h1>
+                  ) : (
+                     ""
+                  )}
                </div>
                <div className="specific">
                   <div className="left-section">

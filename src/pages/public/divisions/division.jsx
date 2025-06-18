@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { showDivision } from "../../_services/divisions";
+import { showDivision } from "../../../_services/divisions";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
@@ -75,6 +75,10 @@ export default function Division() {
       const loadingTimeout = setTimeout(() => {
          if (divisionsLogo) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 
@@ -93,10 +97,27 @@ export default function Division() {
       }
    }, [fetchData, isLoading, divisionsLogo]);
 
+   useEffect(() => {
+      const fetchDivision = async () => {
+         const [divisionData] = await Promise.all([showDivision(id)]);
+
+         setDivision(divisionData);
+      };
+
+      const fetchDataAndStopLoading = async () => {
+         await fetchData();
+         await fetchDivision();
+         setTimeout(() => setIsLoading(false), 250);
+      };
+
+      fetchDataAndStopLoading();
+   }, [fetchData, id]);
+
    const [searchTerm, setSearchTerm] = useState("");
    const filteredMembers = division?.user?.filter(
       (member) =>
          member.role !== "registrant" &&
+         member.role !== "admin" &&
          (member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             member.nim.toLowerCase().includes(searchTerm.toLowerCase()) ||
             member.role.toLowerCase().includes(searchTerm.toLowerCase()) ||

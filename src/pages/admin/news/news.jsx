@@ -4,6 +4,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { deleteNews } from "../../../_services/news.js";
 import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
+import Message from "../../../components/elements/NotFoundData.jsx";
 
 function NormalRow({ information, isSelected, handleCheckboxChange }) {
    return (
@@ -90,6 +91,10 @@ export default function News() {
       const loadingTimeout = setTimeout(() => {
          if (informations.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 
@@ -251,20 +256,32 @@ export default function News() {
                      <LoadingRow />
                   ) : (
                      <>
-                        {paginatedInformations.map((information) => {
-                           const isSelected = selectedIds.includes(
-                              information.id
-                           );
+                        {informations > 0 ? (
+                           paginatedInformations.map((information) => {
+                              const isSelected = selectedIds.includes(
+                                 information.id
+                              );
 
-                           return (
-                              <NormalRow
-                                 key={information.id}
-                                 information={information}
-                                 isSelected={isSelected}
-                                 handleCheckboxChange={handleCheckboxChange}
-                              />
-                           );
-                        })}
+                              return (
+                                 <NormalRow
+                                    key={information.id}
+                                    information={information}
+                                    isSelected={isSelected}
+                                    handleCheckboxChange={handleCheckboxChange}
+                                 />
+                              );
+                           })
+                        ) : (
+                           <tr>
+                              <td colSpan={6}>
+                                 <Message
+                                    message={
+                                       "no news uploaded ini database, add more news"
+                                    }
+                                 />
+                              </td>
+                           </tr>
+                        )}
                      </>
                   )}
                </tbody>

@@ -37,6 +37,10 @@ export default function Galleries() {
       const loadingTimeout = setTimeout(() => {
          if (images.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 

@@ -64,6 +64,10 @@ export default function Home() {
       const loadingTimeout = setTimeout(() => {
          if ((divisions.length > 0) & (news.length > 0)) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 

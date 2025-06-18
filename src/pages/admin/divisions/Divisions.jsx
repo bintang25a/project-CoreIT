@@ -14,7 +14,7 @@ import {
 import { FaCheckCircle } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
-// import "./divisions.css";
+import Message from "../../../components/elements/NotFoundData.jsx";
 
 function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
    return (
@@ -261,6 +261,10 @@ export default function Divisions() {
       const loadingTimeout = setTimeout(() => {
          if (divisions.length > 0) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 
@@ -522,21 +526,35 @@ export default function Divisions() {
                               setFileSelected={setFileSelected}
                            />
 
-                           {filteredDivisions.map((division) => {
-                              const isSelected = selectedIds.includes(
-                                 division.id
-                              );
+                           {divisions.length > 0 ? (
+                              filteredDivisions.map((division) => {
+                                 const isSelected = selectedIds.includes(
+                                    division.id
+                                 );
 
-                              return (
-                                 <NormalRow
-                                    key={division.id}
-                                    division={division}
-                                    logoUrl={logoUrl}
-                                    isSelected={isSelected}
-                                    handleCheckboxChange={handleCheckboxChange}
-                                 />
-                              );
-                           })}
+                                 return (
+                                    <NormalRow
+                                       key={division.id}
+                                       division={division}
+                                       logoUrl={logoUrl}
+                                       isSelected={isSelected}
+                                       handleCheckboxChange={
+                                          handleCheckboxChange
+                                       }
+                                    />
+                                 );
+                              })
+                           ) : (
+                              <tr>
+                                 <td colSpan={6}>
+                                    <Message
+                                       message={
+                                          "no divisions in database, create any division"
+                                       }
+                                    />
+                                 </td>
+                              </tr>
+                           )}
                         </>
                      )}
                   </tbody>

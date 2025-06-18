@@ -9,6 +9,7 @@ import {
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
+import Message from "../../../components/elements/NotFoundData.jsx";
 
 function NormalRow({ staff, isSelected, handleCheckboxChange }) {
    return (
@@ -369,6 +370,10 @@ export default function Staffs() {
       const loadingTimeout = setTimeout(() => {
          if ((members.length > 0) & (staffs.length > 0)) {
             setIsLoading(false);
+         } else {
+            setTimeout(() => {
+               setIsLoading(false);
+            }, 2500);
          }
       }, 250);
 
@@ -391,9 +396,10 @@ export default function Staffs() {
    const [searchTerm, setSearchTerm] = useState("");
    const filteredStaffs = staffs.filter(
       (staff) =>
-         staff.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-         staff.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
-         staff.user?.nim.toLowerCase().includes(searchTerm.toLowerCase())
+         staff.position !== "Admin" &&
+         (staff.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            staff.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            staff.user?.nim.toLowerCase().includes(searchTerm.toLowerCase()))
    );
    const handleSearchTerm = (search) => {
       setSearchTerm(search);
@@ -630,18 +636,34 @@ export default function Staffs() {
                               setFileSelected={setFileSelected}
                            />
 
-                           {paginatedStaffs.map((staff) => {
-                              const isSelected = selectedIds.includes(staff.id);
+                           {staffs.length > 1 ? (
+                              paginatedStaffs.map((staff) => {
+                                 const isSelected = selectedIds.includes(
+                                    staff.id
+                                 );
 
-                              return (
-                                 <NormalRow
-                                    key={staff.id}
-                                    staff={staff}
-                                    isSelected={isSelected}
-                                    handleCheckboxChange={handleCheckboxChange}
-                                 />
-                              );
-                           })}
+                                 return (
+                                    <NormalRow
+                                       key={staff.id}
+                                       staff={staff}
+                                       isSelected={isSelected}
+                                       handleCheckboxChange={
+                                          handleCheckboxChange
+                                       }
+                                    />
+                                 );
+                              })
+                           ) : (
+                              <tr>
+                                 <td colSpan={7}>
+                                    <Message
+                                       message={
+                                          "no staff data in database, discusion with other members to choose staff"
+                                       }
+                                    />
+                                 </td>
+                              </tr>
+                           )}
                         </>
                      )}
                   </tbody>
