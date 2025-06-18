@@ -32,7 +32,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Akun bph salah atau tidak terdaftar'
-            ], 401);
+            ], 400);
         }
 
         $staff = Staff::where('nim', $request->nim)->first();
