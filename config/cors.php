@@ -21,6 +21,7 @@ return [
         'http://localhost:3000',
         'http://localhost:4173',
         'https://7418fqfm-3000.asse.devtunnels.ms',
+        'https://coreit.vercel.app'
     ],
 
     'allowed_origins_patterns' => [

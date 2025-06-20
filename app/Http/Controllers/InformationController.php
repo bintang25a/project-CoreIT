@@ -109,6 +109,19 @@ class InformationController extends Controller
             ], 404);
         }
 
+        if ($request->views) {
+            $data = [
+                'views' => $request->views
+            ];
+
+            $information->update($data);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'News update successfully',
+            ], 200);
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'main_image' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',

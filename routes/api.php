@@ -21,6 +21,7 @@ Route::get('/galleries/image/{name}', [GalleryController::class, 'showImage']);
 Route::apiResource('/members', UserController::class)->only(['index', 'show', 'store']);
 Route::apiResource('/staffs', StaffController::class)->only(['index', 'show']);
 Route::apiResource('/news', InformationController::class)->only(['index', 'show']);
+Route::post('/staffs/{id}', [StaffController::class, 'update']);
 
 Route::get('/recruitment-status', [AuthController::class, 'getRecruitmentStatus']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -35,7 +36,6 @@ Route::middleware('auth:api_staff')->group(function () {
     Route::post('/members/{id}', [UserController::class, 'update']);
 
     Route::apiResource('/staffs', StaffController::class)->only(['store', 'destroy']);
-    Route::post('/staffs/{id}', [StaffController::class, 'update']);
 
     Route::apiResource('/news', InformationController::class)->only(['store', 'destroy']);
     Route::post('/news/{id}', [InformationController::class, 'update']);
