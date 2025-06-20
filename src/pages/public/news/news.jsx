@@ -5,7 +5,7 @@ import {
    useNavigate,
    useParams,
 } from "react-router-dom";
-import { showNews } from "../../../_services/news";
+import { showNews, updateNews } from "../../../_services/news";
 import { FaArrowLeft } from "react-icons/fa";
 import background from "/images/background/gambar2.jpg";
 import Message from "../../../components/elements/NotFoundData";
@@ -55,6 +55,17 @@ function NewsDetail({ id, formatTanggal, imageUrl, isLoading }) {
          const [newsData] = await Promise.all([showNews(id)]);
 
          setNews(newsData);
+
+         const data = {
+            views: newsData.views + 1,
+         };
+
+         const newsID = localStorage.getItem("newsID");
+         if (newsID != id) {
+            await updateNews(id, data);
+         }
+
+         localStorage.setItem("newsID", id);
       };
 
       fetchNews();

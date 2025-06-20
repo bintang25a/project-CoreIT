@@ -180,13 +180,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff?.instagram}>
+                                    <a href={staff?.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff?.linkedin}>
+                                    <a href={staff?.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff?.github}>
+                                    <a href={staff?.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -209,13 +209,16 @@ export default function Staffs() {
                               <h2>{sekretaris[0]?.user?.prodi}</h2>
                            </div>
                            <div className="social">
-                              <a href={sekretaris[0]?.instagram}>
+                              <a
+                                 href={sekretaris[0]?.instagram}
+                                 target="_blank"
+                              >
                                  <FaInstagram className="icon" />
                               </a>
-                              <a href={sekretaris[0]?.linkedin}>
+                              <a href={sekretaris[0]?.linkedin} target="_blank">
                                  <FaLinkedin className="icon" />
                               </a>
-                              <a href={sekretaris[0]?.github}>
+                              <a href={sekretaris[0]?.github} target="_blank">
                                  <FaGithub className="icon" />
                               </a>
                            </div>
@@ -235,13 +238,13 @@ export default function Staffs() {
                               <h2>{bendahara[0]?.user?.prodi}</h2>
                            </div>
                            <div className="social">
-                              <a href={bendahara[0]?.instagram}>
+                              <a href={bendahara[0]?.instagram} target="_blank">
                                  <FaInstagram className="icon" />
                               </a>
-                              <a href={bendahara[0]?.linkedin}>
+                              <a href={bendahara[0]?.linkedin} target="_blank">
                                  <FaLinkedin className="icon" />
                               </a>
-                              <a href={bendahara[0]?.github}>
+                              <a href={bendahara[0]?.github} target="_blank">
                                  <FaGithub className="icon" />
                               </a>
                            </div>
@@ -275,13 +278,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff?.instagram}>
+                                    <a href={staff?.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff?.linkedin}>
+                                    <a href={staff?.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff?.github}>
+                                    <a href={staff?.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -314,13 +317,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff.instagram}>
+                                    <a href={staff.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff.linkedin}>
+                                    <a href={staff.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff.github}>
+                                    <a href={staff.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -355,13 +358,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff?.instagram}>
+                                    <a href={staff?.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff?.linkedin}>
+                                    <a href={staff?.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff?.github}>
+                                    <a href={staff?.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -394,13 +397,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff.instagram}>
+                                    <a href={staff.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff.linkedin}>
+                                    <a href={staff.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff.github}>
+                                    <a href={staff.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -435,13 +438,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff?.instagram}>
+                                    <a href={staff?.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff?.linkedin}>
+                                    <a href={staff?.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff?.github}>
+                                    <a href={staff?.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -474,13 +477,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff.instagram}>
+                                    <a href={staff.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff.linkedin}>
+                                    <a href={staff.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff.github}>
+                                    <a href={staff.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -515,13 +518,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff?.instagram}>
+                                    <a href={staff?.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff?.linkedin}>
+                                    <a href={staff?.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff?.github}>
+                                    <a href={staff?.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>
@@ -554,13 +557,13 @@ export default function Staffs() {
                                     <h2>{staff?.user?.prodi}</h2>
                                  </div>
                                  <div className="social">
-                                    <a href={staff.instagram}>
+                                    <a href={staff.instagram} target="_blank">
                                        <FaInstagram className="icon" />
                                     </a>
-                                    <a href={staff.linkedin}>
+                                    <a href={staff.linkedin} target="_blank">
                                        <FaLinkedin className="icon" />
                                     </a>
-                                    <a href={staff.github}>
+                                    <a href={staff.github} target="_blank">
                                        <FaGithub className="icon" />
                                     </a>
                                  </div>

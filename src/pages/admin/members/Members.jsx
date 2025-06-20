@@ -114,6 +114,7 @@ function AddRow({ formData, setFormData, divisions }) {
                <option value="">--Role--</option>
                <option value="member">Member</option>
                <option value="bph">BPH</option>
+               <option value="admin">Admin</option>
             </select>
          </td>
          <td>
@@ -238,6 +239,7 @@ function EditingRow({
                   <option value="">--Role--</option>
                   <option value="member">Member</option>
                   <option value="bph">BPH</option>
+                  <option value="admin">Admin</option>
                </select>
             </td>
             <td>

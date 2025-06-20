@@ -98,7 +98,7 @@ function AddRow({
             >
                <option value="">--NIM - Nama--</option>
                {members
-                  .filter((member) => member.role != "bph")
+                  .filter((member) => member.role === "member")
                   .map((member) => (
                      <option key={member.id} value={member.nim}>
                         {member.nim} - {member.name}

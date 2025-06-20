@@ -256,7 +256,7 @@ export default function News() {
                      <LoadingRow />
                   ) : (
                      <>
-                        {informations > 0 ? (
+                        {informations.length > 0 ? (
                            paginatedInformations.map((information) => {
                               const isSelected = selectedIds.includes(
                                  information.id
