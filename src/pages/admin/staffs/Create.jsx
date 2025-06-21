@@ -4,10 +4,12 @@ import React from "react";
 import { createStaffs } from "../../../_services/staffs.js";
 import { FiUpload } from "react-icons/fi";
 import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 
 export default function StaffAdd() {
    const { members, fetchData } = useOutletContext();
    const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -130,6 +132,7 @@ export default function StaffAdd() {
    };
    const handleSubmit = async (e, i) => {
       e.preventDefault();
+      loading(true);
 
       try {
          const payload = new FormData();
@@ -150,6 +153,7 @@ export default function StaffAdd() {
             successMessage: "Add staffs successfully",
          });
          alertReset();
+         loading(false);
 
          if (submitted.length + 1 === Number(count)) {
             navigate("/admin/staffs");
@@ -160,10 +164,12 @@ export default function StaffAdd() {
             errorMessage: error,
          });
          alertReset();
+         loading(false);
       }
    };
    const handleSubmits = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          await Promise.all(
@@ -198,6 +204,7 @@ export default function StaffAdd() {
             successMessage: "Add all staffs successfully",
          });
          alertReset();
+         loading(false);
          navigate("/admin/staffs");
       } catch (error) {
          console.log(error);
@@ -207,6 +214,7 @@ export default function StaffAdd() {
                "Add or Edit members failed:\n make sure all form has value",
          });
          alertReset();
+         loading(false);
       }
    };
    const scrollRef = useRef(null);
@@ -380,6 +388,7 @@ export default function StaffAdd() {
                })}
          </div>
          <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }
