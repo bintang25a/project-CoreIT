@@ -3,7 +3,7 @@ import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import React from "react";
 import { createStaffs } from "../../../_services/staffs.js";
 import { FiUpload } from "react-icons/fi";
-import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
 
 export default function StaffAdd() {
    const { members, fetchData } = useOutletContext();

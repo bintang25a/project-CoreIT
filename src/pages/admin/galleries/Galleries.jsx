@@ -3,10 +3,13 @@ import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { deleteImage } from "../../../_services/galleries.js";
-import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 
 export default function Galleries() {
    const { images, imageUrl, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -23,9 +26,6 @@ export default function Galleries() {
          });
       }, 5000);
    };
-
-   //Kode confirm modal
-   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
@@ -114,6 +114,8 @@ export default function Galleries() {
       }
 
       if (result) {
+         loading(true);
+
          try {
             await Promise.all(idData.map((id) => deleteImage(id)));
 
@@ -124,6 +126,7 @@ export default function Galleries() {
             });
             alertReset();
             fetchData();
+            loading(false);
          } catch (error) {
             console.log(error);
             setAlert({
@@ -131,6 +134,7 @@ export default function Galleries() {
                errorMessage: error,
             });
             alertReset();
+            loading(false);
          }
       }
    };
@@ -263,6 +267,7 @@ export default function Galleries() {
             </div>
          </div>
          <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }

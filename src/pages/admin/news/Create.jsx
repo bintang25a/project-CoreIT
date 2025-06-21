@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
 import { createNews } from "../../../_services/news.js";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 
 export default function NewsAdd() {
    const { informations, fetchData } = useOutletContext();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -102,6 +104,7 @@ export default function NewsAdd() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          const payload = new FormData();
@@ -116,6 +119,7 @@ export default function NewsAdd() {
             successMessage: "Add news successfully",
          });
          alertReset();
+         loading(false);
          navigate("/admin/news");
       } catch (error) {
          console.log(error);
@@ -124,6 +128,7 @@ export default function NewsAdd() {
             errorMessage: "Failed: " + error,
          });
          alertReset();
+         loading(false);
       }
    };
 
@@ -246,6 +251,7 @@ export default function NewsAdd() {
                </div>
             </form>
          </div>
+         <LoadingSpinner />
       </main>
    );
 }

@@ -7,7 +7,8 @@ import {
 } from "../../../_services/auth";
 import { FaBan, FaCheck } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
-import useConfirmDialog from "../../../components/admin/ConfirmModal";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 
 function ClockWithDate() {
    const [now, setNow] = useState(new Date());
@@ -48,66 +49,74 @@ function ClockWithDate() {
    );
 }
 
-function Card({ members, logoUrl, fetchData, confirm }) {
-   const navigate = useNavigate();
-
+function Card({ members, logoUrl, fetchData, confirm, loading }) {
    //Kode reject member
    const handleDelete = async (id, name) => {
       const result = await confirm(`Are u sure reject ${name}?`);
 
       if (result) {
+         loading(true);
+
          try {
             await deleteMember(id);
             fetchData();
-            navigate("/admin/members/registrants");
+            loading(false);
          } catch (error) {
             console.log(error);
             alert("Error\n" + error);
+            loading(false);
          }
       }
    };
 
    //Kode accept member
-   const handleSubmit = async (id, e) => {
+   const handleSubmit = async (id, e, name) => {
       e.preventDefault();
+      const result = await confirm(`Are u sure accept ${name}?`);
 
-      try {
-         const payload = new FormData();
-         const member = members.find((m) => m.id === id);
-         const division = member.division?.name;
+      if (result) {
+         loading(true);
 
-         if (!member) {
-            alert("Not found");
-            return;
+         try {
+            const payload = new FormData();
+            const member = members.find((m) => m.id === id);
+            const division = member.division?.name;
+
+            if (!member) {
+               alert("Not found");
+               return;
+            }
+
+            const data = {
+               name: member.name || "",
+               nim: member.nim || "",
+               prodi: member.prodi || "",
+               division: division.toLowerCase() || "",
+               role: "member",
+               email: member.email || "",
+               phone_number: member.phone_number || "",
+               link_project: member.link_project || "",
+            };
+
+            for (const key in data) {
+               payload.append(key, data[key]);
+            }
+
+            await updateMember(id, payload);
+            fetchData();
+            loading(false);
+         } catch (error) {
+            console.log(error);
+            alert("Error\n" + error);
+            loading(false);
          }
-
-         const data = {
-            name: member.name || "",
-            nim: member.nim || "",
-            prodi: member.prodi || "",
-            division: division.toLowerCase() || "",
-            role: "member",
-            email: member.email || "",
-            phone_number: member.phone_number || "",
-            link_project: member.link_project || "",
-         };
-
-         for (const key in data) {
-            payload.append(key, data[key]);
-         }
-
-         await updateMember(id, payload);
-         fetchData();
-      } catch (error) {
-         console.log(error);
-         alert("Error\n" + error);
       }
    };
 
    return members.map((member) => (
       <div className="card" key={member.id}>
          <form
-            onSubmit={(e) => handleSubmit(member.id, e)}
+            onSubmit={(e) => handleSubmit(member.id, e, member.name)}
             className="form-wrapper"
          >
             <div className="header">
@@ -149,7 +158,7 @@ function Card({ members, logoUrl, fetchData, confirm }) {
                               </a>
                               {idx !==
                                  member.link_project.split(" ").length - 1 &&
-                                 ", "}
+                                 " "}
                            </span>
                         ))}
                   </div>
@@ -222,7 +231,8 @@ function CardNull() {
 
 export default function Registrants() {
    const { members, logoUrl, fetchData } = useOutletContext();
-   const { confirm, ConfirmDialog } = useConfirmDialog;
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -308,9 +318,11 @@ export default function Registrants() {
    }, []);
 
    const handleToggle = async () => {
+      loading(true);
       await toggleRecruitmentStatus();
       const newStatus = await getRecruitmentStatus();
       setStatus(newStatus);
+      loading(false);
    };
 
    return (
@@ -366,6 +378,7 @@ export default function Registrants() {
                         logoUrl={logoUrl}
                         fetchData={fetchData}
                         confirm={confirm}
+                        loading={loading}
                      />
                   ) : (
                      <CardNull />
@@ -398,6 +411,8 @@ export default function Registrants() {
                ))}
             </div>
          </div>
+         <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }

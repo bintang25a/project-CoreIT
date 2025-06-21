@@ -62,9 +62,15 @@ export default function Navbar({
             <button type="button" onClick={handleClickMenu}>
                <FaBars className="hamburger-menu" />
             </button>
-            <a className="btn" href="/register" target="_blank">
-               Join?
-            </a>
+            {currentPath === "/staffs" ? (
+               <a className="btn" href="/login" target="_blank">
+                  Login Staff
+               </a>
+            ) : (
+               <a className="btn" href="/register" target="_blank">
+                  Join?
+               </a>
+            )}
          </div>
       </nav>
    );

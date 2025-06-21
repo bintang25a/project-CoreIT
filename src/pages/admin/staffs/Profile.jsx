@@ -6,6 +6,8 @@ import { showDivision } from "../../../_services/divisions";
 import { changePassword } from "../../../_services/auth";
 import Skeleton from "react-loading-skeleton";
 import { FiUpload } from "react-icons/fi";
+import useConfirmDialog from "../../../components/elements/ConfirmModal";
+import useLoadingSpinner from "../../../components/elements/LoadingModal";
 
 function LoadingProfile() {
    return (
@@ -60,6 +62,9 @@ export default function Profile() {
    const [isDivLoading, setIsDivLoading] = useState(true);
    const [formData, setFormData] = useState({});
    const { id } = useParams();
+
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -120,29 +125,36 @@ export default function Profile() {
          return;
       }
 
-      try {
-         await changePassword(id, {
-            passwordNow,
-            passwordNew,
-         });
+      const result = await confirm("Are you sure to change password?");
 
-         setAlert({
-            isOpen: true,
-            successMessage: "Password changed successfully!",
-         });
-         alertReset();
-         setPasswordNow("");
-         setPasswordNew("");
-      } catch (error) {
-         setAlert({
-            isOpen: true,
-            errorMessage: error,
-         });
-         alertReset();
+      if (result) {
+         loading(true);
+
+         try {
+            await changePassword(id, {
+               passwordNow,
+               passwordNew,
+            });
+
+            setAlert({
+               isOpen: true,
+               successMessage: "Password changed successfully!",
+            });
+            alertReset();
+            setPasswordNow("");
+            setPasswordNew("");
+            loading(false);
+         } catch (error) {
+            setAlert({
+               isOpen: true,
+               errorMessage: error,
+            });
+            alertReset();
+            loading(false);
+         }
       }
    };
 
-   console.log(formData);
    const [filePhoto, setFilePhoto] = useState(false);
    const [photoPreview, setPhotoPreview] = useState(null);
    const handleChangeImage = (e) => {
@@ -167,6 +179,8 @@ export default function Profile() {
       form.append("photo", formData.photo);
       form.append("position", formData.position);
 
+      loading(true);
+
       try {
          await updateStaff(id, form);
          setAlert({
@@ -178,12 +192,14 @@ export default function Profile() {
          setFilePhoto(false);
          setPhotoPreview(null);
          setFormData({ ...formData, photo: null });
+         loading(false);
       } catch (error) {
          setAlert({
             isOpen: true,
             errorMessage: error,
          });
          alertReset();
+         loading(false);
       }
    };
 
@@ -303,6 +319,8 @@ export default function Profile() {
                </div>
             </>
          )}
+         <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }

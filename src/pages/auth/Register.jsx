@@ -13,8 +13,11 @@ import { getRecruitmentStatus } from "../../_services/auth";
 import background from "/images/background/gambar1.jpg";
 import { getDivisions } from "../../_services/divisions";
 import { createMember } from "../../_services/members";
+import useLoadingSpinner from "../../components/elements/LoadingModal";
 
 export default function Register() {
+   const { loading, LoadingSpinner } = useLoadingSpinner();
+
    const navigate = useNavigate();
    const [status, setStatus] = useState(true);
    const [divisions, setDivisions] = useState([]);
@@ -54,7 +57,7 @@ export default function Register() {
       fetchStatus();
    }, [navigate, status]);
 
-   const [loginForm, setLoginForm] = useState({
+   const initialForm = {
       name: "",
       nim: "",
       prodi: "",
@@ -63,7 +66,8 @@ export default function Register() {
       email: "",
       link_project: "",
       role: "registrant",
-   });
+   };
+   const [loginForm, setLoginForm] = useState(initialForm);
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -76,6 +80,7 @@ export default function Register() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          await createMember(loginForm);
@@ -84,6 +89,8 @@ export default function Register() {
             successMessage: "Congratulations, Register successfully",
          });
          alertReset();
+         setLoginForm(initialForm);
+         loading(false);
       } catch (error) {
          console.log(error);
          setAlert({
@@ -91,6 +98,7 @@ export default function Register() {
             errorMessage: "Failed: " + error,
          });
          alertReset();
+         loading(false);
       }
    };
 
@@ -121,7 +129,7 @@ export default function Register() {
                            name="name"
                            id="name"
                            value={loginForm.name}
-                           onChange={(e) => handleChange(e)}
+                           onChange={handleChange}
                            required
                         />
                      </div>
@@ -133,7 +141,7 @@ export default function Register() {
                            name="nim"
                            id="nim"
                            value={loginForm.nim}
-                           onChange={(e) => handleChange(e)}
+                           onChange={handleChange}
                            required
                         />
                      </div>
@@ -145,7 +153,7 @@ export default function Register() {
                            name="prodi"
                            id="prodi"
                            value={loginForm.prodi}
-                           onChange={(e) => handleChange(e)}
+                           onChange={handleChange}
                            required
                         />
                      </div>
@@ -155,7 +163,7 @@ export default function Register() {
                         name="division"
                         required
                         value={loginForm.division}
-                        onChange={(e) => handleChange(e)}
+                        onChange={handleChange}
                      >
                         <option value="">--Select Division--</option>
                         {divisions.map((division) => (
@@ -174,7 +182,7 @@ export default function Register() {
                            name="phone_number"
                            id="phone_number"
                            value={loginForm.phone_number}
-                           onChange={(e) => handleChange(e)}
+                           onChange={handleChange}
                            required
                         />
                      </div>
@@ -186,7 +194,7 @@ export default function Register() {
                            name="email"
                            id="email"
                            value={loginForm.email}
-                           onChange={(e) => handleChange(e)}
+                           onChange={handleChange}
                            required
                         />
                      </div>
@@ -196,7 +204,7 @@ export default function Register() {
                         name="link_project"
                         id="link_project"
                         value={loginForm.link_project}
-                        onChange={(e) => handleChange(e)}
+                        onChange={handleChange}
                         placeholder="Masukan link project disini, Gdrive, github, linked, dll"
                      />
                   </div>
@@ -213,6 +221,7 @@ export default function Register() {
                <FaArrowLeft />
             </Link>
          </div>
+         <LoadingSpinner />
       </main>
    );
 }

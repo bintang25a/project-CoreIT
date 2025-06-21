@@ -13,7 +13,8 @@ import {
 } from "../../../_services/divisions.js";
 import { FaCheckCircle } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
-import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 import Message from "../../../components/elements/NotFoundData.jsx";
 
 function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
@@ -231,6 +232,8 @@ function LoadingRow() {
 
 export default function Divisions() {
    const { divisions, logoUrl, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -247,9 +250,6 @@ export default function Divisions() {
          });
       }, 5000);
    };
-
-   //Kode confirm modal
-   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
@@ -306,6 +306,7 @@ export default function Divisions() {
    const navigate = useNavigate();
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          if (!isEditing) {
@@ -324,6 +325,7 @@ export default function Divisions() {
             setFileSelected(false);
             setFormData(initialFormData);
             fetchData();
+            loading(false);
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
@@ -353,6 +355,7 @@ export default function Divisions() {
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
+            loading(false);
             navigate("/admin/divisions");
          }
 
@@ -364,6 +367,7 @@ export default function Divisions() {
             errorMessage: "Failed: " + error,
          });
          alertReset();
+         loading(false);
       }
    };
    const triggerSubmit = () => {
@@ -390,6 +394,8 @@ export default function Divisions() {
       }
 
       if (result) {
+         loading(true);
+
          try {
             await Promise.all(idData.map((id) => deleteDivision(id)));
 
@@ -400,12 +406,14 @@ export default function Divisions() {
             });
             alertReset();
             fetchData();
+            loading(false);
          } catch (error) {
             setAlert({
                isOpen: true,
                errorMessage: error,
             });
             alertReset();
+            loading(false);
          }
       }
    };
@@ -562,6 +570,7 @@ export default function Divisions() {
             </form>
          </div>
          <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }

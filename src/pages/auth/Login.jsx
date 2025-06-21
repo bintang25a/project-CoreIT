@@ -5,8 +5,11 @@ import { useState } from "react";
 import { login } from "../../_services/auth";
 import { useNavigate, Link } from "react-router-dom";
 import MobileProtected from "../../components/admin/MobileProtected";
+import useLoadingSpinner from "../../components/elements/LoadingModal";
 
 export default function Login() {
+   const { loading, LoadingSpinner } = useLoadingSpinner();
+
    const navigate = useNavigate();
    const [loginForm, setLoginForm] = useState({
       nim: "",
@@ -40,9 +43,11 @@ export default function Login() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          await login(loginForm);
+         loading(false);
          navigate("/admin");
       } catch (error) {
          console.log(error);
@@ -51,6 +56,7 @@ export default function Login() {
             errorMessage: error,
          });
          alertReset();
+         loading(false);
       }
    };
 
@@ -114,6 +120,7 @@ export default function Login() {
                   <FaArrowLeft />
                </Link>
             </div>
+            <LoadingSpinner />
          </main>
       </>
    );

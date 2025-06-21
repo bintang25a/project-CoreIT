@@ -7,7 +7,8 @@ import {
 } from "../../../_services/members";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
-import useConfirmDialog from "../../../components/admin/ConfirmModal";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 import Message from "../../../components/elements/NotFoundData";
 
 function NormalRow({ member, isSelected, handleCheckboxChange, logoUrl }) {
@@ -278,6 +279,8 @@ function LoadingRow() {
 
 export default function Members() {
    const { members, divisions, logoUrl, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -294,9 +297,6 @@ export default function Members() {
          });
       }, 5000);
    };
-
-   //Kode confirm modal
-   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -392,6 +392,7 @@ export default function Members() {
    const navigate = useNavigate();
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          if (!isEditing) {
@@ -409,7 +410,7 @@ export default function Members() {
 
             setFormData(initialFormData);
             fetchData();
-            navigate("/admin/members");
+            loading(false);
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
@@ -432,6 +433,7 @@ export default function Members() {
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
+            loading(false);
             navigate("/admin/members");
          }
 
@@ -443,6 +445,7 @@ export default function Members() {
             errorMessage: "Failed: " + error,
          });
          alertReset();
+         loading(false);
       }
    };
    const triggerSubmit = () => {
@@ -469,6 +472,8 @@ export default function Members() {
       }
 
       if (result) {
+         loading(true);
+
          try {
             await Promise.all(idData.map((id) => deleteMember(id)));
 
@@ -479,6 +484,7 @@ export default function Members() {
             });
             alertReset();
             fetchData();
+            loading(false);
          } catch (error) {
             console.log(error);
             setAlert({
@@ -486,6 +492,7 @@ export default function Members() {
                errorMessage: "Delete members failed\n" + error,
             });
             alertReset();
+            loading(false);
          }
       }
    };
@@ -662,6 +669,7 @@ export default function Members() {
             </div>
          </div>
          <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }

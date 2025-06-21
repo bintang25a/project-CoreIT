@@ -1,10 +1,10 @@
 import "react-loading-skeleton/dist/skeleton.css";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
-import MemberData from "../../components/admin/MemberData";
-import DivisionData from "../../components/admin/DivisionData";
-import NewsInformation from "../../components/admin/NewsInformation";
-import StaffOnline from "../../components/admin/StaffOnline";
+import MemberData from "../../components/admin/Dashboard-MemberData";
+import DivisionData from "../../components/admin/Dashboard-DivisionData";
+import NewsInformation from "../../components/admin/Dashboard-NewsInformation";
+import StaffOnline from "../../components/admin/Dashboard-StaffOnline";
 import "./index.css";
 import "./content.css";
 

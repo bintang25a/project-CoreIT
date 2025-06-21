@@ -3,7 +3,8 @@ import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { deleteNews } from "../../../_services/news.js";
-import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 import Message from "../../../components/elements/NotFoundData.jsx";
 
 function NormalRow({ information, isSelected, handleCheckboxChange }) {
@@ -61,6 +62,8 @@ function LoadingRow() {
 
 export default function News() {
    const { informations, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -77,9 +80,6 @@ export default function News() {
          });
       }, 5000);
    };
-
-   //Kode confirm modal
-   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
@@ -160,6 +160,8 @@ export default function News() {
       }
 
       if (result) {
+         loading(true);
+
          try {
             await Promise.all(idData.map((id) => deleteNews(id)));
 
@@ -170,6 +172,7 @@ export default function News() {
             });
             alertReset();
             fetchData();
+            loading(false);
          } catch (error) {
             console.log(error);
             setAlert({
@@ -177,6 +180,7 @@ export default function News() {
                errorMessage: "Delete news failed\n" + error,
             });
             alertReset();
+            loading(false);
          }
       }
    };
@@ -313,6 +317,7 @@ export default function News() {
             </div>
          </div>
          <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }

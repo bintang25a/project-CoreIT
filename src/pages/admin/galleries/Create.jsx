@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
 import { createImage } from "../../../_services/galleries.js";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 
 export default function GalleryAdd() {
+   const { loading, LoadingSpinner } = useLoadingSpinner();
+
    //Kode custom alert
    const [alert, setAlert] = useState({
       isOpen: false,
@@ -62,6 +65,7 @@ export default function GalleryAdd() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          const payload = new FormData();
@@ -76,6 +80,7 @@ export default function GalleryAdd() {
             successMessage: "Add iamges successfully",
          });
          alertReset();
+         loading(false);
          navigate("/admin/galleries");
       } catch (error) {
          console.log(error);
@@ -84,6 +89,7 @@ export default function GalleryAdd() {
             errorMessage: error,
          });
          alertReset();
+         loading(false);
       }
    };
 
@@ -182,6 +188,7 @@ export default function GalleryAdd() {
                </div>
             </form>
          </div>
+         <LoadingSpinner />
       </main>
    );
 }

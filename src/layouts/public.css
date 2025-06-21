@@ -59,8 +59,7 @@
    }
 
    nav .button {
-      aspect-ratio: 2/1;
-      width: 7%;
+      min-width: 7%;
 
       button {
          display: none;
@@ -73,6 +72,7 @@
       font-size: var(--fs-2);
       border-radius: 0.5rem;
       transition: 0.3s ease;
+      white-space: nowrap;
    }
    nav .button .btn:hover {
       background-color: var(--secondary);

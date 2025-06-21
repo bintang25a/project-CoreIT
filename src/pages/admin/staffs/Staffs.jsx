@@ -8,7 +8,8 @@ import {
 } from "../../../_services/staffs.js";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
-import useConfirmDialog from "../../../components/admin/ConfirmModal.jsx";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 import Message from "../../../components/elements/NotFoundData.jsx";
 
 function NormalRow({ staff, isSelected, handleCheckboxChange }) {
@@ -343,6 +344,7 @@ function LoadingRow() {
 export default function Staffs() {
    const { members, staffs, fetchData } = useOutletContext();
    const { confirm, ConfirmDialog } = useConfirmDialog();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -445,6 +447,7 @@ export default function Staffs() {
    const navigate = useNavigate();
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       try {
          if (!isEditing) {
@@ -463,6 +466,7 @@ export default function Staffs() {
             setFileSelected(false);
             setFormData(initialFormData);
             fetchData();
+            loading(false);
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
@@ -492,6 +496,7 @@ export default function Staffs() {
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
+            loading(false);
             navigate("/admin/staffs");
          }
 
@@ -503,6 +508,7 @@ export default function Staffs() {
             errorMessage: "Failed: " + error,
          });
          alertReset();
+         loading(false);
       }
    };
    const triggerSubmit = () => {
@@ -529,6 +535,8 @@ export default function Staffs() {
       }
 
       if (result) {
+         loading(true);
+
          try {
             await Promise.all(idData.map((id) => deleteStaff(id)));
 
@@ -539,12 +547,14 @@ export default function Staffs() {
             });
             alertReset();
             fetchData();
+            loading(false);
          } catch (error) {
             setAlert({
                isOpen: true,
                errorMessage: "Delete staffs failed:\n" + error,
             });
             alertReset();
+            loading(false);
          }
       }
    };
@@ -707,6 +717,7 @@ export default function Staffs() {
             </div>
          </div>
          <ConfirmDialog />
+         <LoadingSpinner />
       </main>
    );
 }

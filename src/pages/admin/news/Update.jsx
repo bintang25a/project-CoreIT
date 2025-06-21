@@ -3,9 +3,11 @@ import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
 import { showNews, updateNews } from "../../../_services/news.js";
 import { getImageUrl } from "../../../_services/galleries.js";
+import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 
 export default function NewsEdit() {
    const { informations, fetchData } = useOutletContext();
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    //Kode custom alert
    const [alert, setAlert] = useState({
@@ -129,6 +131,7 @@ export default function NewsEdit() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+      loading(true);
 
       const payload = new FormData();
 
@@ -151,6 +154,7 @@ export default function NewsEdit() {
             successMessage: "Edit news successfully",
          });
          alertReset();
+         loading(false);
          navigate("/admin/news");
       } catch (error) {
          console.log(error);
@@ -159,6 +163,7 @@ export default function NewsEdit() {
             errorMessage: "Failed: " + error,
          });
          alertReset();
+         loading(false);
       }
    };
 
@@ -306,6 +311,7 @@ export default function NewsEdit() {
                </div>
             </form>
          </div>
+         <LoadingSpinner />
       </main>
    );
 }
