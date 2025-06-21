@@ -6,14 +6,14 @@ import AdminLayout from "./layouts/admin";
 import Dashboard from "./pages/admin";
 import Members from "./pages/admin/members/Members.jsx";
 import Staffs from "./pages/admin/staffs/Staffs.jsx";
+import StaffAdd from "./pages/admin/staffs/Create.jsx";
 import Divisions from "./pages/admin/divisions/Divisions.jsx";
-import News from "./pages/admin/news/news.jsx";
-import NewsAdd from "./pages/admin/news/create.jsx";
-import NewsEdit from "./pages/admin/news/update.jsx";
-import Galleries from "./pages/admin/galleries/galleries.jsx";
-import GalleryAdd from "./pages/admin/galleries/create.jsx";
+import News from "./pages/admin/news/NewsT.jsx";
+import NewsAdd from "./pages/admin/news/CreateT.jsx";
+import NewsEdit from "./pages/admin/news/UpdateT.jsx";
+import Galleries from "./pages/admin/galleries/GalleriesT.jsx";
+import GalleryAdd from "./pages/admin/galleries/CreateT.jsx";
 import Registrants from "./pages/admin/members/Registrants.jsx";
-import Registers from "./pages/admin/staffs/Registers.jsx";
 import ProtectedRoute from "./components/admin/ProtectedRoute.jsx";
 import Profile from "./pages/admin/staffs/Profile.jsx";
 import Register from "./pages/auth/Register.jsx";
@@ -64,7 +64,7 @@ export default function App() {
                </Route>
                <Route path="staffs">
                   <Route index element={<Staffs />} />
-                  <Route path="register-account" element={<Registers />} />
+                  <Route path="create" element={<StaffAdd />} />
                   <Route path="profile/:id" element={<Profile />} />
                </Route>
                <Route path="divisions">

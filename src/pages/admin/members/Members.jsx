@@ -42,7 +42,7 @@ function NormalRow({ member, isSelected, handleCheckboxChange, logoUrl }) {
    );
 }
 
-function AddRow({ formData, setFormData, divisions }) {
+function AddingRow({ formData, setFormData, divisions }) {
    const handleChange = (e) => {
       const { name, value } = e.target;
 
@@ -183,7 +183,7 @@ function EditingRow({
    return members
       .filter((member) => selectedIds.includes(member.id))
       .map((member) => (
-         <tr className="tr" key={member.id}>
+         <tr className="edit" key={member.id}>
             <td>
                <input
                   type="text"
@@ -584,7 +584,7 @@ export default function Members() {
                         />
                      ) : (
                         <>
-                           <AddRow
+                           <AddingRow
                               divisions={divisions}
                               formData={formData}
                               setFormData={setFormData}

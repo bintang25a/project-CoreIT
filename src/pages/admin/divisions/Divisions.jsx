@@ -53,7 +53,7 @@ function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
    );
 }
 
-function AddRow({ formData, setFormData, fileSelected, setFileSelected }) {
+function AddingRow({ formData, setFormData, fileSelected, setFileSelected }) {
    const inputRef = useRef(null);
 
    const handleChange = (e) => {
@@ -169,7 +169,7 @@ function EditingRow({ divisions, selectedIds, formData, setFormData }) {
    return divisions
       .filter((division) => selectedIds.includes(division.id))
       .map((division) => (
-         <tr key={division.id}>
+         <tr className="edit" key={division.id}>
             <td>
                <label
                   className={`file-upload ${
@@ -519,7 +519,7 @@ export default function Divisions() {
                         />
                      ) : (
                         <>
-                           <AddRow
+                           <AddingRow
                               formData={formData}
                               setFormData={setFormData}
                               fileSelected={fileSelected}

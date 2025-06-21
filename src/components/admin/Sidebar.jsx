@@ -77,9 +77,7 @@ export default function Sidebar({ id }) {
                      <Link to={`/admin/staffs/profile/${id}`}>Profile</Link>
                   </li>
                   <li>
-                     <Link to={"/admin/staffs/register-account"}>
-                        Staff update
-                     </Link>
+                     <Link to={"/admin/staffs/create"}>Staff update</Link>
                   </li>
                </ul>
             </div>

@@ -44,7 +44,7 @@ export default function AdminLayout() {
          setStaffs(staffsData);
 
          if (
-            currentPath === "/admin/staffs/register-account" ||
+            currentPath === "/admin/staffs/create" ||
             currentPath === "/admin/staffs"
          ) {
             const [membersData] = await Promise.all([getMembers()]);

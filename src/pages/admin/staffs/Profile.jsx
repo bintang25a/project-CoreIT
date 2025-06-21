@@ -205,6 +205,7 @@ export default function Profile() {
                   <label htmlFor="photo">
                      <input
                         type="file"
+                        accept="image/*"
                         name="photo"
                         id="photo"
                         onChange={handleChangeImage}

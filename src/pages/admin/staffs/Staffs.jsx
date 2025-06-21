@@ -34,7 +34,7 @@ function NormalRow({ staff, isSelected, handleCheckboxChange }) {
    );
 }
 
-function AddRow({
+function AddingRow({
    formData,
    setFormData,
    members,
@@ -233,7 +233,7 @@ function EditingRow({ members, staffs, selectedIds, formData, setFormData }) {
    return staffs
       .filter((staff) => selectedIds.includes(staff.id))
       .map((staff) => (
-         <tr key={staff.id}>
+         <tr className="edit" key={staff.id}>
             <td>
                <input
                   type="text"
@@ -628,7 +628,7 @@ export default function Staffs() {
                         />
                      ) : (
                         <>
-                           <AddRow
+                           <AddingRow
                               formData={formData}
                               setFormData={setFormData}
                               members={members}
