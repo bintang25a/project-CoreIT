@@ -67,11 +67,22 @@ export default function Galleries() {
    //Kode search
    const [currentPage, setCurrentPage] = useState(1);
    const [searchTerm, setSearchTerm] = useState("");
-   const filteredImages = images.filter(
-      (image) =>
+   const filteredImages = images.filter((image) => {
+      if (searchTerm.toLowerCase() === "not owned") {
+         return (
+            (!image.staff || image.staff.length === 0) &&
+            (!image.information_main_image ||
+               image.information_main_image.length === 0) &&
+            (!image.information_body_image ||
+               image.information_body_image.length === 0)
+         );
+      }
+
+      return (
          image.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
          image.category.toLowerCase().includes(searchTerm.toLowerCase())
-   );
+      );
+   });
    const handleSearchTerm = (search) => {
       setSearchTerm(search);
       setCurrentPage(1);

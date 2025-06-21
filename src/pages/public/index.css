@@ -1160,6 +1160,10 @@
          height: auto;
          overflow: hidden;
          aspect-ratio: 16/9;
+
+         img {
+            width: 100%;
+         }
       }
 
       .paragraph {
