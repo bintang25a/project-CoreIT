@@ -202,7 +202,7 @@ function NewsHome({
                      <div className="header-content">
                         <h1>See other news</h1>
                      </div>
-                     {news.slice(0, 10).map((item) => (
+                     {news.slice(0, 20).map((item) => (
                         <div
                            onClick={() => handleNavigate(item.id)}
                            key={item.id}
