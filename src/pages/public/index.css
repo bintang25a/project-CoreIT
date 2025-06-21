@@ -988,6 +988,7 @@
             background-color: var(--gray-100);
             box-shadow: 2px 1px 16px var(--gray-600);
             gap: var(--px-16);
+            border-radius: var(--px-8);
             overflow: hidden;
 
             .image {
@@ -1034,7 +1035,10 @@
                max-height: var(--px-128);
                font-size: var(--fs-3);
                font-weight: 400;
-               text-align: justify;
+               overflow: hidden;
+               white-space: nowrap;
+               text-overflow: ellipsis;
+               line-height: 2.25;
             }
 
             .button {
@@ -1067,6 +1071,7 @@
          align-items: flex-start;
          box-shadow: 2px 2px 16px var(--gray-600);
          gap: var(--px-24);
+         border-radius: var(--px-8);
          overflow: hidden;
 
          .header-content {
@@ -1087,6 +1092,8 @@
             align-items: flex-start;
             gap: var(--px-12);
             transition: 0.3s linear;
+            border-radius: var(--px-8);
+            overflow: hidden;
 
             .image {
                min-width: 30%;
@@ -1101,7 +1108,7 @@
             }
 
             .title h1 {
-               font-size: var(--fs-4);
+               font-size: var(--fs-2);
                font-weight: 600;
                color: var(--gray-500);
             }

@@ -158,10 +158,10 @@ function NewsHome({
             {isLoading ? (
                <>
                   <div className="left-content">
-                     <Skeleton count={10} height={15} />
+                     <Skeleton count={5} height={"15vw"} />
                   </div>
                   <div className="right-content">
-                     <Skeleton count={10} height={15} />
+                     <Skeleton count={5} height={"8vw"} />
                   </div>
                </>
             ) : news.length > 0 ? (
@@ -187,7 +187,7 @@ function NewsHome({
                                  </h1>
                               </div>
                               <div className="summary">
-                                 <p>{item.paragraph_1}</p>
+                                 <p>{item.paragraph_2}</p>
                               </div>
                               <div className="button">
                                  <Link className="btn" to={`/news/${item.id}`}>
