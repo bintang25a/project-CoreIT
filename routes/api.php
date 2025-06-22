@@ -45,3 +45,5 @@ Route::middleware('auth:api_staff')->group(function () {
     Route::post('/change-password/{id}', [AuthController::class, 'changePassword']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+Route::post('/logout-beacon', [AuthController::class, 'logoutBeacon']);
