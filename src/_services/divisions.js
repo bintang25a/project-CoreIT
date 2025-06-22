@@ -32,7 +32,7 @@ export const getDivisionLogo = async () => {
    // return "http://192.168.1.4:8000/api/divisions/image/";
    // return "https://project-coreit-production.up.railway.app/api/divisions/image/";
    // return "https://coreit.karyakreasi.id/api/divisions/image/";
-   return "https://03df-103-121-144-245.ngrok-free.app/api/divisions/image/";
+   return "https://possible-muskrat-quietly.ngrok-free.app/api/divisions/image/";
 };
 
 export const createDivision = async (data) => {
