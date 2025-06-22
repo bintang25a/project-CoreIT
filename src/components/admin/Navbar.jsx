@@ -5,7 +5,7 @@ import { LuRefreshCcw } from "react-icons/lu";
 import { logout } from "../../_services/auth";
 import Skeleton from "react-loading-skeleton";
 
-export default function Navbar({ imageUrl, isLoading, fetchData }) {
+export default function Navbar({ imageUrl, isLoading, fetchData, loading }) {
    const [isSticky, setIsSticky] = useState(false);
    const [user, setUser] = useState({});
    const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +47,16 @@ export default function Navbar({ imageUrl, isLoading, fetchData }) {
    };
 
    const handleLogout = async () => {
+      loading(true);
       await logout();
+      loading(false);
       navigate("/login", { replace: true });
+   };
+
+   const handleClickRefresh = async () => {
+      loading(true);
+      await fetchData();
+      loading(false);
    };
 
    return (
@@ -62,7 +70,7 @@ export default function Navbar({ imageUrl, isLoading, fetchData }) {
                   <FaUser className="icon-style" />
                </Link>
             </div>
-            <button type="button" onClick={fetchData}>
+            <button type="button" onClick={handleClickRefresh}>
                <LuRefreshCcw />
             </button>
          </div>

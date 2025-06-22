@@ -2,6 +2,7 @@ import Sidebar from "../components/admin/Sidebar";
 import Navbar from "..//components/admin/Navbar";
 import Footer from "../components/admin/Footer";
 import MobileProtected from "../components/admin/MobileProtected";
+import useLoadingSpinner from "../components/elements/LoadingModal.jsx";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { isAuthenticated } from "../_services/auth";
@@ -25,6 +26,8 @@ export default function AdminLayout() {
    const [news, setNews] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
    const [id, setId] = useState(null);
+
+   const { loading, LoadingSpinner } = useLoadingSpinner();
 
    const fetchData = async () => {
       if (currentPath.startsWith("/admin/members")) {
@@ -129,6 +132,7 @@ export default function AdminLayout() {
                imageUrl={imageUrl}
                isLoading={isLoading}
                fetchData={fetchData}
+               loading={loading}
             />
             <Outlet
                context={{
@@ -144,6 +148,7 @@ export default function AdminLayout() {
             />
             <Footer />
          </div>
+         <LoadingSpinner />
       </>
    );
 }
