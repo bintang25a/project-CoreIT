@@ -31,7 +31,8 @@ export const getDivisionLogo = async () => {
    // return "http://127.0.0.1:8000/api/divisions/image/";
    // return "http://192.168.1.4:8000/api/divisions/image/";
    // return "https://project-coreit-production.up.railway.app/api/divisions/image/";
-   return "https://coreit.karyakreasi.id/api/divisions/image/";
+   // return "https://coreit.karyakreasi.id/api/divisions/image/";
+   return "http://ships-actively.gl.at.ply.gg:61805/api/divisions/image/";
 };
 
 export const createDivision = async (data) => {

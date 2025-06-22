@@ -4,7 +4,8 @@ const API = axios.create({
    // baseURL: "http://127.0.0.1:8000/api",
    // baseURL: "http://192.168.1.4:8000/api",
    // baseURL: "https://project-coreit-production.up.railway.app/api",
-   baseURL: "https://coreit.karyakreasi.id/api",
+   // baseURL: "https://coreit.karyakreasi.id/api",
+   baseURL: "http://ships-actively.gl.at.ply.gg:61805/api",
 });
 
 API.interceptors.request.use(

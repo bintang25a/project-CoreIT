@@ -31,7 +31,8 @@ export const getImageUrl = async () => {
    // return "http://127.0.0.1:8000/api/galleries/image/";
    // return "http://192.168.1.4:8000/api/galleries/image/";
    // return "https://project-coreit-production.up.railway.app/api/galleries/image/";
-   return "https://coreit.karyakreasi.id/api/galleries/image/";
+   // return "https://coreit.karyakreasi.id/api/galleries/image/";
+   return "http://ships-actively.gl.at.ply.gg:61805/api/galleries/image/";
 };
 
 export const createImage = async (data) => {
