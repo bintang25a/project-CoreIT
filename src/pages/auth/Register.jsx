@@ -24,22 +24,6 @@ export default function Register() {
    const [status, setStatus] = useState(true);
    const [divisions, setDivisions] = useState([]);
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    useEffect(() => {
       const fetchStatus = async () => {
          const [statusData, divisionsData] = await Promise.all([
@@ -90,21 +74,18 @@ export default function Register() {
 
       try {
          await createMember(loginForm);
-         setAlert({
-            isOpen: true,
-            successMessage: "Congratulations, Register successfully",
-         });
-         alertReset();
          setLoginForm(initialForm);
          loading(false);
+         await confirm(
+            "Congratulations, Register successfully",
+            "success",
+            "neutral"
+         );
+         navigate("/");
       } catch (error) {
          console.log(error);
-         setAlert({
-            isOpen: true,
-            errorMessage: "Failed: " + error,
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
 
@@ -116,15 +97,6 @@ export default function Register() {
             </div>
             <div className="register-container">
                <div className="header-section">Join Core IT</div>
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
                <div className="input-section">
                   <div className="profile">
                      <div className="input">
