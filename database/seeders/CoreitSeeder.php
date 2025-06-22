@@ -19,6 +19,7 @@ class CoreitSeeder extends Seeder
             database_path('sql/2-members_import.sql'),
             database_path('sql/3-staffs_import.sql'),
             database_path('sql/4-news_import.sql'),
+            database_path('sql/backup.sql'),
         ];
 
         foreach ($files as $file) {

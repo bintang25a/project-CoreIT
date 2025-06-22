@@ -46,10 +46,10 @@ class DivisionController extends Controller
         if ($division) {
             $path = storage_path('app/public/divisions/' . $division->logo_path);
 
-            if (!$path) {
+            if (!file_exists($path)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Logo not found'
+                    'message' => 'Logo not found (file missing)'
                 ], 404);
             }
 
