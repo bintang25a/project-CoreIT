@@ -11,22 +11,6 @@ export default function StaffAdd() {
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -68,7 +52,11 @@ export default function StaffAdd() {
    const handleCountSubmit = async () => {
       let result;
       if (count > countTerm) {
-         result = await confirm("Data will not be saved, are you sure?");
+         result = await confirm(
+            "Data will not be saved, are you sure?",
+            "confirm",
+            "danger"
+         );
 
          if (result) {
             setCount(countTerm);
@@ -147,24 +135,15 @@ export default function StaffAdd() {
          );
 
          setDisableInput(true);
-
-         setAlert({
-            isOpen: true,
-            successMessage: "Add staffs successfully",
-         });
-         alertReset();
          loading(false);
+         await confirm("Add staffs successfully", "success", "neutral");
 
          if (submitted.length + 1 === Number(count)) {
             navigate("/admin/staffs");
          }
       } catch (error) {
-         setAlert({
-            isOpen: true,
-            errorMessage: error,
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
    const handleSubmits = async (e) => {
@@ -199,28 +178,23 @@ export default function StaffAdd() {
                })
          );
 
-         setAlert({
-            isOpen: true,
-            successMessage: "Add all staffs successfully",
-         });
-         alertReset();
          loading(false);
+         await confirm("Add all staffs successfully", "success", "neutral");
          navigate("/admin/staffs");
       } catch (error) {
          console.log(error);
-         setAlert({
-            isOpen: true,
-            errorMessage:
-               "Add or Edit members failed:\n make sure all form has value",
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
    const scrollRef = useRef(null);
 
    const handleReset = async () => {
-      const result = await confirm("Are you sure? the data will be lost");
+      const result = await confirm(
+         "Are you sure? the data will be lost",
+         "confirm",
+         "danger"
+      );
 
       if (result) {
          setSubmitted([]);
@@ -249,19 +223,6 @@ export default function StaffAdd() {
                   Reset
                </button>
             </div>
-            {alert.isOpen ? (
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
-            ) : (
-               ""
-            )}
             <div className="count">
                <label htmlFor="count">Number staff created</label>
                <input
@@ -347,8 +308,12 @@ export default function StaffAdd() {
                                        placeholder="create password"
                                        value={formData.password}
                                        onChange={(e) => handleChange(e, i)}
+                                       autoComplete="off"
                                        required
-                                       autoComplete="new-password"
+                                       readOnly
+                                       onFocus={(e) =>
+                                          e.target.removeAttribute("readonly")
+                                       }
                                     />
                                     <input
                                        type="text"

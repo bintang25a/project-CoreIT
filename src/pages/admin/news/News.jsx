@@ -65,22 +65,6 @@ export default function News() {
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -156,7 +140,11 @@ export default function News() {
    const handleDelete = async (idData) => {
       let result = false;
       if (idData.length > 0) {
-         result = await confirm("Are you sure you want to delete this?");
+         result = await confirm(
+            "Are you sure you want to delete this?",
+            "neutral",
+            "danger"
+         );
       }
 
       if (result) {
@@ -166,21 +154,13 @@ export default function News() {
             await Promise.all(idData.map((id) => deleteNews(id)));
 
             setSelectedIds([]);
-            setAlert({
-               isOpen: true,
-               successMessage: "Delete news successfully",
-            });
-            alertReset();
             fetchData();
             loading(false);
+            confirm("Delete news successfully", "success", "neutral");
          } catch (error) {
             console.log(error);
-            setAlert({
-               isOpen: true,
-               errorMessage: "Delete news failed\n" + error,
-            });
-            alertReset();
             loading(false);
+            confirm(error, "failed", "neutral");
          }
       }
    };
@@ -221,19 +201,6 @@ export default function News() {
                   Delete
                </button>
             </div>
-            {alert.isOpen ? (
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
-            ) : (
-               ""
-            )}
             <div className="search">
                <input
                   type="search"

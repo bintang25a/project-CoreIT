@@ -13,10 +13,12 @@ import { getRecruitmentStatus } from "../../_services/auth";
 import background from "/images/background/gambar1.jpg";
 import { getDivisions } from "../../_services/divisions";
 import { createMember } from "../../_services/members";
+import useConfirmDialog from "../../components/elements/ConfirmModal";
 import useLoadingSpinner from "../../components/elements/LoadingModal";
 
 export default function Register() {
    const { loading, LoadingSpinner } = useLoadingSpinner();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
 
    const navigate = useNavigate();
    const [status, setStatus] = useState(true);
@@ -47,7 +49,11 @@ export default function Register() {
 
          setStatus(statusData);
          if (!status) {
-            alert("Recruitment is currently closed.");
+            await confirm(
+               "Recruitment is currently closed.",
+               "failed",
+               "neutral"
+            );
             return navigate("/");
          }
 
@@ -221,6 +227,7 @@ export default function Register() {
                <FaArrowLeft />
             </Link>
          </div>
+         <ConfirmDialog />
          <LoadingSpinner />
       </main>
    );

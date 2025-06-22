@@ -1,9 +1,10 @@
 import { FaUser, FaLock, FaSignInAlt, FaArrowLeft } from "react-icons/fa";
 import "./index.css";
 import background from "/images/background/gambar1.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { login } from "../../_services/auth";
 import { useNavigate, Link } from "react-router-dom";
+import { isAuthenticated } from "../../_services/auth";
 import MobileProtected from "../../components/admin/MobileProtected";
 import useLoadingSpinner from "../../components/elements/LoadingModal";
 
@@ -11,6 +12,16 @@ export default function Login() {
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
    const navigate = useNavigate();
+   useEffect(() => {
+      const checkAuth = async () => {
+         const valid = await isAuthenticated();
+         if (valid) {
+            navigate("/admin", { replace: true });
+         }
+      };
+      checkAuth();
+   }, [navigate]);
+
    const [loginForm, setLoginForm] = useState({
       nim: "",
       password: "",
@@ -66,7 +77,7 @@ export default function Login() {
             <MobileProtected />
          </div>
          <main className="login">
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)} autoComplete="off">
                <div className="background">
                   <img src={background} alt="background" />
                </div>
@@ -104,7 +115,7 @@ export default function Login() {
                            value={loginForm.password}
                            onChange={handleChange}
                            required
-                           autoComplete="new-password"
+                           autoComplete="off"
                         />
                      </div>
                   </div>

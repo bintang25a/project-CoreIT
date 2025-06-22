@@ -66,22 +66,6 @@ export default function Profile() {
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    const fetchData = async () => {
       const [staffData, imageUrlData] = await Promise.all([
          showStaff(id),
@@ -117,15 +101,15 @@ export default function Profile() {
 
    const handleChangePassword = async () => {
       if (!passwordNow || !passwordNew) {
-         setAlert({
-            isOpen: true,
-            errorMessage: "Both field required",
-         });
-         alertReset();
+         confirm("Both field required!", "neutral", "neutral");
          return;
       }
 
-      const result = await confirm("Are you sure to change password?");
+      const result = await confirm(
+         "Are you sure to change password?",
+         "neutral",
+         "danger"
+      );
 
       if (result) {
          loading(true);
@@ -136,21 +120,13 @@ export default function Profile() {
                passwordNew,
             });
 
-            setAlert({
-               isOpen: true,
-               successMessage: "Password changed successfully!",
-            });
-            alertReset();
             setPasswordNow("");
             setPasswordNew("");
             loading(false);
+            confirm("Password changed successfully!", "success", "neutral");
          } catch (error) {
-            setAlert({
-               isOpen: true,
-               errorMessage: error,
-            });
-            alertReset();
             loading(false);
+            confirm(error, "failed", "neutral");
          }
       }
    };
@@ -183,23 +159,15 @@ export default function Profile() {
 
       try {
          await updateStaff(id, form);
-         setAlert({
-            isOpen: true,
-            successMessage: "Update photo successfully",
-         });
-         alertReset();
          await fetchData();
          setFilePhoto(false);
          setPhotoPreview(null);
          setFormData({ ...formData, photo: null });
          loading(false);
+         confirm("Update photo successfully", "success", "neutral");
       } catch (error) {
-         setAlert({
-            isOpen: true,
-            errorMessage: error,
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
 
@@ -244,19 +212,6 @@ export default function Profile() {
                         {staff.nim} | {staff.user?.prodi}
                      </h2>
                   </div>
-                  {alert.isOpen ? (
-                     <h1
-                        className={
-                           alert.errorMessage ? "alert error" : "alert success"
-                        }
-                     >
-                        {alert.errorMessage
-                           ? alert.errorMessage
-                           : alert.successMessage}
-                     </h1>
-                  ) : (
-                     ""
-                  )}
                </div>
                <div className="specific">
                   <div className="left-section">
@@ -296,7 +251,7 @@ export default function Profile() {
                      placeholder="Type your current password"
                      value={passwordNow}
                      onChange={(e) => setPasswordNow(e.target.value)}
-                     autoComplete="new-password"
+                     autoComplete="off"
                   />
                   <input
                      type="password"
@@ -304,7 +259,7 @@ export default function Profile() {
                      placeholder="Type your new password"
                      value={passwordNew}
                      onChange={(e) => setPasswordNew(e.target.value)}
-                     autoComplete="new-password"
+                     autoComplete="off"
                   />
                   <button onClick={handleChangePassword}>Change</button>
                   {alert.isOpen ? (

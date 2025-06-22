@@ -235,22 +235,6 @@ export default function Divisions() {
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -317,11 +301,7 @@ export default function Divisions() {
 
             await createDivision(payload);
 
-            setAlert({
-               isOpen: true,
-               successMessage: "Add division successfully",
-            });
-
+            confirm("Add division successfully", "success", "neutral");
             setFileSelected(false);
             setFormData(initialFormData);
             fetchData();
@@ -346,11 +326,7 @@ export default function Divisions() {
                })
             );
 
-            setAlert({
-               isOpen: true,
-               successMessage: "Edit divisions successfully",
-            });
-
+            confirm("Edit division successfully", "success", "neutral");
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
@@ -358,15 +334,9 @@ export default function Divisions() {
             loading(false);
             navigate("/admin/divisions");
          }
-
-         alertReset();
       } catch (error) {
          console.log(error);
-         setAlert({
-            isOpen: true,
-            errorMessage: "Failed: " + error,
-         });
-         alertReset();
+         confirm(error, "failed", "neutral");
          loading(false);
       }
    };
@@ -390,7 +360,11 @@ export default function Divisions() {
    const handleDelete = async (idData) => {
       let result = false;
       if (!isEditing && idData.length > 0) {
-         result = await confirm("Are you sure you want to delete this?");
+         result = await confirm(
+            "Are you sure you want to delete this?",
+            "neutral",
+            "danger"
+         );
       }
 
       if (result) {
@@ -400,19 +374,11 @@ export default function Divisions() {
             await Promise.all(idData.map((id) => deleteDivision(id)));
 
             setSelectedIds([]);
-            setAlert({
-               isOpen: true,
-               successMessage: "Delete divisions successfully",
-            });
-            alertReset();
+            confirm("Delete divisions successfully", "success", "neutral");
             fetchData();
             loading(false);
          } catch (error) {
-            setAlert({
-               isOpen: true,
-               errorMessage: error,
-            });
-            alertReset();
+            confirm(error, "failed", "neutral");
             loading(false);
          }
       }
@@ -478,19 +444,6 @@ export default function Divisions() {
                   </>
                )}
             </div>
-            {alert.isOpen ? (
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
-            ) : (
-               ""
-            )}
             <div className="search">
                <input
                   type="search"

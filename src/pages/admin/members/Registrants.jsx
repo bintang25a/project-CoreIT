@@ -52,7 +52,11 @@ function ClockWithDate() {
 function Card({ members, logoUrl, fetchData, confirm, loading }) {
    //Kode reject member
    const handleDelete = async (id, name) => {
-      const result = await confirm(`Are u sure reject ${name}?`);
+      const result = await confirm(
+         `Are u sure reject ${name}?`,
+         "neutral",
+         "danger"
+      );
 
       if (result) {
          loading(true);
@@ -63,7 +67,7 @@ function Card({ members, logoUrl, fetchData, confirm, loading }) {
             loading(false);
          } catch (error) {
             console.log(error);
-            alert("Error\n" + error);
+            confirm(error, "failed", "neutral");
             loading(false);
          }
       }
@@ -72,7 +76,11 @@ function Card({ members, logoUrl, fetchData, confirm, loading }) {
    //Kode accept member
    const handleSubmit = async (id, e, name) => {
       e.preventDefault();
-      const result = await confirm(`Are u sure accept ${name}?`);
+      const result = await confirm(
+         `Are u sure accept ${name}?`,
+         "neutral",
+         "save"
+      );
 
       if (result) {
          loading(true);
@@ -83,7 +91,8 @@ function Card({ members, logoUrl, fetchData, confirm, loading }) {
             const division = member.division?.name;
 
             if (!member) {
-               alert("Not found");
+               loading(false);
+               confirm("Not found", "failed", "neutral");
                return;
             }
 
@@ -107,8 +116,8 @@ function Card({ members, logoUrl, fetchData, confirm, loading }) {
             loading(false);
          } catch (error) {
             console.log(error);
-            alert("Error\n" + error);
             loading(false);
+            confirm(error, "failed", "neutral");
          }
       }
    };
@@ -318,11 +327,15 @@ export default function Registrants() {
    }, []);
 
    const handleToggle = async () => {
-      loading(true);
-      await toggleRecruitmentStatus();
-      const newStatus = await getRecruitmentStatus();
-      setStatus(newStatus);
-      loading(false);
+      const result = await confirm("Are you sure?", "neutral", "save");
+
+      if (result) {
+         loading(true);
+         await toggleRecruitmentStatus();
+         const newStatus = await getRecruitmentStatus();
+         setStatus(newStatus);
+         loading(false);
+      }
    };
 
    return (

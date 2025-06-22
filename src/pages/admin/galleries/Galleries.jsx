@@ -11,22 +11,6 @@ export default function Galleries() {
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -110,7 +94,11 @@ export default function Galleries() {
    const handleDelete = async (idData) => {
       let result = false;
       if (idData.length > 0) {
-         result = await confirm("Are you sure you want to delete this?");
+         result = await confirm(
+            "Are you sure you want to delete this?",
+            "neutral",
+            "danger"
+         );
       }
 
       if (result) {
@@ -120,21 +108,13 @@ export default function Galleries() {
             await Promise.all(idData.map((id) => deleteImage(id)));
 
             setSelectedIds([]);
-            setAlert({
-               isOpen: true,
-               successMessage: "Delete iamges successfully",
-            });
-            alertReset();
             fetchData();
             loading(false);
+            confirm("Delete images successfully", "success", "neutral");
          } catch (error) {
             console.log(error);
-            setAlert({
-               isOpen: true,
-               errorMessage: error,
-            });
-            alertReset();
             loading(false);
+            confirm(error, "failed", "neutral");
          }
       }
    };
@@ -172,19 +152,6 @@ export default function Galleries() {
                   Delete
                </button>
             </div>
-            {alert.isOpen ? (
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
-            ) : (
-               ""
-            )}
             <div className="search">
                <input
                   type="search"

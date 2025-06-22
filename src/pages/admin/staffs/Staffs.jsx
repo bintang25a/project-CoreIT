@@ -77,16 +77,18 @@ function AddingRow({
                required
             />
          </td>
-
          <td>
             <input
-               type="text"
+               type="password"
                name="password"
                id="password"
                value={formData.password}
                onChange={handleChange}
                placeholder="password"
+               autoComplete="off"
                required
+               readOnly
+               onFocus={(e) => e.target.removeAttribute("readonly")}
             />
          </td>
          <td>
@@ -346,22 +348,6 @@ export default function Staffs() {
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    //Kode loading
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
@@ -458,15 +444,11 @@ export default function Staffs() {
 
             await createStaffs(payload);
 
-            setAlert({
-               isOpen: true,
-               successMessage: "Add staffs successfully",
-            });
-
             setFileSelected(false);
             setFormData(initialFormData);
             fetchData();
             loading(false);
+            confirm("Add staff successfully", "success", "neutral");
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
@@ -487,28 +469,18 @@ export default function Staffs() {
                })
             );
 
-            setAlert({
-               isOpen: true,
-               successMessage: "Edit staffs successfully",
-            });
-
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
             loading(false);
+            await confirm("Edit staff successfully", "success", "neutral");
             navigate("/admin/staffs");
          }
-
-         alertReset();
       } catch (error) {
          console.log(error);
-         setAlert({
-            isOpen: true,
-            errorMessage: "Failed: " + error,
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
    const triggerSubmit = () => {
@@ -531,7 +503,11 @@ export default function Staffs() {
    const handleDelete = async (idData) => {
       let result = false;
       if (!isEditing && idData.length > 0) {
-         result = await confirm("Are you sure you want to delete this?");
+         result = await confirm(
+            "Are you sure you want to delete this?",
+            "neutral",
+            "danger"
+         );
       }
 
       if (result) {
@@ -541,20 +517,12 @@ export default function Staffs() {
             await Promise.all(idData.map((id) => deleteStaff(id)));
 
             setSelectedIds([]);
-            setAlert({
-               isOpen: true,
-               successMessage: "Delete staffs successfully",
-            });
-            alertReset();
             fetchData();
             loading(false);
+            confirm("Delete staffs successfully", "success", "neutral");
          } catch (error) {
-            setAlert({
-               isOpen: true,
-               errorMessage: "Delete staffs failed:\n" + error,
-            });
-            alertReset();
             loading(false);
+            confirm(error, "failed", "neutral");
          }
       }
    };
@@ -610,7 +578,7 @@ export default function Staffs() {
             </div>
          </div>
          <div className="content" ref={scrollRef}>
-            <form ref={formRef} onSubmit={handleSubmit}>
+            <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
                <table>
                   <thead>
                      <tr>

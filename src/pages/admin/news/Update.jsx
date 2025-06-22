@@ -4,26 +4,12 @@ import { FiUpload } from "react-icons/fi";
 import { showNews, updateNews } from "../../../_services/news.js";
 import { getImageUrl } from "../../../_services/galleries.js";
 import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
 
 export default function NewsEdit() {
    const { informations, fetchData } = useOutletContext();
+   const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
-
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
 
    //Kode data disimpan dari database
    const [isLoading, setIsLoading] = useState(true);
@@ -149,21 +135,14 @@ export default function NewsEdit() {
 
       try {
          await updateNews(id, payload);
-         setAlert({
-            isOpen: true,
-            successMessage: "Edit news successfully",
-         });
-         alertReset();
+
          loading(false);
+         await confirm("Edit news successfully", "success", "neutral");
          navigate("/admin/news");
       } catch (error) {
          console.log(error);
-         setAlert({
-            isOpen: true,
-            errorMessage: "Failed: " + error,
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
 
@@ -188,19 +167,6 @@ export default function NewsEdit() {
                   ← Back
                </button>
             </div>
-            {alert.isOpen ? (
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
-            ) : (
-               ""
-            )}
             <div className="search">
                <select onChange={handleSelectChange}>
                   <option value="">--Edit other News--</option>
@@ -312,6 +278,7 @@ export default function NewsEdit() {
             </form>
          </div>
          <LoadingSpinner />
+         <ConfirmDialog />
       </main>
    );
 }

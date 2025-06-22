@@ -439,7 +439,8 @@ main.staffs .content {
          td {
             height: var(--px-56);
 
-            input[type="text"] {
+            input[type="text"],
+            input[type="password"] {
                background-color: var(--gray-100);
                border: 1px solid var(--secondary);
                border-radius: 4px;
@@ -447,7 +448,7 @@ main.staffs .content {
             }
          }
          td:nth-child(1) input[type="text"],
-         td:nth-child(2) input[type="text"],
+         td:nth-child(2) input[type="password"],
          td:nth-child(5) input[type="text"],
          td:nth-child(6) input[type="text"],
          td:nth-child(7) input[type="text"] {
@@ -1460,7 +1461,6 @@ main.galleries .content-add {
             transition: 0.3s ease;
 
             img {
-               aspect-ratio: 16/9;
                width: 100%;
                max-height: 100%;
                object-position: top;

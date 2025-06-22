@@ -2,26 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUpload } from "react-icons/fi";
 import { createImage } from "../../../_services/galleries.js";
+import useConfirmDialog from "../../../components/elements/ConfirmModal.jsx";
 import useLoadingSpinner from "../../../components/elements/LoadingModal.jsx";
 
 export default function GalleryAdd() {
+   const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
-
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
 
    //Kode data disimpan dari database
    const [imagePreview, setImagePreview] = useState(null);
@@ -75,21 +61,13 @@ export default function GalleryAdd() {
 
          await createImage(payload);
 
-         setAlert({
-            isOpen: true,
-            successMessage: "Add iamges successfully",
-         });
-         alertReset();
          loading(false);
+         await confirm("Add iamges successfully", "success", "neutral");
          navigate("/admin/galleries");
       } catch (error) {
          console.log(error);
-         setAlert({
-            isOpen: true,
-            errorMessage: error,
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
 
@@ -107,19 +85,6 @@ export default function GalleryAdd() {
                   ← Back
                </button>
             </div>
-            {alert.isOpen ? (
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
-            ) : (
-               ""
-            )}
             <div className="search"></div>
          </div>
          <div className="name-space">Add Image to CORE IT Galleries</div>
@@ -188,6 +153,7 @@ export default function GalleryAdd() {
                </div>
             </form>
          </div>
+         <ConfirmDialog />
          <LoadingSpinner />
       </main>
    );

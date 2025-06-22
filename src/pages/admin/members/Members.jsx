@@ -282,22 +282,6 @@ export default function Members() {
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   //Kode custom alert
-   const [alert, setAlert] = useState({
-      isOpen: false,
-      errorMessage: "",
-      successMessage: "",
-   });
-   const alertReset = () => {
-      setTimeout(() => {
-         setAlert({
-            isOpen: false,
-            errorMessage: "",
-            successMessage: "",
-         });
-      }, 5000);
-   };
-
    const [isLoading, setIsLoading] = useState(true);
    useEffect(() => {
       if (isLoading) {
@@ -403,14 +387,10 @@ export default function Members() {
 
             await createMember(payload);
 
-            setAlert({
-               isOpen: true,
-               successMessage: "Add member successfully",
-            });
-
             setFormData(initialFormData);
             fetchData();
             loading(false);
+            confirm("Add members successfully", "success", "neutral");
          } else {
             await Promise.all(
                selectedIds.map(async (id) => {
@@ -424,28 +404,18 @@ export default function Members() {
                })
             );
 
-            setAlert({
-               isOpen: true,
-               successMessage: "Edit members successfully",
-            });
-
             setFormData({});
             setSelectedIds([]);
             setIsEditing(false);
             fetchData();
             loading(false);
+            await confirm("Edit members successfully", "success", "neutral");
             navigate("/admin/members");
          }
-
-         alertReset();
       } catch (error) {
          console.log(error);
-         setAlert({
-            isOpen: true,
-            errorMessage: "Failed: " + error,
-         });
-         alertReset();
          loading(false);
+         confirm(error, "failed", "neutral");
       }
    };
    const triggerSubmit = () => {
@@ -468,7 +438,11 @@ export default function Members() {
    const handleDelete = async (idData) => {
       let result = false;
       if (!isEditing && idData.length > 0) {
-         result = await confirm("Are you sure you want to delete this?");
+         result = await confirm(
+            "Are you sure you want to delete this?",
+            "neutral",
+            "danger"
+         );
       }
 
       if (result) {
@@ -478,21 +452,13 @@ export default function Members() {
             await Promise.all(idData.map((id) => deleteMember(id)));
 
             setSelectedIds([]);
-            setAlert({
-               isOpen: true,
-               successMessage: "Delete members successfully",
-            });
-            alertReset();
             fetchData();
             loading(false);
+            confirm("Delete members successfully", "success", "neutral");
          } catch (error) {
             console.log(error);
-            setAlert({
-               isOpen: true,
-               errorMessage: "Delete members failed\n" + error,
-            });
-            alertReset();
             loading(false);
+            confirm(error, "failed", "neutral");
          }
       }
    };
@@ -541,19 +507,6 @@ export default function Members() {
                   </>
                )}
             </div>
-            {alert.isOpen ? (
-               <div
-                  className={
-                     alert.errorMessage ? "alert error" : "alert success"
-                  }
-               >
-                  {alert.errorMessage
-                     ? alert.errorMessage
-                     : alert.successMessage}
-               </div>
-            ) : (
-               ""
-            )}
             <div className="search">
                <input
                   type="search"
