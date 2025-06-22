@@ -50,7 +50,6 @@ class AuthController extends Controller
                 'name' => $member ? $member->name : null,
                 'image' => $image ? $image->path : null,
             ],
-            // 'user' => auth()->guard('api_staff')->user(),
             'token' => $token
         ], 200);
     }
@@ -141,35 +140,6 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => 'Logout failed'
             ], 500);
-        }
-    }
-
-    public function logoutBeacon(Request $request)
-    {
-        $token = $request->token;
-
-        if (!$token) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No token provided'
-            ], 400);
-        }
-
-        try {
-            auth()->shouldUse('api_staff');
-
-            $user = JWTAuth::setToken($token)->authenticate();
-
-            if ($user) {
-                $user->update([
-                    'isLogin' => false
-                ]);
-                JWTAuth::invalidate($token);
-            }
-
-            return response()->json(['success' => true], 201);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Invalid token'], 401);
         }
     }
 }
