@@ -79,6 +79,7 @@
                min-height: 200px;
                max-height: 300px;
                padding: var(--spx-8) var(--spx-16);
+               border-radius: var(--spx-12);
                gap: var(--spx-8);
                transition: 0.2s linear;
                border-top: var(--spx-8) solid var(--gray-600);
@@ -194,7 +195,7 @@
                   padding-bottom: var(--spx-8);
                }
                .title h1 {
-                  font-size: var(--fs-1);
+                  font-size: var(--fs-0);
                }
 
                .footer {
@@ -287,6 +288,7 @@
             max-width: 240px;
             min-height: 200px;
             max-height: 240px;
+            border-radius: var(--spx-12);
             justify-content: flex-start;
             flex-direction: column;
             padding: var(--spx-8) var(--spx-16);

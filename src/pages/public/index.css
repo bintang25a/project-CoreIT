@@ -201,14 +201,14 @@
 
          .card {
             min-width: 200px;
-            max-width: 240px;
+            max-width: var(--px-320);
             width: var(--px-320);
             min-height: 320px;
-            height: 320px;
+            height: calc(var(--px-320) + var(--px-128));
             justify-content: flex-start;
             flex-direction: column;
             box-shadow: 2px 2px 8px var(--gray-300);
-            border-radius: 1rem;
+            border-radius: var(--px-24);
             padding: var(--px-16) var(--px-32);
             gap: var(--px-8);
             transition: 0.2s linear;
@@ -341,7 +341,7 @@
 
          .news-card {
             width: 100%;
-            max-width: 360px;
+            max-width: calc(var(--px-320) + var(--px-128));
             min-height: 350px;
             box-shadow: 1px 1px 2px var(--primary);
             background-color: var(--white);
@@ -358,7 +358,7 @@
             }
             .image img {
                width: 100%;
-               height: 200px;
+               height: var(--px-256);
                object-fit: cover;
                border-radius: 0.5rem;
             }
@@ -516,14 +516,14 @@
          display: flex;
          align-items: center;
          min-width: 200px;
-         max-width: 240px;
+         max-width: calc(var(--px-320) - var(--px-24));
          width: var(--px-320);
          min-height: 320px;
-         height: 320px;
+         height: calc(var(--px-320) + var(--px-128));
          justify-content: flex-start;
          flex-direction: column;
          box-shadow: 2px 2px 8px var(--gray-300);
-         border-radius: 1rem;
+         border-radius: var(--px-24);
          padding: var(--px-16) var(--px-32);
          gap: var(--px-8);
          transition: 0.2s linear;
@@ -663,7 +663,7 @@
             .card {
                min-width: 180px;
                width: 100%;
-               max-width: 240px;
+               max-width: var(--px-256);
                display: flex;
                flex-direction: column;
                justify-content: center;
@@ -687,7 +687,7 @@
                   aspect-ratio: 3/4;
                   min-height: 320px;
                   height: var(--px-320);
-                  width: auto;
+                  width: 100%;
                }
                .photo img {
                   height: 100%;
