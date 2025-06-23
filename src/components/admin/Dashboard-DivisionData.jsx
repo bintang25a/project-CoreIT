@@ -21,7 +21,7 @@ function TableRow({ members, divisions, viewAll, logoUrl }) {
                <div className="kolom-1">
                   <img
                      draggable="false"
-                     src={logoUrl + division.logo_path}
+                     src={logoUrl(division.logo_path)}
                      alt={division.name}
                   />
                   <h1>{division.name}</h1>

@@ -33,15 +33,11 @@ export default function StaffAdd() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && members.length < 1) fetchData();
+      }, 500);
 
-      if (members.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [members, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, members.length]);
 
    //Kode set count
    const [countTerm, setCountTerm] = useState(1);

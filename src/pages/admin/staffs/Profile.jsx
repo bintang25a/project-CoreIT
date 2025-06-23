@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useOutletContext, useParams } from "react-router-dom";
 import { showStaff, updateStaff } from "../../../_services/staffs";
-import { getImageUrl } from "../../../_services/galleries";
 import { showDivision } from "../../../_services/divisions";
 import { changePassword } from "../../../_services/auth";
 import Skeleton from "react-loading-skeleton";
@@ -55,7 +54,6 @@ function LoadingProfile() {
 export default function Profile() {
    const [staff, setStaff] = useState([]);
    const [division, setDivision] = useState([]);
-   const [imageUrl, setImageUrl] = useState("");
    const [passwordNow, setPasswordNow] = useState("");
    const [passwordNew, setPasswordNew] = useState("");
    const [isLoading, setIsLoading] = useState(true);
@@ -63,28 +61,35 @@ export default function Profile() {
    const [formData, setFormData] = useState({});
    const { id } = useParams();
 
+   const { imageUrl } = useOutletContext();
    const { confirm, ConfirmDialog } = useConfirmDialog();
    const { loading, LoadingSpinner } = useLoadingSpinner();
 
-   const fetchData = async () => {
-      const [staffData, imageUrlData] = await Promise.all([
-         showStaff(id),
-         getImageUrl(),
-      ]);
+   const fetchData = useCallback(() => {
+      const fetch = async () => {
+         const [staffData] = await Promise.all([showStaff(id)]);
 
-      setFormData({
-         position: staffData.position || "",
-         nim: staffData.nim || "",
-         photo: null,
-      });
-      setStaff(staffData);
-      setImageUrl(imageUrlData);
-      setIsLoading(false);
-   };
+         setFormData({
+            position: staffData.position || "",
+            nim: staffData.nim || "",
+            photo: null,
+         });
+         setStaff(staffData);
+         setIsLoading(false);
+      };
+
+      fetch();
+   }, [id]);
 
    useEffect(() => {
-      fetchData();
-   }, []);
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading && staff.length < 1) {
+            fetchData();
+         }
+      }, 500);
+
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, staff.length]);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -182,7 +187,7 @@ export default function Profile() {
                      src={
                         filePhoto && photoPreview
                            ? photoPreview
-                           : imageUrl + staff.gallery?.path
+                           : imageUrl(staff.gallery?.path)
                      }
                      alt={staff.user?.name}
                   />

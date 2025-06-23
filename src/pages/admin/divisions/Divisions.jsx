@@ -27,7 +27,7 @@ function NormalRow({ division, logoUrl, isSelected, handleCheckboxChange }) {
                   checked={isSelected}
                   onChange={() => handleCheckboxChange(division.id)}
                />
-               <img src={logoUrl + division.logo_path} alt={division.name} />
+               <img src={logoUrl(division.logo_path)} alt={division.name} />
             </div>
          </td>
          <td>{division.name}</td>
@@ -257,15 +257,11 @@ export default function Divisions() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && divisions.length < 1) fetchData();
+      }, 500);
 
-      if (divisions.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [divisions, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, divisions.length]);
 
    //Kode search
    const [searchTerm, setSearchTerm] = useState("");

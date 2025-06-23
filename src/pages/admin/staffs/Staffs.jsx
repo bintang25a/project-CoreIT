@@ -370,15 +370,13 @@ export default function Staffs() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
+         if (isLoading && (members.length < 1 || staffs.length < 1)) {
             fetchData();
          }
-      }, 1500);
+      }, 500);
 
-      if (members.length > 0 && staffs.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [members, staffs, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, members.length, staffs.length]);
 
    //Kode search
    const [searchTerm, setSearchTerm] = useState("");

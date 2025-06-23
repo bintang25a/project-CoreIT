@@ -131,15 +131,11 @@ export default function Staffs() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && staffs.length < 1) fetchData();
+      }, 500);
 
-      if (staffs.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [fetchData, isLoading, staffs]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, staffs.length]);
 
    useEffect(() => {
       window.scrollTo(0, 0);
@@ -171,7 +167,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -200,7 +196,7 @@ export default function Staffs() {
                            </div>
                            <div className="photo">
                               <img
-                                 src={imageUrl + sekretaris[0].gallery?.path}
+                                 src={imageUrl(sekretaris[0].gallery?.path)}
                                  alt=""
                               />
                            </div>
@@ -229,7 +225,7 @@ export default function Staffs() {
                            </div>
                            <div className="photo">
                               <img
-                                 src={imageUrl + bendahara[0].gallery?.path}
+                                 src={imageUrl(bendahara[0].gallery?.path)}
                                  alt=""
                               />
                            </div>
@@ -269,7 +265,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -308,7 +304,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -349,7 +345,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -388,7 +384,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -429,7 +425,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -468,7 +464,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -509,7 +505,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>
@@ -548,7 +544,7 @@ export default function Staffs() {
                                  </div>
                                  <div className="photo">
                                     <img
-                                       src={imageUrl + staff.gallery?.path}
+                                       src={imageUrl(staff.gallery?.path)}
                                        alt=""
                                     />
                                  </div>

@@ -93,7 +93,7 @@ function NewsDetail({ id, formatTanggal, imageUrl, isLoading }) {
                   </div>
                   <div className="image">
                      <img
-                        src={imageUrl + news.main_image?.path}
+                        src={imageUrl(news.main_image?.path)}
                         alt={news.title}
                      />
                   </div>
@@ -102,7 +102,7 @@ function NewsDetail({ id, formatTanggal, imageUrl, isLoading }) {
                   </div>
                   <div className="image">
                      <img
-                        src={imageUrl + news.body_image?.path}
+                        src={imageUrl(news.body_image?.path)}
                         alt={news.title}
                      />
                   </div>
@@ -174,7 +174,7 @@ function NewsHome({
                            <div key={item.id} className="card">
                               <div className="image">
                                  <img
-                                    src={imageUrl + item.main_image?.path}
+                                    src={imageUrl(item.main_image?.path)}
                                     alt={item.title}
                                  />
                               </div>
@@ -210,7 +210,7 @@ function NewsHome({
                         >
                            <div className="image">
                               <img
-                                 src={imageUrl + item.main_image?.path}
+                                 src={imageUrl(item.main_image?.path)}
                                  alt={item.title}
                               />
                            </div>
@@ -254,15 +254,11 @@ export default function News() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && news.length < 1) fetchData();
+      }, 500);
 
-      if (news.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [fetchData, isLoading, news]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, news.length]);
 
    const [searchTerm, setSearchTerm] = useState("");
    const filteredNews = news.filter(

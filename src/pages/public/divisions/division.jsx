@@ -58,7 +58,7 @@ function DivisionLoading() {
 }
 
 export default function Division() {
-   const { divisionsLogo, setIsClose, fetchData } = useOutletContext();
+   const { divisionsLogo, setIsClose } = useOutletContext();
    const { id } = useParams();
    const [isLoading, setIsLoading] = useState(true);
    const [division, setDivision] = useState([]);
@@ -70,10 +70,12 @@ export default function Division() {
          setDivision(divisionData);
       };
 
-      fetchDivision();
+      const fetchTimeout = setTimeout(() => {
+         if (isLoading && division.length < 1) fetchDivision();
+      }, 500);
 
       const loadingTimeout = setTimeout(() => {
-         if (divisionsLogo) {
+         if (division.length > 0) {
             setIsLoading(false);
          } else {
             setTimeout(() => {
@@ -82,20 +84,11 @@ export default function Division() {
          }
       }, 250);
 
-      return () => clearTimeout(loadingTimeout);
-   }, [id, divisionsLogo]);
-
-   useEffect(() => {
-      const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
-
-      if (divisionsLogo) {
+      return () => {
+         clearTimeout(loadingTimeout);
          clearTimeout(fetchTimeout);
-      }
-   }, [fetchData, isLoading, divisionsLogo]);
+      };
+   }, [id, division.length, isLoading]);
 
    const [searchTerm, setSearchTerm] = useState("");
    const filteredMembers = division?.user?.filter(
@@ -131,7 +124,7 @@ export default function Division() {
                <div className="name" onClick={handleNavigateBack}>
                   <h1>{division.name}</h1>
                   <img
-                     src={divisionsLogo + division.logo_path}
+                     src={divisionsLogo(division.logo_path)}
                      alt={division.name}
                   />
                   <div className="back">

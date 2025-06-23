@@ -130,7 +130,7 @@ function Card({ members, logoUrl, fetchData, confirm, loading }) {
          >
             <div className="header">
                <img
-                  src={logoUrl + member.division?.logo_path}
+                  src={logoUrl(member.division?.logo_path)}
                   alt={member.division?.name}
                />
                {member.division?.name}
@@ -264,15 +264,11 @@ export default function Registrants() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && members.length < 1) fetchData();
+      }, 500);
 
-      if (members.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [members, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, members.length]);
 
    // Kode search
    const navigateBack = useNavigate();

@@ -1,6 +1,4 @@
 import Skeleton from "react-loading-skeleton";
-import { getImageUrl } from "../../_services/galleries";
-import { useEffect, useState } from "react";
 
 function LoadingLeftContent() {
    return (
@@ -126,7 +124,7 @@ function LeftContent({ staffs, imageUrl }) {
                   <div key={staff.id} className="user-online">
                      <div className="photo">
                         <img
-                           src={imageUrl + staff.gallery?.path}
+                           src={imageUrl(staff.gallery?.path)}
                            alt={staff.user?.name}
                         />
                      </div>
@@ -207,7 +205,7 @@ function RightContent({ staffs, imageUrl }) {
                            <div className="kolom-1">
                               <div className="photo">
                                  <img
-                                    src={imageUrl + staff.gallery?.path}
+                                    src={imageUrl(staff.gallery?.path)}
                                     alt={staff.user?.name}
                                  />
                               </div>
@@ -233,19 +231,7 @@ function RightContent({ staffs, imageUrl }) {
    );
 }
 
-export default function StaffOnline({ staffs, isLoading }) {
-   const [imageUrl, setImageUrl] = useState("");
-
-   useEffect(() => {
-      const fetchData = async () => {
-         const [imageData] = await Promise.all([getImageUrl()]);
-
-         setImageUrl(imageData);
-      };
-
-      fetchData();
-   }, []);
-
+export default function StaffOnline({ staffs, isLoading, imageUrl }) {
    return (
       <div className="staff-online" id="staff">
          {isLoading ? (

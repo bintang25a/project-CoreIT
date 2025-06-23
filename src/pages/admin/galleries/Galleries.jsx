@@ -33,15 +33,11 @@ export default function Galleries() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && images.length < 1) fetchData();
+      }, 500);
 
-      if (images.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [images, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, images.length]);
 
    //Kode modal
    const [selectedImage, setSelectedImage] = useState(null);
@@ -182,7 +178,7 @@ export default function Galleries() {
                                 onChange={() => handleCheckboxChange(image.id)}
                              />
                              <img
-                                src={imageUrl + image.path}
+                                src={imageUrl(image.path)}
                                 alt={`Gallery ${index}`}
                                 onClick={() => openModal(image)}
                              />
@@ -200,7 +196,7 @@ export default function Galleries() {
                         ×
                      </button>
                      <img
-                        src={imageUrl + selectedImage.path}
+                        src={imageUrl(selectedImage.path)}
                         alt="Preview"
                         className="modal-image"
                      />

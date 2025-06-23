@@ -48,15 +48,11 @@ export default function NewsAdd() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && informations.length < 1) fetchData();
+      }, 500);
 
-      if (informations.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [informations, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, informations.length]);
 
    //Kode add data
    const handleChange = (e) => {

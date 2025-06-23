@@ -43,15 +43,11 @@ export default function Divisions() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && divisions.length < 1) fetchData();
+      }, 500);
 
-      if (divisions.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [fetchData, isLoading, divisions]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, divisions.length]);
 
    useEffect(() => {
       window.scrollTo(0, 0);
@@ -80,7 +76,7 @@ export default function Divisions() {
                      onClick={() => handleNavigate(division.id)}
                   >
                      <img
-                        src={divisionsLogo + division.logo_path}
+                        src={divisionsLogo(division.logo_path)}
                         alt={division.name}
                      />
                      <h1>{division.name}</h1>

@@ -76,15 +76,12 @@ export default function Home() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
+         if (isLoading && (divisions.length < 1 || news.length < 1))
             fetchData();
-         }
-      }, 1500);
+      }, 500);
 
-      if (divisions.length > 0 && news.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [fetchData, isLoading, divisions, news]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, divisions.length, news.length]);
 
    function formatTanggal(created_at) {
       const tanggal = new Date(created_at);
@@ -138,16 +135,19 @@ export default function Home() {
                {isLoading ? (
                   <DivisionsCardLoading />
                ) : (
-                  divisions.slice(0, 4).map((division) => (
-                     <div key={division.id} className="card">
-                        <img
-                           src={divisionsLogo + division.logo_path}
-                           alt={division.name}
-                        />
-                        <h1>{division.name}</h1>
-                        <h2>{division.description}</h2>
-                     </div>
-                  ))
+                  [...divisions]
+                     .sort(() => Math.random() - 0.5)
+                     .slice(0, 4)
+                     .map((division) => (
+                        <div key={division.id} className="card">
+                           <img
+                              src={divisionsLogo(division.logo_path)}
+                              alt={division.name}
+                           />
+                           <h1>{division.name}</h1>
+                           <h2>{division.description}</h2>
+                        </div>
+                     ))
                )}
             </div>
             <div className="division-button">
@@ -195,13 +195,13 @@ export default function Home() {
                   <NewsCardLoading />
                ) : (
                   [...news]
-                     .reverse()
+                     .sort(() => Math.random() - 0.5)
                      .slice(0, 3)
                      .map((item) => (
                         <div key={item.id} className="news-card">
                            <div className="image">
                               <img
-                                 src={imageUrl + item.main_image?.path}
+                                 src={imageUrl(item.main_image?.path)}
                                  alt={item.title}
                               />
                            </div>

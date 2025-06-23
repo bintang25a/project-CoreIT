@@ -30,7 +30,7 @@ function NormalRow({ member, isSelected, handleCheckboxChange, logoUrl }) {
             <div className="kolom-4">
                <img
                   draggable="false"
-                  src={logoUrl + member.division?.logo_path}
+                  src={logoUrl(member.division?.logo_path)}
                   alt={member.division?.name}
                />
                <h1>{member.division?.name}</h1>
@@ -303,15 +303,12 @@ export default function Members() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
+         if (isLoading && (members.length < 1 || divisions.length < 1))
             fetchData();
-         }
-      }, 1500);
+      }, 500);
 
-      if (members.length > 0 && divisions.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [members, divisions, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, members.length, divisions.length]);
 
    //Kode search
    const { divisionName } = useParams();

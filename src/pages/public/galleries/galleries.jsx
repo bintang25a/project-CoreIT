@@ -27,15 +27,11 @@ export default function Galleries() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
-            fetchData();
-         }
-      }, 1500);
+         if (isLoading && images.length < 1) fetchData();
+      }, 500);
 
-      if (images.length > 0) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [fetchData, isLoading, images]);
+      return () => clearTimeout(fetchTimeout);
+   }, [fetchData, isLoading, images.length]);
 
    const [selectedImage, setSelectedImage] = useState(null);
    const openModal = (image) => setSelectedImage(image);
@@ -115,7 +111,7 @@ export default function Galleries() {
                         return (
                            <div className="gallery-item" key={index}>
                               <img
-                                 src={imageUrl + image.path}
+                                 src={imageUrl(image.path)}
                                  alt={`Gallery ${index}`}
                                  onClick={() => openModal(image)}
                               />
@@ -134,7 +130,7 @@ export default function Galleries() {
                         ×
                      </button>
                      <img
-                        src={imageUrl + selectedImage.path}
+                        src={imageUrl(selectedImage.path)}
                         alt="Preview"
                         className="modal-image"
                      />

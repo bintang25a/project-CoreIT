@@ -85,7 +85,7 @@ export default function Navbar({ imageUrl, isLoading, fetchData, loading }) {
                {isLoading ? (
                   <Skeleton circle width={"100%"} height={"100%"} />
                ) : (
-                  <img src={imageUrl + user.image} alt="Foto Profil" />
+                  <img src={imageUrl(user.image)} alt="Foto Profil" />
                )}
             </div>
             {isOpen && (

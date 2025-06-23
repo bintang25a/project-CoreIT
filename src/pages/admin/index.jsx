@@ -9,8 +9,15 @@ import "./index.css";
 import "./content.css";
 
 export default function Dashboard() {
-   const { members, staffs, divisions, logoUrl, informations, fetchData } =
-      useOutletContext();
+   const {
+      members,
+      staffs,
+      divisions,
+      logoUrl,
+      informations,
+      fetchData,
+      imageUrl,
+   } = useOutletContext();
 
    const location = useLocation();
    const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +37,7 @@ export default function Dashboard() {
          } else {
             setTimeout(() => {
                setIsLoading(false);
-            }, 2500);
+            }, 2000);
          }
       }, 250);
 
@@ -39,20 +46,26 @@ export default function Dashboard() {
 
    useEffect(() => {
       const fetchTimeout = setTimeout(() => {
-         if (isLoading) {
+         if (
+            isLoading &&
+            (members.length < 1 ||
+               staffs.length < 1 ||
+               divisions.length < 1 ||
+               informations.length < 1)
+         ) {
             fetchData();
          }
-      }, 1500);
+      }, 500);
 
-      if (
-         members.length > 0 &&
-         staffs.length > 0 &&
-         divisions.length > 0 &&
-         informations.length > 0
-      ) {
-         clearTimeout(fetchTimeout);
-      }
-   }, [members, staffs, divisions, informations, fetchData, isLoading]);
+      return () => clearTimeout(fetchTimeout);
+   }, [
+      fetchData,
+      isLoading,
+      members.length,
+      staffs.length,
+      divisions.length,
+      informations.length,
+   ]);
 
    useEffect(() => {
       if (location.state?.scrollTo) {
@@ -81,7 +94,11 @@ export default function Dashboard() {
             isLoading={isLoading}
          />
          <NewsInformation isLoading={isLoading} news={informations} />
-         <StaffOnline staffs={staffs} isLoading={isLoading} />
+         <StaffOnline
+            staffs={staffs}
+            isLoading={isLoading}
+            imageUrl={imageUrl}
+         />
       </main>
    );
 }

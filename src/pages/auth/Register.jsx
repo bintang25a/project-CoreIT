@@ -45,7 +45,7 @@ export default function Register() {
       };
 
       fetchStatus();
-   }, [navigate, status]);
+   }, [confirm, navigate, status]);
 
    const initialForm = {
       name: "",

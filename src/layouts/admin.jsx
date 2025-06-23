@@ -4,7 +4,7 @@ import Footer from "../components/admin/Footer";
 import MobileProtected from "../components/admin/MobileProtected";
 import useLoadingSpinner from "../components/elements/LoadingModal.jsx";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { isAuthenticated, logout } from "../_services/auth";
 import { getDivisions, getDivisionLogo } from "../_services/divisions";
 import { getImages, getImageUrl } from "../_services/galleries";
@@ -19,13 +19,10 @@ export default function AdminLayout() {
    const timeoutRef = useRef();
    const currentPath = location.pathname;
    const [divisions, setDivisions] = useState([]);
-   const [divisionsLogo, setDivisionsLogo] = useState("");
    const [images, setImages] = useState([]);
-   const [imageUrl, setImageUrl] = useState("");
    const [members, setMembers] = useState([]);
    const [staffs, setStaffs] = useState([]);
    const [news, setNews] = useState([]);
-   const [isLoading, setIsLoading] = useState(true);
    const [id, setId] = useState(null);
 
    const { loading, LoadingSpinner } = useLoadingSpinner();
@@ -33,15 +30,12 @@ export default function AdminLayout() {
    //Mengambil data
    const fetchData = async () => {
       if (currentPath.startsWith("/admin/members")) {
-         const [membersData, divisionsData, divisionsLogoData] =
-            await Promise.all([
-               getMembers(),
-               getDivisions(),
-               getDivisionLogo(),
-            ]);
+         const [membersData, divisionsData] = await Promise.all([
+            getMembers(),
+            getDivisions(),
+         ]);
          setMembers(membersData);
          setDivisions(divisionsData);
-         setDivisionsLogo(divisionsLogoData);
       }
 
       if (currentPath.startsWith("/admin/staffs")) {
@@ -58,54 +52,36 @@ export default function AdminLayout() {
       }
 
       if (currentPath.startsWith("/admin/divisions")) {
-         const [divisionsData, divisionsLogoData] = await Promise.all([
-            getDivisions(),
-            getDivisionLogo(),
-         ]);
+         const [divisionsData] = await Promise.all([getDivisions()]);
          setDivisions(divisionsData);
-         setDivisionsLogo(divisionsLogoData);
       }
 
       if (currentPath.startsWith("/admin/news")) {
-         const [newsData, newsImageData] = await Promise.all([
-            getNews(),
-            getImageUrl(),
-         ]);
+         const [newsData] = await Promise.all([getNews(), getImageUrl()]);
          setNews(newsData);
-         setImageUrl(newsImageData);
       }
 
       if (currentPath.startsWith("/admin/galleries")) {
-         const [galleriesData, newsImageData] = await Promise.all([
+         const [galleriesData] = await Promise.all([
             getImages(),
             getImageUrl(),
          ]);
          setImages(galleriesData);
-         setImageUrl(newsImageData);
       }
 
       if (currentPath === "/admin") {
-         const [membersData, staffsData, divisionsData, logoUrlData, newsData] =
+         const [membersData, staffsData, divisionsData, newsData] =
             await Promise.all([
                getMembers(),
                getStaffs(),
                getDivisions(),
-               getDivisionLogo(),
                getNews(),
             ]);
 
          setMembers(membersData);
          setStaffs(staffsData);
          setDivisions(divisionsData);
-         setDivisionsLogo(logoUrlData);
          setNews(newsData);
-      }
-
-      if (currentPath.startsWith("/admin")) {
-         const [imageUrlData] = await Promise.all([getImageUrl()]);
-
-         setImageUrl(imageUrlData);
-         setIsLoading(false);
       }
    };
 
@@ -116,7 +92,6 @@ export default function AdminLayout() {
          if (!valid) {
             navigate("/login", { replace: true });
          } else {
-            fetchData();
             const userData = JSON.parse(localStorage.getItem("user"));
             setId(userData.id);
          }
@@ -124,14 +99,14 @@ export default function AdminLayout() {
       checkAuth();
    }, [navigate]);
 
-   // Auto logout setelah 10 menit
-   const resetTimer = () => {
+   // Auto logout setelah 5 menit
+   const resetTimer = useCallback(() => {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
          logout();
          navigate("/login", { replace: true });
       }, 5 * 60 * 1000);
-   };
+   }, [navigate]);
    useEffect(() => {
       const events = ["mousemove", "keydown", "click", "scroll"];
       events.forEach((event) => window.addEventListener(event, resetTimer));
@@ -144,7 +119,7 @@ export default function AdminLayout() {
          );
          clearTimeout(timeoutRef.current);
       };
-   }, []);
+   }, [resetTimer]);
 
    return (
       <>
@@ -154,8 +129,7 @@ export default function AdminLayout() {
          <Sidebar id={id} />
          <div className="right-content" id="top">
             <Navbar
-               imageUrl={imageUrl}
-               isLoading={isLoading}
+               imageUrl={getImageUrl}
                fetchData={fetchData}
                loading={loading}
             />
@@ -164,10 +138,10 @@ export default function AdminLayout() {
                   members,
                   staffs,
                   divisions,
-                  logoUrl: divisionsLogo,
+                  logoUrl: getDivisionLogo,
                   informations: news,
                   images,
-                  imageUrl,
+                  imageUrl: getImageUrl,
                   fetchData,
                }}
             />

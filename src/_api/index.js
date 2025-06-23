@@ -4,8 +4,8 @@ const API = axios.create({
    // baseURL: "http://127.0.0.1:8000/api",
    // baseURL: "http://192.168.1.4:8000/api",
    // baseURL: "https://project-coreit-production.up.railway.app/api",
-   // baseURL: "https://coreit.karyakreasi.id/api",
-   baseURL: "https://possible-muskrat-quietly.ngrok-free.app/api",
+   baseURL: "https://coreit.karyakreasi.id/api",
+   // baseURL: "https://possible-muskrat-quietly.ngrok-free.app/api",
 });
 
 API.interceptors.request.use(
@@ -14,7 +14,11 @@ API.interceptors.request.use(
       if (token) {
          config.headers["Authorization"] = `Bearer ${token}`;
       }
-      config.headers["ngrok-skip-browser-warning"] = "true";
+
+      const url = "https://possible-muskrat-quietly.ngrok-free.app/api";
+      if (API.defaults.baseURL === url) {
+         config.headers["ngrok-skip-browser-warning"] = "true";
+      }
       return config;
    },
    (error) => Promise.reject(error)

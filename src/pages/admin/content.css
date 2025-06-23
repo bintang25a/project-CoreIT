@@ -686,6 +686,7 @@ main.profile-user {
       border-bottom: 2px solid var(--gray-500);
 
       img {
+         aspect-ratio: 1/1;
          width: var(--px-128);
          border-radius: 100px;
          border: 1px solid var(--primary);

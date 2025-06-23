@@ -399,7 +399,10 @@
          display: flex;
          justify-content: space-between;
          align-items: center;
+         flex-direction: column;
          width: 100%;
+         gap: var(--spx-12);
+         text-align: center;
          padding: calc(var(--spx-64) + var(--spx-16)) var(--spx-8);
 
          .text {
@@ -414,7 +417,7 @@
          }
 
          .search {
-            width: 40%;
+            width: 60%;
 
             input[type="search"] {
                font-size: var(--fs-1);
@@ -518,6 +521,9 @@
 
       > .header {
          padding: calc(var(--spx-64) + var(--spx-16)) var(--spx-8);
+         flex-direction: column;
+         text-align: center;
+         gap: var(--spx-12);
 
          .text h1 {
             font-size: var(--fs-5);
@@ -525,7 +531,7 @@
          }
 
          .search {
-            width: 40%;
+            width: 60%;
 
             input[type="search"] {
                font-size: var(--fs-1);
