@@ -282,7 +282,7 @@
          flex-direction: column;
          align-items: flex-start;
          gap: var(--px-8);
-         width: 45%;
+         width: 55%;
 
          h1 {
             font-size: var(--fs-5);
@@ -300,12 +300,12 @@
       }
 
       .history-right {
-         width: 55%;
+         width: 45%;
          overflow: hidden;
          gap: var(--px-32);
 
          img {
-            width: 45%;
+            width: 100%;
          }
       }
    }

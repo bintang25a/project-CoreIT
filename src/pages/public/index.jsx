@@ -1,6 +1,6 @@
 import logoBText from "/images/logo/Logo CORE IT transparan.png";
 import background from "/images/background/gambar2.jpg";
-import history1 from "/images/background/gambar3.png";
+// import history1 from "/images/background/gambar3.png";
 import history2 from "/images/background/gambar4.png";
 import { useOutletContext, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -160,29 +160,65 @@ export default function Home() {
             <div className="history-left">
                <h1>History of Core IT</h1>
                <p>
-                  CORE IT was formed due to student awareness of the lack of a
-                  forum that houses national competitions such as Gemastik. It
-                  all started with the Gemastik competition in 2023. Students
-                  felt that they did not get maximum guidance when participating
-                  in this competition. So the formation of CORE IT was born as a
-                  community that focuses on the field of technology competitions
-                  in Indonesia. CORE IT was initiated by 3 students who
-                  participated in the competition in Malang, East Java.
+                  CORE IT: Igniting the Spirit of Innovation from Campus to the
+                  World
                </p>
                <p>
-                  On September 16, 2023, the formation of this community was
-                  formulated. This was done on the spur of the moment at
-                  Brawijaya Resto, Malang, East Java. In this formulation, the
-                  results of the agreement regarding the community chairman,
-                  community secretary and RnD were obtained.
+                  From a small journey at a national event emerged a powerful
+                  movement. Core IT (Community of Research and Innovation in
+                  Technology) was born out of the passion and dedication of
+                  Informatics Engineering students at the Universitas
+                  Muhammadiyah Jakarta (UMJ) to create a research community that
+                  delivers real, impactful contributions to technological
+                  advancement in Indonesia.
                </p>
                <p>
-                  Then on December 14, 2023, CORE IT was officially established
-                  as a research community at UMJ.
+                  It all began at the Gemastik 2023 competition, when the UMJ
+                  Informatics Engineering delegation traveled to Universitas
+                  Brawijaya, Malang, carrying a strong determination to compete
+                  and learn. Amidst the valuable experiences and challenges
+                  faced during the event, a visionary idea took shape conceived
+                  by three students: Mirza Maulana, Salman Alfaridzi, and
+                  Natasya Umi Fitria. With the full support of Mrs. Yana
+                  Adharani, Secretary of the Informatics Engineering Study
+                  Program, and Mrs. Popy Meilina, Head of the Informatics
+                  Engineering Study Program, the idea evolved into a plan to
+                  establish a research community that would serve as a home for
+                  young innovators in information technology.
+               </p>
+               <p>
+                  On September 16, 2023, in Malang, East Java, that idea became
+                  a concrete agreement marking the birth of the Community of
+                  Research and Innovation in Technology (Core IT). The community
+                  was founded with a solid organizational structure comprising a
+                  chairperson, a secretary, and a Research and Development (R&D)
+                  team and a clear commitment to becoming a center for student
+                  growth in research and technological innovation.
+               </p>
+               <p>
+                  This historic milestone continued on December 14, 2023, when
+                  Core IT was officially established under the Faculty of
+                  Engineering, Universitas Muhammadiyah Jakarta. Since then,
+                  Core IT has stood not merely as a student organization but as
+                  a movement that fuels the spirit of research, collaboration,
+                  and innovation within the academic community.
+               </p>
+               <p>
+                  Today, Core IT has grown to include more than 79 active
+                  members and has successfully participated in numerous
+                  prestigious competitions including three consecutive Gemastik
+                  events, where its teams have advanced to the national finals.
+               </p>
+               <p>
+                  More than just an organization, Core IT represents the
+                  determination of students to create without limits, innovate
+                  relentlessly, and make a global impact. We believe that every
+                  small idea holds the power to change the world and here at
+                  Core IT, that journey begins.
                </p>
             </div>
             <div className="history-right">
-               <img src={history1} alt="History 1" />
+               {/* <img src={history1} alt="History 1" /> */}
                <img src={history2} alt="History 1" />
             </div>
          </div>

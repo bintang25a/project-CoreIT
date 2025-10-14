@@ -418,7 +418,7 @@ main {
 /* ===== Staff online style end ===== */
 
 /* ===== Pages style start ===== */
-@media screen and (min-width: 1366px) {
+@media screen and (min-width: 1279px) {
    .mobile {
       display: none;
    }
