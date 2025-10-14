@@ -39,16 +39,8 @@ class ShortlinkController extends Controller
 
     public function store(Request $request)
     {
-        $host = $request->getHost();
-        $link = $host . "/me/" . $request->shortlink;
-
-        $validator = Validator::make([
-            'input_shortlink' => $request->shortlink,
-            'final_shortlink' => $link,
-            'target' => $request->target,
-        ], [
-            'input_shortlink' => 'required|string',
-            'final_shortlink' => 'required|string|unique:shortlinks,shortlink',
+        $validator = Validator::make($request->all(), [
+            'shortlink' => 'required|string|unique:shortlinks,shortlink',
             'target' => 'required|string'
         ]);
 
@@ -60,7 +52,7 @@ class ShortlinkController extends Controller
         }
 
         $shortlink = Shortlink::create([
-            'shortlink' => $link,
+            'shortlink' => $request->shortlink,
             'target' => $request->target,
         ]);
 
@@ -89,16 +81,8 @@ class ShortlinkController extends Controller
             ], 404);
         }
 
-        $host = $request->getHost();
-        $link = $host . "/me/" . $request->shortlink;
-
-        $validator = Validator::make([
-            'input_shortlink' => $request->shortlink,
-            'final_shortlink' => $link,
-            'target' => $request->target,
-        ], [
-            'input_shortlink' => 'required|string',
-            'final_shortlink' => 'required|string|unique:shortlinks,shortlink,' . $id,
+        $validator = Validator::make($request->all(), [
+            'shortlink' => 'required|string|unique:shortlinks,shortlink,' . $id,
             'target' => 'required|string'
         ]);
 
@@ -110,7 +94,7 @@ class ShortlinkController extends Controller
         }
 
         $dataShortlink = [
-            'shortlink' => $link,
+            'shortlink' => $request->shortlink,
             'target' => $request->target
         ];
 
