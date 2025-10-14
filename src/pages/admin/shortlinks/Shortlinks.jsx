@@ -1,11 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import React from "react";
-import {
-   useNavigate,
-   Link,
-   useOutletContext,
-   useParams,
-} from "react-router-dom";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import {
    createShortlink,
    updateShortlink,
@@ -202,6 +198,7 @@ export default function Shortlinks() {
 
    //Kode search
    const [searchTerm, setSearchTerm] = useState("");
+   const [currentPage, setCurrentPage] = useState(1);
    const filteredShortlinks = shortlinks.filter(
       (shortlinks) =>
          shortlinks.target.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -209,6 +206,29 @@ export default function Shortlinks() {
    );
    const handleSearchTerm = (search) => {
       setSearchTerm(search);
+      setCurrentPage(1);
+   };
+
+   //Kode pagination
+   const itemsPerPage = 8;
+   const scrollRef = useRef(null);
+   const totalPages = Math.ceil(filteredShortlinks.length / itemsPerPage);
+   const paginatedShortlinks = filteredShortlinks.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+   );
+   const handlePageClick = (pageNumber) => {
+      setCurrentPage(pageNumber);
+   };
+   const handlePrevious = () => {
+      setCurrentPage((prev) => Math.max(prev - 1, 1));
+   };
+   const handleNext = () => {
+      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+   };
+   const scroll = (direction) => {
+      const offset = direction === "left" ? -2000 : 2000;
+      scrollRef.current?.scrollBy({ left: offset, behavior: "smooth" });
    };
 
    //Kode add shortlink
@@ -397,7 +417,7 @@ export default function Shortlinks() {
                            />
 
                            {shortlinks.length > 0 ? (
-                              filteredShortlinks.map((shortlink) => {
+                              paginatedShortlinks.map((shortlink) => {
                                  const isSelected = selectedIds.includes(
                                     shortlink.id
                                  );
@@ -430,6 +450,42 @@ export default function Shortlinks() {
                   </tbody>
                </table>
             </form>
+         </div>
+         <div className="pagination">
+            <div className="left-section">
+               <button onClick={handlePrevious} disabled={currentPage === 1}>
+                  Previous
+               </button>
+               <button
+                  onClick={handleNext}
+                  disabled={currentPage === totalPages}
+               >
+                  Next
+               </button>
+            </div>
+            <div className="middle-section">
+               <FaChevronLeft
+                  onClick={() => scroll("left")}
+                  className="icon-style"
+               />
+               <h1>scroll</h1>
+               <FaChevronRight
+                  onClick={() => scroll("right")}
+                  className="icon-style"
+               />
+            </div>
+            <div className="right-section">
+               {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                     key={index + 1}
+                     onClick={() => handlePageClick(index + 1)}
+                     className={currentPage === index + 1 ? "active" : ""}
+                     disabled={currentPage === index + 1}
+                  >
+                     {index + 1}
+                  </button>
+               ))}
+            </div>
          </div>
          <ConfirmDialog />
          <LoadingSpinner />
