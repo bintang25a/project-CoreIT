@@ -7,12 +7,20 @@ export default function useConfirmDialog() {
    const [success, setSuccess] = useState("neutral");
    const [save, setSave] = useState("neutral");
    const [resolver, setResolver] = useState(null);
+   const [linkUrl, setLinkUrl] = useState("");
 
-   const confirm = (msg, scs, sv) => {
+   const confirm = (msg, scs, sv, lnk) => {
       setMessage(msg);
       setSuccess(scs);
       setSave(sv);
       setShow(true);
+
+      if (!lnk) {
+         setLinkUrl("");
+      } else {
+         const baseUrl = window.location.origin;
+         setLinkUrl(`${baseUrl}/${lnk}`);
+      }
 
       return new Promise((resolve) => {
          setResolver(() => resolve);
@@ -42,7 +50,14 @@ export default function useConfirmDialog() {
                      <FaTimesCircle />
                   </div>
                ) : null}
-               <p>{message}</p>
+
+               <p>
+                  {message}{" "}
+                  <a href={linkUrl} target="_blank">
+                     {linkUrl}
+                  </a>
+               </p>
+
                <div className="confirm-buttons">
                   {save === "neutral" ? (
                      <button className="save" onClick={handleYes}>

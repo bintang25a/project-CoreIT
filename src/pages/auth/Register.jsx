@@ -12,7 +12,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { getRecruitmentStatus } from "../../_services/auth";
 import background from "/images/background/gambar1.jpg";
 import { getDivisions } from "../../_services/divisions";
-import { createMember } from "../../_services/members";
+import { createMember, getMembers } from "../../_services/members";
 import useConfirmDialog from "../../components/elements/ConfirmModal";
 import useLoadingSpinner from "../../components/elements/LoadingModal";
 
@@ -23,12 +23,14 @@ export default function Register() {
    const navigate = useNavigate();
    const [status, setStatus] = useState(true);
    const [divisions, setDivisions] = useState([]);
+   const [members, setMembers] = useState([]);
 
    useEffect(() => {
       const fetchStatus = async () => {
-         const [statusData, divisionsData] = await Promise.all([
+         const [statusData, divisionsData, membersData] = await Promise.all([
             getRecruitmentStatus(),
             getDivisions(),
+            getMembers(),
          ]);
 
          setStatus(statusData);
@@ -42,6 +44,7 @@ export default function Register() {
          }
 
          setDivisions(divisionsData);
+         setMembers(membersData);
       };
 
       fetchStatus();
@@ -77,15 +80,30 @@ export default function Register() {
          setLoginForm(initialForm);
          loading(false);
          await confirm(
-            "Congratulations, Register successfully",
+            "Congratulations, Register successfully - wa group:",
             "success",
-            "neutral"
+            "neutral",
+            "wa-group/pendaftar-coreit-3"
          );
          navigate("/");
       } catch (error) {
          console.log(error);
          loading(false);
-         confirm(error, "failed", "neutral");
+
+         const oneMember = members.find(
+            (member) =>
+               member.nim === loginForm.nim || member.email === loginForm.email
+         );
+         if (oneMember.role == "registrant") {
+            confirm(
+               "already regist - wa group: ",
+               "failed",
+               "neutral",
+               "wa-group/pendaftar-coreit-3"
+            );
+         } else {
+            confirm(error, "failed", "neutral");
+         }
       }
    };
 

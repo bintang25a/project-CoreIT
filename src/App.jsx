@@ -28,7 +28,8 @@ import StaffsPublic from "./pages/public/staffs/staffs.jsx";
 import GalleriesPublic from "./pages/public/galleries/galleries.jsx";
 import NewsPublic from "./pages/public/news/news.jsx";
 
-import NotFound from "./pages/not found/NotFound.jsx";
+import NotFound from "./pages/other/NotFound.jsx";
+import WaRedirect from "./pages/other/WaRedirect.jsx";
 
 export default function App() {
    return (
@@ -47,6 +48,8 @@ export default function App() {
                <Route path="news" element={<NewsPublic />} />
                <Route path="news/:id" element={<NewsPublic />} />
             </Route>
+
+            <Route path="/wa-group/pendaftar-coreit-3" element={<WaRedirect/>}></Route>
 
             <Route
                path="admin"
