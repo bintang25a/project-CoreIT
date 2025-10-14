@@ -39,8 +39,16 @@ class ShortlinkController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'shortlink' => 'required|string|unique:shortlinks,shortlink',
+        $host = $request->getHost();
+        $link = $host . "/me/" . $request->shortlink;
+
+        $validator = Validator::make([
+            'input_shortlink' => $request->shortlink,
+            'final_shortlink' => $link,
+            'target' => $request->target,
+        ], [
+            'input_shortlink' => 'required|string',
+            'final_shortlink' => 'required|string|unique:shortlinks,shortlink',
             'target' => 'required|string'
         ]);
 
@@ -51,13 +59,8 @@ class ShortlinkController extends Controller
             ], 422);
         }
 
-        $shortlinks = Shortlink::all();
-        $id = count($shortlinks) + 1;
-
-
         $shortlink = Shortlink::create([
-            'id' => $id,
-            'shortlink' => $request->shortlink,
+            'shortlink' => $link,
             'target' => $request->target,
         ]);
 
@@ -86,8 +89,16 @@ class ShortlinkController extends Controller
             ], 404);
         }
 
-        $validator = Validator::make($request->all(), [
-            'shortlink' => 'required|string',
+        $host = $request->getHost();
+        $link = $host . "/me/" . $request->shortlink;
+
+        $validator = Validator::make([
+            'input_shortlink' => $request->shortlink,
+            'final_shortlink' => $link,
+            'target' => $request->target,
+        ], [
+            'input_shortlink' => 'required|string',
+            'final_shortlink' => 'required|string|unique:shortlinks,shortlink,' . $id,
             'target' => 'required|string'
         ]);
 
@@ -99,8 +110,8 @@ class ShortlinkController extends Controller
         }
 
         $dataShortlink = [
-            'shortlink' => 'required|string',
-            'target' => 'required|string'
+            'shortlink' => $link,
+            'target' => $request->target
         ];
 
         $shortlink->update($dataShortlink);

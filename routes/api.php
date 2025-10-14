@@ -43,7 +43,7 @@ Route::middleware('auth:api_staff')->group(function () {
     Route::post('/news/{id}', [InformationController::class, 'update']);
 
     Route::apiResource('/shortlinks', ShortlinkController::class)->only(['store', 'destroy']);
-    Route::post('/shortlink/{id}', [ShortlinkController::class, 'update']);
+    Route::post('/shortlinks/{id}', [ShortlinkController::class, 'update']);
 
     Route::get('/validate-token', [AuthController::class, 'validateToken']);
     Route::post('/toggle-recruitment', [AuthController::class, 'toggleRecruitmentStatus']);
