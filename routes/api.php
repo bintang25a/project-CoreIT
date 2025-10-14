@@ -8,6 +8,7 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ShortlinkController;
 
 
 Route::get('/user', function (Request $request) {
@@ -22,6 +23,7 @@ Route::apiResource('/members', UserController::class)->only(['index', 'show', 's
 Route::apiResource('/staffs', StaffController::class)->only(['index', 'show']);
 Route::apiResource('/news', InformationController::class)->only(['index', 'show']);
 Route::post('/staffs/{id}', [StaffController::class, 'update']);
+Route::apiResource('/shortlinks', ShortlinkController::class)->only(['index', 'show']);
 
 Route::get('/recruitment-status', [AuthController::class, 'getRecruitmentStatus']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -39,6 +41,9 @@ Route::middleware('auth:api_staff')->group(function () {
 
     Route::apiResource('/news', InformationController::class)->only(['store', 'destroy']);
     Route::post('/news/{id}', [InformationController::class, 'update']);
+
+    Route::apiResource('/shortlinks', ShortlinkController::class)->only(['store', 'destroy']);
+    Route::post('/shortlink/{id}', [ShortlinkController::class, 'update']);
 
     Route::get('/validate-token', [AuthController::class, 'validateToken']);
     Route::post('/toggle-recruitment', [AuthController::class, 'toggleRecruitmentStatus']);
