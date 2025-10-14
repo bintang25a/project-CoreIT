@@ -16,6 +16,7 @@ import GalleryAdd from "./pages/admin/galleries/Create.jsx";
 import Registrants from "./pages/admin/members/Registrants.jsx";
 import ProtectedRoute from "./components/admin/ProtectedRoute.jsx";
 import Profile from "./pages/admin/staffs/Profile.jsx";
+import Shortlinks from "./pages/admin/shortlinks/Shortlinks.jsx";
 import Register from "./pages/auth/Register.jsx";
 import Login from "./pages/auth/Login.jsx";
 
@@ -30,6 +31,7 @@ import NewsPublic from "./pages/public/news/news.jsx";
 
 import NotFound from "./pages/other/NotFound.jsx";
 import WaRedirect from "./pages/other/WaRedirect.jsx";
+import ShortlinkRedirect from "./pages/other/ShortlinkRedirect.jsx";
 
 export default function App() {
    return (
@@ -49,7 +51,12 @@ export default function App() {
                <Route path="news/:id" element={<NewsPublic />} />
             </Route>
 
-            <Route path="/wa-group/pendaftar-coreit-3" element={<WaRedirect/>}></Route>
+            <Route path="me/:slug" element={<ShortlinkRedirect />}></Route>
+
+            <Route
+               path="/wa-group/pendaftar-coreit-3"
+               element={<WaRedirect />}
+            ></Route>
 
             <Route
                path="admin"
@@ -83,6 +90,10 @@ export default function App() {
                <Route path="galleries">
                   <Route index element={<Galleries />} />
                   <Route path="add" element={<GalleryAdd />} />
+               </Route>
+               <Route path="shortlinks">
+                  <Route index element={<Shortlinks />} />
+                  <Route path=":id" element={<Shortlinks />} />
                </Route>
             </Route>
 

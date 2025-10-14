@@ -5,8 +5,9 @@ import { FaArrowLeft } from "react-icons/fa";
 export default function WaRedirect() {
    const navigate = useNavigate();
    useEffect(() => {
-      window.location.href = "https://chat.whatsapp.com/ChqqjRtT9jz1Om5WLMnpJg?mode=wwt";
-    }, []);
+      window.location.href =
+         "https://chat.whatsapp.com/ChqqjRtT9jz1Om5WLMnpJg?mode=wwt";
+   }, []);
 
    return (
       <div className="not-found">

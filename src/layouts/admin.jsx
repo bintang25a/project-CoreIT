@@ -12,12 +12,14 @@ import { getMembers } from "../_services/members";
 import { getStaffs } from "../_services/staffs";
 import { getNews } from "../_services/news";
 import "./admin.css";
+import { getShortlinks } from "../_services/shortlinks.js";
 
 export default function AdminLayout() {
    const navigate = useNavigate();
    const location = useLocation();
    const timeoutRef = useRef();
    const currentPath = location.pathname;
+   const [shortlinks, setShortlinks] = useState([]);
    const [divisions, setDivisions] = useState([]);
    const [images, setImages] = useState([]);
    const [members, setMembers] = useState([]);
@@ -67,6 +69,11 @@ export default function AdminLayout() {
             getImageUrl(),
          ]);
          setImages(galleriesData);
+      }
+
+      if (currentPath.startsWith("/admin/shortlinks")) {
+         const [shortlinksData] = await Promise.all([getShortlinks()]);
+         setShortlinks(shortlinksData);
       }
 
       if (currentPath === "/admin") {
@@ -142,6 +149,7 @@ export default function AdminLayout() {
                   informations: news,
                   images,
                   imageUrl: getImageUrl,
+                  shortlinks,
                   fetchData,
                }}
             />

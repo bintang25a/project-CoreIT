@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaHome, FaLayerGroup, FaLock } from "react-icons/fa";
+import { FaHome, FaLayerGroup, FaLock, FaTools } from "react-icons/fa";
 import coreit from "/images/logo/Logo CORE IT whitetext.png";
 
 export default function Sidebar({ id }) {
@@ -78,6 +78,19 @@ export default function Sidebar({ id }) {
                   </li>
                   <li>
                      <Link to={"/admin/staffs/create"}>Staff update</Link>
+                  </li>
+               </ul>
+            </div>
+         </div>
+         <div className="menu-container">
+            <div className="title">
+               <FaTools className="icon-style" />
+               <h1>Utilities</h1>
+            </div>
+            <div className="menu">
+               <ul>
+                  <li>
+                     <Link to={"/admin/shortlinks"}>Shortlink</Link>
                   </li>
                </ul>
             </div>
